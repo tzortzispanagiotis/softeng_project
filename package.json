@@ -1,0 +1,19 @@
+{
+  "name": "rns_softeng_project",
+  "version": "1.0.0",
+  "description": "Semester Project of SoftEng",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/tzortzispanagiotis/rns_softeng_project.git"
+  },
+  "author": "Tzortzis Panagiotis, Dafne Papaefthimiou, Semina Mertzani, Stathis Stamatopoulos, Aggelos Plevris, Nasos Andreopoulos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/tzortzispanagiotis/rns_softeng_project/issues"
+  },
+  "homepage": "https://gitlab.com/tzortzispanagiotis/rns_softeng_project#readme"
+}
