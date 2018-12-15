@@ -1,6 +1,6 @@
 const express     = require('express'),
       app         = express(),
-      sequelize   = require("./database/connect");
+      sequelize   = require("./database/connect");  // to create database connection
 
 
 //  set up a static folder. if the frontend asks for something starting with ./static on path, node will search 
