@@ -1,5 +1,6 @@
-const express = require('express'),
-      app     = express();
+const express     = require('express'),
+      app         = express(),
+      sequelize   = require("./database/connect");
 
 
 //  set up a static folder. if the frontend asks for something starting with ./static on path, node will search 
