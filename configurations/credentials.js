@@ -5,4 +5,4 @@ module.exports = {
         username: process.env.DB_USER ||"my_user",
         password: process.env.DB_PASS || "my_password"
     }
-}
+} 
