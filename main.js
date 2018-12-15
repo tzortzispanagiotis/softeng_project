@@ -10,6 +10,8 @@ app.use("/static", express.static("./public"))
 // set view engine as ejs to omit .ejs when rendering a view
 app.set("view engine", "ejs");
 
+//comments
+
 app.get('/', (req, res) => {
   res.send("Hello World!");
 })
