@@ -3,7 +3,7 @@ const express     = require('express'),
       sequelize   = require("./database/connect");  // to create database connection
 
 
-//  set up a static folder. if the frontend asks for something starting with ./static on path, node will search 
+//  set up a static folder. if the frontend asks for something starting with ./static on path, node will search
 //  for it in public folder
 app.use("/static", express.static("./public"))
 
@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT || 1245, () => {
   console.log("Hello World");
 })
- 
+
 // tzog
 
 // a
