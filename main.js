@@ -1,6 +1,7 @@
 const express     = require('express'),
       app         = express(),
       sequelize   = require("./database/connect");  // to create database connection
+      sample      = require("./database/sampletable.js")
 
 
 //  set up a static folder. if the frontend asks for something starting with ./static on path, node will search 
@@ -11,7 +12,9 @@ app.use("/static", express.static("./public"))
 app.set("view engine", "ejs");
 
 app.get('/', (req, res) => {
-  res.send("Hello World!");
+  sample.findAll().then(found => {
+      res.send(found)
+  })
 })
 
 app.listen(process.env.PORT || 1245, () => {

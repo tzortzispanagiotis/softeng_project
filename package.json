@@ -18,6 +18,7 @@
   "homepage": "https://gitlab.com/tzortzispanagiotis/rns_softeng_project#readme",
   "dependencies": {
     "connect-session-sequelize": "^6.0.0",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "mariadb": "^2.0.2-rc",
     "mysql2": "^1.6.4",
