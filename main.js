@@ -11,8 +11,8 @@ app.use("/static", express.static("./public"))
 // set view engine as ejs to omit .ejs when rendering a view
 app.set("view engine", "ejs");
 
-const apiRouter = require("./routing/apiRouter.js")
-app.use("/observatory/api", apiRouter)
+const masterApiRouter = require("./routing/masterApiRouter.js")
+app.use("/observatory/api", masterApiRouter)
 
 app.listen(process.env.PORT || 1245, () => {
   console.log("Hello World");
