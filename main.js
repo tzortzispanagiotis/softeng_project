@@ -24,6 +24,6 @@ app.use("/observatory/api", masterApiRouter)
 
 
 // Initialize the server
-app.listen(process.env.PORT || 8765, () => {
+app.listen(process.env.PORT || 8764, () => {
   console.log("Hello World");
 })

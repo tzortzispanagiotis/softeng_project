@@ -1,5 +1,5 @@
 const userApiController = {},
-      sample            = require('../database/sampletable.js')
+      sample            = require('../../database/sampletable.js')
 
 userApiController.getAllAction = (req, res) => {
     sample.findAll({attributes: ['username']}).then(found => {
@@ -19,4 +19,4 @@ userApiController.getOneAction = (req, res) => {
     })
 }
 
-module.exports = userApiController
+module.exports = userApiController;
