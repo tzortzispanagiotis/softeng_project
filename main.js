@@ -2,7 +2,8 @@ const express     = require('express'),
       app         = express(),
       sequelize   = require("./database/connect"),  // to create database connection
       bodyParser  = require("body-parser"),
-      sample      = require("./database/sampletable.js");
+      sample      = require("./database/sampletable.js"),
+      apiMiddlewares = require("./routing/API/apiMiddlewares");
 
 // set view engine as ejs to omit .ejs when rendering a view
 app.set("view engine", "ejs");
@@ -18,12 +19,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //------ROUTING------------//
 // API Router:
 const masterApiRouter = require("./routing/masterApiRouter.js")
-app.use("/observatory/api", masterApiRouter)
+app.use("/observatory/api", apiMiddlewares.apiBadFormatRequest, masterApiRouter)
 // TODO: Index Routers
 
 
 
 // Initialize the server
-app.listen(process.env.PORT || 8764, () => {
+app.listen(process.env.PORT || 8765, () => {
   console.log("Hello World");
 })
