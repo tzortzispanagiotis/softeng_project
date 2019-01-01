@@ -8,3 +8,8 @@ router.get('/login',
 router.post('/login',
     authenticationPolicy.login,
     authenticationController.login)
+    
+router.post('/logout', 
+    authenticationController.logout)
+
+module.exports = router;

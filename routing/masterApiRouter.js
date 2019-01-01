@@ -11,8 +11,11 @@ router.get('/login',
 
 router.post('/login',
     authenticationPolicy.login,
-    authController.login)
-    
+    authenticationController.login)
+
+router.post('/logout', 
+    authenticationController.logout)
+
 router.use('/users', 
     userApiRouter)
 router.use('/products', 
