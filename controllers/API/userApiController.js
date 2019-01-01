@@ -1,8 +1,10 @@
 const userApiController = {},
-      sample            = require('../../database/sampletable.js')
+      database            = require('../../database/connect');
+
+var User = database.User;
 
 userApiController.getAllAction = (req, res) => {
-    sample.findAll({attributes: ['username']}).then(found => {
+    User.findAll({attributes: ['username']}).then(found => {
         res.send(found)
     })
 };
@@ -14,7 +16,7 @@ userApiController.getOneAction = (req, res) => {
         },
         attributes: ['username']
     }
-    sample.findOne(filters).then(found => {
+    User.findOne(filters).then(found => {
         res.send(found);
     })
 }
