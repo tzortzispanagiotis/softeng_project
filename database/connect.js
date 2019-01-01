@@ -17,7 +17,7 @@ sequelize.authenticate()
     console.error("Unable to connect to the database", err);
 })
 
-const User = sequelize.import('./sampletable.js')
+const User = sequelize.import('./user.js')
 
 var db = {
     sequelizeConnection: sequelize,
