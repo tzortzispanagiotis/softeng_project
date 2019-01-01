@@ -19,21 +19,87 @@ sequelize.authenticate()
 })
 
 const User = sequelize.import('./user.js')
-const Prices = sequelize.import('./prices.js')
+const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
 
-User.sync({ force: true }).then()
-Prices.sync({ force: true }).then()
-Product.sync({ force: true }).then()
-Shop.sync({ force: true }).then()
+Shop.hasMany(Price, { foreignKey: 'shopId', sourceKey: 'shopId' });
+Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId' });
+
+Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId' });
+Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' });
+
+
+User.sync({ force: true }).then(() => {
+    var x = {
+        username: 'Nick',
+        password: bcrypt.hashSync('Cave', 10),
+        email: 'nick@cave.com',
+        role: 'ADMIN'
+    }
+    var y = {
+        username: 'Dick',
+        password: bcrypt.hashSync('Cave', 10),
+        email: 'dick@cave.com',
+        role: 'USER'
+    }
+    User.create(x);
+    User.create(y);
+})
+
+Shop.sync({ force: true }).then(() => {
+    var x1 = {
+        name: 'VENZINAREMUNIA',
+        address: '43 Venzina Street',
+        longtitude: '21.7607735',
+        latitude: '38.2279523',
+        tags: 'gtp, oti na nai, lol',
+        withdrawn: false
+    }
+    var x2 = {
+        name: 'VENZINAREMUNIAA',
+        address: '43 Venzina Street',
+        longtitude: '21.7261374',
+        latitude: '38.2391013',
+        tags: 'gtp, oti na nai, lol',
+        withdrawn: false
+    }
+    Shop.create(x1)
+    Shop.create(x2)
+})
+
+Product.sync({ force: true }).then(() => {
+    var x3 = {
+        name: 'AMOLIVDI',
+        description: 'LOL',
+        category: 'TZINA',
+        tags: 'gtp, oti na nai, lol',
+        withdrawn: false
+    }
+    var x4 = {
+        name: 'DIZEL',
+        description: 'LOL',
+        category: 'TZINA',
+        tags: 'gtp, oti na nai, lol',
+        withdrawn: false
+    }
+    Product.create(x3)
+    Product.create(x4)
+})
+
+//Price.sync({ force: true }).then(() => {
+
+//})
+
+
+
 
 var db = {
     sequelizeConnection: sequelize,
     User: User,
     Product: Product,
     Shop: Shop,
-    Prices: Prices
+    Price: Price
 }
 
 module.exports = db;
