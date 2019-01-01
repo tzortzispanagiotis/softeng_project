@@ -2,6 +2,7 @@ const express     = require('express'),
       app         = express(),
       sequelize   = require("./database/connect"),  // to create database connection
       bodyParser  = require("body-parser"),
+      methodOverride = require("method-override"),
       sample      = require("./database/sampletable.js"),
       apiMiddlewares = require("./routing/API/apiMiddlewares");
 
@@ -14,7 +15,11 @@ app.set("view engine", "ejs");
 app.use("/static", express.static("./public"))
 
 // bodyParser for parsing POST requests:
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+//method override using X-HTTP-Method-Override header
+app.use(methodOverride('X-HTTP-Method-Override'));
 
 //------ROUTING------------//
 // API Router:
