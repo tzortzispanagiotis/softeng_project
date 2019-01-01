@@ -1,0 +1,34 @@
+module.exports = function(sequelize, DataTypes) {
+    const Product = sequelize.define('product', {
+        productId: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        description : {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        category: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        tags: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        withdrawn: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
+    },
+    {
+        tableName: 'product',
+        timestamps: false
+    })
+    return Product;
+}
