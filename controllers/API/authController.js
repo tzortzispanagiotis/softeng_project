@@ -1,9 +1,11 @@
 var authController = {}
 
-const User = require("../../database/sampletable"),
+const db = require("../../database/connect"),
       bcrypt = require("bcryptjs"),
       jwt    = require("jsonwebtoken"),
-      config = require("../../configurations/credentials")
+      config = require("../../configurations/credentials");
+
+var User = db.User;
 
 authController.renderLoginAction = function (req, res) {
     res.render('login')
