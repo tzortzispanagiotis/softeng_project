@@ -40,6 +40,7 @@ productApiController.getAllAction = (req, res) => {
                 id: foundProduct.productId,
                 name: foundProduct.name,
                 description: foundProduct.description,
+                category: foundProduct.category,
                 tags: tags,
                 withdrawn: foundProduct.withdrawn
             })
@@ -66,6 +67,7 @@ productApiController.getOneAction = (req, res) => {
             id: foundProduct.productId,
             name: foundProduct.name,
             description: foundProduct.description,
+            category: foundProduct.category,
             tags: tags,
             withdrawn: foundProduct.withdrawn
         })
@@ -73,17 +75,8 @@ productApiController.getOneAction = (req, res) => {
 }
 
 productApiController.createAction = (req, res) => {
-    if (req.body.name == null || req.body.description == null || req.body.category == null || req.body.tags ==null) {
-        res.status(400).json({error: 'Bad Request'})
-    }
-
-    var newProduct = {
-        name: req.body.name,
-        description: req.body.description,
-        category: req.body.category,
-        tags: req.body.tags,
-        withdrawn: false
-    }
+    
+    var newProduct = req.params.x
 
     Product.create(newProduct).then(newProd => {
     var tags = newProd.tags.split(",")
@@ -91,11 +84,44 @@ productApiController.createAction = (req, res) => {
             id: newProd.productId,
             name: newProd.name,
             description: newProd.description,
+            category: newProduct.category,
             tags: tags,
             withdrawn: newProd.withdrawn
         })
     })
 }
 
+//for some reason fullUpdate works with 2 requests instead of 1!
+productApiController.fullUpdateAction = (req,res) => {
+
+    var updatedProduct = req.params.x
+    Product.findOne({where: {productId: req.params.id}})
+    .then(found => {
+        found.update(updatedProduct,{fields: ['name','description','category','tags']})
+    })
+
+    Product.findOne({where: {productId: req.params.id}})
+    .then(found => {
+        var tags = found.tags.split(",")
+        res.json({
+            id: found.productId,
+            name: found.name,
+            description: found.description,
+            category: found.category,
+            tags: tags,
+            withdrawn: found.withdrawn
+        })
+    })
+
+}
+
+productApiController.partialUpdateAction = (req,res) => {
+
+
+}
+
+productApiController.deleteAction = (req, res) => {
+
+}
 
 module.exports = productApiController;

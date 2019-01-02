@@ -1,9 +1,8 @@
 const express     = require('express'),
       app         = express(),
-      sequelize   = require("./database/connect"),  // to create database connection
       bodyParser  = require("body-parser"),
       methodOverride = require("method-override"),
-      apiMiddlewares = require("./routing/API/apiMiddlewares"),
+      apiMiddlewares = require("./middlewares/apiMiddlewares"),
       db          = require("./database/connect");
 
 
