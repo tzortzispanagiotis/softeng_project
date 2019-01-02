@@ -5,4 +5,6 @@ router.get('/', productApiController.getAllAction)
 
 router.get('/:id', productApiController.getOneAction)
 
+router.post('/', productApiController.createAction)
+
 module.exports = router;
