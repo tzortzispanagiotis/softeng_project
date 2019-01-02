@@ -1,6 +1,7 @@
 const productApiController = {},
       db                   = require('../../database/connect'),
-      Product              = db.Product;
+      Product              = db.Product,
+      user                 = db.User;
 
 productApiController.getAllAction = (req, res) => {
     var whereClause = {}
@@ -117,11 +118,25 @@ productApiController.fullUpdateAction = (req,res) => {
 
 productApiController.partialUpdateAction = (req,res) => {
 
-
 }
 
 productApiController.deleteAction = (req, res) => {
-
+    // var user = req.decoded.id
+    // console.log(user)
+    // Product.findOne({where: {productId:req.params.id}})
+    // .then(foundProduct => {
+    //     user.findOne({where: {userId: user}})
+    //     .then(found => {
+    //         if (found.role == 'ADMIN') {
+    //             foundProduct.destroy()
+    //             res.json({message: 'OK'})
+    //         }
+    //         else {
+    //             foundProduct.withdrawn = true
+    //             res.json({message: 'OK'})
+    //         }
+    //     })
+    // })
 }
 
 module.exports = productApiController;

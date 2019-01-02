@@ -1,4 +1,8 @@
 var apiMiddlewares = {}
+const authMiddlewares = require("../policies/authenticationPolicy")
+
+apiMiddlewares.login = authMiddlewares.login
+apiMiddlewares.checkToken = authMiddlewares.checkToken
 
 apiMiddlewares.apiBadFormatRequest = (req,res, next) => {
     var format = req.query.format
