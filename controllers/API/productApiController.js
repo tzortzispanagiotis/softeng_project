@@ -73,7 +73,29 @@ productApiController.getOneAction = (req, res) => {
 }
 
 productApiController.createAction = (req, res) => {
+    if (req.body.name == null || req.body.description == null || req.body.category == null || req.body.tags ==null) {
+        res.status(400).json({error: 'Bad Request'})
+    }
 
+    var newProduct = {
+        name: req.body.name,
+        description: req.body.description,
+        category: req.body.category,
+        tags: req.body.tags,
+        withdrawn: false
+    }
+
+    Product.create(newProduct).then(newProd => {
+    var tags = newProd.tags.split(",")
+        res.json({
+            id: newProd.productId,
+            name: newProd.name,
+            description: newProd.description,
+            tags: tags,
+            withdrawn: newProd.withdrawn
+        })
+    })
 }
+
 
 module.exports = productApiController;
