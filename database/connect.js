@@ -5,10 +5,12 @@ const bcrypt = require("bcryptjs")
 const sequelize = new Sequelize(Credentials.database.db_name, Credentials.database.username, Credentials.database.password, {
     host: Credentials.host,
     port: 3306,
-    dialect: "mariadb"
+    dialect: "mariadb" ,
+    socketPath: '/var/run/mysqld/mysqld.sock' 
+});
     // to achieve mariadb dialect support :
     // npm install --save sequelize@next, npm install --save mariadb
-})
+//ExtensionScriptApis
 
 sequelize.authenticate()
 .then(() => {
