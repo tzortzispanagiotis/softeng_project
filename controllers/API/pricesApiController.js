@@ -18,8 +18,8 @@ db.Price.findAll(findallparam).then(foundPrices => {
     foundPrices.forEach(foundPrice => {
         prices.push ({
             id: foundPrice.priceId,
-            shopid: foundPrice.shopid,
-            productid:foundPrice.productid,
+            shopid: foundPrice.shopId,
+            productid:foundPrice.productId,
             price: foundPrice.price,
             date: foundPrice.date,
             //withdrawn: foundPrice.withdrawn
@@ -36,10 +36,38 @@ db.Price.findAll(findallparam).then(foundPrices => {
 })
 
 }
-pricesApiController.getOneAction = (req, res) => {
-    res.send("HELLO PRICES GETONE!!")
+pricesApiController.partialUpdateAction = (req,res) => {  
+    var updatedPrice ={}
+    db.Price.findOne({where: {productId: req.body.productId , shopId: req.body.shopId}})
+    .then(found => { //osa pedia den exoun oristei ek neou krataw ta palia
+        
+        if (req.body.price==null){
+            updatedPrice.price= found.price
+        }
+        else{
+            updatedPrice.price= req.body.price
+           }
+        if (req.body.date==null){
+            updatedPrice.date= found.date
+        }
+        updatedPrice.shopId=found.shopId;
+        updatedPrice.productId=found.productId;
+        found.update(updatedPrice,{fields: ['shopId','productId','price','date']}) //kanw update
+
+    //db.Shop.findOne({where: {shopId: req.params.id}}) //ta emfanizw
+    //.then(found => {
+       // var tags = found.tags.split(",")
+        res.json({
+            shopid: updatedPrice.shopId,
+            productid:updatedPrice.productId,
+            price: updatedPrice.price,
+            date: updatedPrice.date,
+    
+        })
+    })
+
 }
 
-
+//STILL TO DO SHOW NAME OF SHOP AND PRODUCT INSTEAD OF SHOPID AND PRODUCTID
 
 module.exports = pricesApiController;

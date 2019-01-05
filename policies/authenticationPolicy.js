@@ -42,10 +42,11 @@ module.exports = {
         if (token) {
           jwt.verify(token, config.jwt_secret, (err, decoded) => {
             if (err) {
-              return res.json({
-                success: false,
+              next();
+              //return res.json({
+                //success: false,
                 message: 'Token is not valid'
-              });
+             // });
             } else {
               req.decoded = decoded;
               next();

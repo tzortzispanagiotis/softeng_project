@@ -163,7 +163,7 @@ shopApiController.fullUpdate = (req,res) => {
     })
 
 } 
-shopApiController.deleteAction = (req, res) => {
+shopApiController.deleteAction = (req, res) => { 
      var user = req.decoded.id
      console.log(user)
      db.Shops.findOne({where: {shopId:req.params.id}})
