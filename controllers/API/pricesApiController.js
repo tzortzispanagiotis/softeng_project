@@ -1,6 +1,5 @@
 const pricesApiController = {},
       db                   = require('../../database/connect'),
-      Prices              = db.Price,
       user = db.User;
 pricesApiController.getAllAction = (req, res) => {
     var params = {
@@ -13,11 +12,10 @@ pricesApiController.getAllAction = (req, res) => {
         start:params.start ,
         count:params.count }
 
-db.Prices.findAll(findallparam).then(foundPrices => {
+db.Price.findAll(findallparam).then(foundPrices => {
     var prices= [];
     var total = 0;
     foundPrices.forEach(foundPrice => {
-        var tags = foundPrice.tags.split(",")
         prices.push ({
             id: foundPrice.priceId,
             shopid: foundPrice.shopid,

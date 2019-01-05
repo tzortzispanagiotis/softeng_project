@@ -50,7 +50,7 @@ User.sync({ force: true }).then(() => {
     User.create(y);
 })
 
-Shop.sync({ force: true }).then(() => {
+Shop.sync().then(() => {
     var x1 = {
         name: 'VENZINAREMUNIA',
         address: '43 Venzina Street',
@@ -71,7 +71,7 @@ Shop.sync({ force: true }).then(() => {
     Shop.create(x2)
 })
 
-Product.sync({ force: true }).then(() => {
+Product.sync().then(() => {
     var x3 = {
         name: 'AMOLIVDI',
         description: 'LOL',
