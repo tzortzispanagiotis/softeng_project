@@ -25,11 +25,12 @@ const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
 
-Shop.hasMany(Price, { foreignKey: 'shopId', sourceKey: 'shopId' });
-Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId' });
+Shop.belongsToMany(Product, { through: Price, foreignKey: 'shopId' ,otherKey:'productId' ,onDelete: 'CASCADE'});
+//Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId',onDelete: 'CASCADE' });
+Product.belongsToMany(Shop, { through: Price, foreignKey: 'productId' ,otherKey:'shopId' ,onDelete: 'CASCADE'});
 
-Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId' });
-Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' });
+//Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId',onDelete: 'CASCADE' });
+//Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' ,onDelete: 'CASCADE'});
 
 
 User.sync({ force: true }).then(() => {
@@ -89,9 +90,16 @@ Product.sync({ force: true }).then(() => {
     Product.create(x4)
 })
 
-//Price.sync({ force: true }).then(() => {
+Price.sync({ force: true }).then(() => {
+    var x5={
+        productId:1,
+        shopId:1,
+        price:1.75 ,
+        date:'1/1/2019'
 
-//})
+    }
+    Price.create(x5)
+})
 
 
 

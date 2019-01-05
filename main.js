@@ -30,6 +30,6 @@ app.use("/observatory/api", apiMiddlewares.apiBadFormatRequest, masterApiRouter)
 
 
 // Initialize the server
-app.listen(process.env.PORT || 8888, () => {
+app.listen(process.env.PORT || 8765, () => {
   console.log("Hello World");
 })
