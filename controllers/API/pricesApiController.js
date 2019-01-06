@@ -36,14 +36,14 @@ pricesApiController.getAllAction = (req, res) => {
 
     }
     if ((dateFrom==null) && (dateTo==null)) {
-         params.dateFrom =  sequelize.now, //sequelize.literal('CURRENT_TIMESTAMP') ; 
+         params.dateFrom =  sequelize.now, //NA TO VALW PALIA XRONIKI STIGMI GIA NA EINAI VALID I ANAZITISIsequelize.literal('CURRENT_TIMESTAMP') ; 
          params.dateTo = sequelize.now//sequelize.literal('CURRENT_TIMESTAMP');
     }
     findallparam = {
         start:params.start ,
         count:params.count }
 
-db.Price.findAndCountAll({where : { shopId:  {[Op.in]: params.shops} , productId: {[Op.in]: params.products , db.Shop } ,offset : params.start , limit :params.count}).then(found => {
+db.Price.findAndCountAll({where : { shopId:  {[Op.in]: params.shops} , productId: {[Op.in]: params.products , date:{[Op.gt]:params.dateFrom , [Op.lt]:params.dateTo} } ,offset : params.start , limit :params.count}).then(found => {
     var prices= [];
     var total = 0;
     foundPrices = found.rows
@@ -56,7 +56,7 @@ db.Price.findAndCountAll({where : { shopId:  {[Op.in]: params.shops} , productId
             date: foundPrice.date,
             //withdrawn: foundPrice.withdrawn
         })
-        total++;
+        //total++;
     })
     res.json({
         start: findallparam.offset,
