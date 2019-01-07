@@ -43,10 +43,10 @@ module.exports = {
           jwt.verify(token, config.jwt_secret, (err, decoded) => {
             if (err) {
               next();
-              //return res.json({
-                //success: false,
+              return res.json({
+                success: false,
                 message: 'Token is not valid'
-             // });
+              });
             } else {
               req.decoded = decoded;
               next();
