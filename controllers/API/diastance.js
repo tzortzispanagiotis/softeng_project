@@ -1,5 +1,5 @@
 //distance function for price query
-function(lat1,lat2,lon1,lon2){
+functiondistance ( lat1,lat2,lon1,lon2){
 var R = 6371e3; // metres
 var φ1 = lat1.toRadians();
 var φ2 = lat2.toRadians();
