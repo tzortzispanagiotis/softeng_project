@@ -9,6 +9,7 @@ $("#login-btn").click(function(event) {
         username : $("#username").val(),
         password : $("#password").val()
     }
+
     console.log(myData)
 
     $.ajax({
@@ -16,16 +17,15 @@ $("#login-btn").click(function(event) {
         method: "POST",
         data: myData,
         success: function(data,status) {
-            if (status == 'success') {
-                var token = data.token
-                localStorage.setItem("token", token)
-                $( location ).attr("href", "/");
-            }
-            else {
-                alert("Λάθος κώδιξ προσβάσεως")
-            }
-            
+            var token = data.token
+            localStorage.setItem("token", token)
+            localStorage.setItem("username", myData.username)
+            $( location ).attr("href", "/");   
+        },
+        error: function(data,status) {
+            alert("Wrong password or username")
+            $( location ).attr("href", "/login");
         }
-        })
+    })
                     
 })   
