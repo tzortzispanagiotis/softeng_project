@@ -1,0 +1,1 @@
+This folder is for Js/JQuery files used by the frontend.
