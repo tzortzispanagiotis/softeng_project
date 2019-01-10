@@ -27,7 +27,9 @@ const masterApiRouter = require("./routing/masterApiRouter.js")
 app.use("/observatory/api", apiMiddlewares.apiBadFormatRequest, masterApiRouter)
 // TODO: Index Routers
 
-
+app.get("/", (req, res) => {
+  res.render('index')
+})
 
 // Initialize the server
 app.listen(process.env.PORT || 8765, () => {
