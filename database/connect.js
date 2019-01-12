@@ -5,10 +5,12 @@ const bcrypt = require("bcryptjs")
 const sequelize = new Sequelize(Credentials.database.db_name, Credentials.database.username, Credentials.database.password, {
     host: Credentials.host,
     port: 3306,
-    dialect: "mariadb"
+    dialect: "mariadb" ,
+    socketPath: '/var/run/mysqld/mysqld.sock' 
+});
     // to achieve mariadb dialect support :
     // npm install --save sequelize@next, npm install --save mariadb
-})
+//ExtensionScriptApis
 
 sequelize.authenticate()
 .then(() => {
@@ -23,11 +25,12 @@ const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
 
-Shop.hasMany(Price, { foreignKey: 'shopId', sourceKey: 'shopId' });
-Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId' });
+Shop.belongsToMany(Product, { through: Price, foreignKey: 'shopId' ,otherKey:'productId' ,onDelete: 'CASCADE'});
+//Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId',onDelete: 'CASCADE' });
+Product.belongsToMany(Shop, { through: Price, foreignKey: 'productId' ,otherKey:'shopId' ,onDelete: 'CASCADE'});
 
-Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId' });
-Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' });
+//Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId',onDelete: 'CASCADE' });
+//Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' ,onDelete: 'CASCADE'});
 
 
 User.sync({ force: true }).then(() => {
@@ -47,7 +50,7 @@ User.sync({ force: true }).then(() => {
     User.create(y);
 })
 
-Shop.sync({ force: true }).then(() => {
+Shop.sync().then(() => {
     var x1 = {
         name: 'VENZINAREMUNIA',
         address: '43 Venzina Street',
@@ -68,7 +71,7 @@ Shop.sync({ force: true }).then(() => {
     Shop.create(x2)
 })
 
-Product.sync({ force: true }).then(() => {
+Product.sync().then(() => {
     var x3 = {
         name: 'AMOLIVDI',
         description: 'LOL',
@@ -87,9 +90,16 @@ Product.sync({ force: true }).then(() => {
     Product.create(x4)
 })
 
-//Price.sync({ force: true }).then(() => {
+Price.sync({ force: true }).then(() => {
+    var x5={
+        productId:1,
+        shopId:1,
+        price:1.75 ,
+        date:'1/1/2019'
 
-//})
+    }
+    Price.create(x5)
+})
 
 
 
