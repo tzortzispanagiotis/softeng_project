@@ -35,6 +35,10 @@ app.get("/login", (req, res) => {
   res.render('login')
 })
 
+app.get("/signup", (req, res) => {
+  res.render('signup')
+})
+
 // Initialize the server
 app.listen(process.env.PORT || 8765, () => {
   console.log("Hello World");
