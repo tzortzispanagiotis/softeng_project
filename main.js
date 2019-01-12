@@ -35,6 +35,10 @@ app.get("/login", (req, res) => {
   res.render('login')
 })
 
+app.get("/getall", (req, res) => {
+  res.render('getall')
+})
+
 // Initialize the server
 app.listen(process.env.PORT || 8765, () => {
   console.log("Hello World");
