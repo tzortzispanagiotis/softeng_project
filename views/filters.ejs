@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Φιλτρα</title>
     <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+  integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+  crossorigin=""/>
 </head>
 <body>
   <div class="filterrow" name="container">
@@ -18,10 +21,19 @@
             </div>
             <b value="">Μέγιστη Τιμή: <span id="showval"></span></b>
           </div>
+          Επιλέξτε είδος καυσίμου
+          <div class="buttonselection">
+            <button type="button" class="filterbutton">Μια επιλογή</button>
+            <button type="button" class="filterbutton">Μια επιλογή</button>
+            <button type="button" class="filterbutton">Μια επιλογή</button>
+            <button type="button" class="filterbutton">Μια επιλογή</button>
+            <button type="button" class="filterbutton">Μια επιλογή</button>
+          </div>
         </div>
     </div>
     <div class="filtercolumn2">
-        REST
+        <div id=mapid class="mapcontainer">
+        </div>
     </div>
   </div>
   <script
@@ -30,5 +42,6 @@
       crossorigin="anonymous">
   </script>
   <script type="text/javascript" src="/static/js/filters.js"></script>
+  <script type="text/javascript" src="/static/js/map.js"></script>
 </body>
 </html>

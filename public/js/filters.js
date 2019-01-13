@@ -5,6 +5,7 @@ var min_price;
 var max_price;
 var slider=$("#myRange");
 var output=$("#showval");
+//synarthsh xeirismou tou Slider
 function price_range() {
   $.ajax({
        url: "https://jsonplaceholder.typicode.com/posts",
@@ -31,7 +32,7 @@ function price_range() {
    })
 
 };
-price_range();
+//real time ektypwsh ths epilegmenis timis
 slider.on('input',function() {
   output.html(this.value);
 });

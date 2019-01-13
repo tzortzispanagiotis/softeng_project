@@ -71,8 +71,31 @@ body {
   background: #4CAF50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
+
+.filterbutton{
+  font-size: 100%;
+  background-color: white;
+  border: 2px solid grey;
+  border-radius: 2px;
+  color: black;
+}
+.filterbutton:hover {
+  background-color: grey; /* Green */
+  color: white;
+}
 /*Telos filtrwn
 =============================================================================*/
+/*Map CSS
+===========================================================================*/
+.mapcontainer {
+  position: fixed;
+  padding: 20%;
+}
+#mapid{
+  height:100px;
+}
+/*End of Map css
+=================================================================*/
 /**
  * Add the correct display in IE 9-.
  */
