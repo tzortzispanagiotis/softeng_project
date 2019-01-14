@@ -60,7 +60,7 @@ Shop.sync({force : true}).then(() => {
         withdrawn: false
     }
     var x2 = {
-        name: 'VENZINAREMUNIAA',
+        name: 'IOU',
         address: '43 Venzina Street',
         longtitude: '21.7261374',
         latitude: '38.2391013',

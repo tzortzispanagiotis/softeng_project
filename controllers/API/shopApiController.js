@@ -2,6 +2,9 @@ const shopApiController = {}
 const db= require('../../database/connect')
 
 shopApiController.getAllAction = (req, res) => {
+    var whereClause = {}
+    var searchParams = {}
+
     var params = {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,
@@ -10,18 +13,25 @@ shopApiController.getAllAction = (req, res) => {
     }
     var withdrawn= {} ; 
 
-    if (params.status=='Active'){
-        withdrawn:true}
-    else if (params.status=='Withdrawn'){
-        withdrawn:false
+     if (params.status == 'ACTIVE') {
+        whereClause = {
+            withdrawn: false
+        }
     }
-    findallparam = {
-        start:params.start ,
-        count:params.count , 
-        where:withdrawn
+    else if (params.status == 'WITHDRAWN') {
+        whereClause = {
+            withdrawn: true
+        }
     }
-    
-    db.Shop.findAll(findallparam).then(foundShops => {
+
+    searchParams = {
+        offset: params.start, 
+        limit: params.count,
+        where: whereClause
+    }
+
+    db.Shop.findAll(searchParams)
+    .then(foundShops => {
         var shops= [];
         var total = 0;
         foundShops.forEach(foundShop => {
@@ -38,8 +48,8 @@ shopApiController.getAllAction = (req, res) => {
             total++;
         })
         res.json({
-            start: findallparam.offset,
-            count: findallparam.limit,
+            start: searchParams.offset,
+            count: searchParams.limit,
             total: total,
             shops: shops
 
@@ -164,22 +174,28 @@ shopApiController.fullUpdate = (req,res) => {
 
 } 
 shopApiController.deleteAction = (req, res) => {
-     var user = req.decoded.id
-     console.log(user)
-     db.Shops.findOne({where: {shopId:req.params.id}})
-     .then(found => {
-         user.findOne({where: {userId: user}})
-         .then(found => {
-             if (found.role == 'ADMIN') {
-                 found.destroy()
-                 res.json({message: 'OK'})
-             }
-             else {
-                 found.withdrawn = true
-                 res.json({message: 'OK'})
-             }
-         })
-     })
+    var User = req.decoded.id
+    db.Shop.findOne({where: {shopId:req.params.id}})
+    .then(foundShop => {
+        db.User.findOne({where: {userId: User}})
+        .then(found => {
+            if (found.role == 'ADMIN') {
+                console.log(found.role)
+                foundShop.destroy()
+                res.json({message: 'OK'})
+            }
+            else {
+                var updatedShop = {}
+                updatedShop.withdrawn = true
+                updatedShop.name = foundShop.name
+                updatedShop.description = foundShop.description
+                updatedShop.category = foundShop.category
+                updatedShop.tags = foundShop.tags
+                foundShop.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags', 'withdrawn']}) //kanw update
+                res.json({message: 'OK'})
+            }
+        })
+    })
 }
 
 module.exports = shopApiController;
