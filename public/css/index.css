@@ -12,9 +12,7 @@ html {
 /**
  * Remove the margin in all browsers (opinionated).
  */
-body {
-  margin: 0;
-}
+
 
 /**
  * Add the correct display in IE 9-.
@@ -819,7 +817,7 @@ legend {
   -ms-flex-align: center;
       align-items: center;
   font-family: 'Poppins', sans-serif;
-  background-color: #a598ee;
+  background-color: #585858;
   background-size: cover;
   background-position: center center;
   padding: 15px;
@@ -946,7 +944,7 @@ legend {
 
 .s003 form .inner-form .input-field.first-wrap .choices__list--dropdown .choices__item--selectable.is-highlighted {
   background: #fff;
-  color: #63c76a;
+  color: #55d6aa;
 }
 
 .s003 form .inner-form .input-field.first-wrap .choices__list--dropdown .choices__item {
@@ -970,7 +968,7 @@ legend {
   color: #fff;
   border: 0;
   cursor: pointer;
-  background: #63c76a;
+  background: #55d6aa;
   transition: all .2s ease-out, color .2s ease-out;
 }
 

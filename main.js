@@ -32,9 +32,12 @@ app.get("/", (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-  res.render('login')
+  res.render('loginregister')
 })
 
+app.get("/contact", (req, res) => {
+  res.render('contact')
+})
 // Initialize the server
 app.listen(process.env.PORT || 8765, () => {
   console.log("Hello World");

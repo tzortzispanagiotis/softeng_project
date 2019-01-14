@@ -4,29 +4,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="author" content="colorlib.com">
-    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
-    <link href="/static/css/main.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+    <link href="/static/css/index.css" rel="stylesheet" />
+    <link href="/static/css/navbar.css" rel="stylesheet" />
+    <link href="/static/css/footer.css" rel= "stylesheet" />
   </head>
   <body>
+    <% include partials/navbar %>
     <div class="s003">
       <form>
         <div class="inner-form">
           <div class="input-field first-wrap">
             <div class="input-select">
               <select data-trigger="" name="choices-single-defaul">
-                <option placeholder="">Category</option>
-                <option>New Arrivals</option>
-                <option>Sale</option>
-                <option>Ladies</option>
-                <option>Men</option>
-                <option>Clothing</option>
-                <option>Footwear</option>
-                <option>Accessories</option>
+                <option placeholder="">Καύσιμο</option>
+                <option>Αμόλυβδη 95</option>
+                <option>Πετρέλαιο</option>
               </select>
             </div>
           </div>
           <div class="input-field second-wrap">
-            <input id="search" type="text" placeholder="Enter Keywords?" />
+            <input id="search" type="text" placeholder="Διεύθυνση" />
           </div>
           <div class="input-field third-wrap">
             <button class="btn-search" type="button">
@@ -47,5 +45,8 @@
       });
 
     </script>
-  </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+    <% include partials/footer %>
+  </body>
+  
+
 </html>
