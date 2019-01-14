@@ -25,12 +25,11 @@ const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
 
-Shop.belongsToMany(Product, { through: Price, foreignKey: 'shopId' ,otherKey:'productId' ,onDelete: 'CASCADE'});
-//Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId',onDelete: 'CASCADE' });
-Product.belongsToMany(Shop, { through: Price, foreignKey: 'productId' ,otherKey:'shopId' ,onDelete: 'CASCADE'});
+//Shop.hasMany(Price, { foreignKey: 'shopId', sourceKey: 'shopId' });
+//Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId' });
 
-//Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId',onDelete: 'CASCADE' });
-//Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' ,onDelete: 'CASCADE'});
+//Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId' });
+//Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' });
 
 
 User.sync({ force: true }).then(() => {

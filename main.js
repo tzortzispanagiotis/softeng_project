@@ -32,7 +32,14 @@ app.get("/", (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-  res.render('login')
+  res.render('loginregister')
+})
+
+app.get("/contact", (req, res) => {
+  res.render('contact')
+})
+app.get("/getall", (req, res) => {
+  res.render('getall')
 })
 
 // Initialize the server
