@@ -145,7 +145,7 @@ productApiController.partialUpdateAction = (req,res) => {
         else{
             updatedProduct.tags= req.body.tags
            }
-        found.update(updatedProduct,{fields: ['name','address','longtitude','latitude','tags']}) //kanw update
+        found.update(updatedProduct,{fields: ['name','description','category','tags','withdrawn']}) //kanw update
 
     //db.Product.findOne({where: {shopId: req.params.id}}) //ta emfanizw
     //.then(found => {
@@ -168,22 +168,29 @@ productApiController.partialUpdateAction = (req,res) => {
 
 
 productApiController.deleteAction = (req, res) => {
-    // var user = req.decoded.id
-    // console.log(user)
-    // Product.findOne({where: {productId:req.params.id}})
-    // .then(foundProduct => {
-    //     user.findOne({where: {userId: user}})
-    //     .then(found => {
-    //         if (found.role == 'ADMIN') {
-    //             foundProduct.destroy()
-    //             res.json({message: 'OK'})
-    //         }
-    //         else {
-    //             foundProduct.withdrawn = true
-    //             res.json({message: 'OK'})
-    //         }
-    //     })
-    // })
+    var User = req.decoded.id
+    console.log(user)
+    Product.findOne({where: {productId:req.params.id}})
+    .then(foundProduct => {
+        user.findOne({where: {userId: User}})
+        .then(found => {
+            if (found.role == 'ADMIN') {
+                console.log(found.role)
+                foundProduct.destroy()
+                res.json({message: 'OK-deleted product'})
+            }
+            else {
+                var updatedProduct = {}
+                updatedProduct.withdrawn = true
+                updatedProduct.name = foundProduct.name
+                updatedProduct.description = foundProduct.description
+                updatedProduct.category = foundProduct.category
+                updatedProduct.tags = foundProduct.tags
+                foundProduct.update(updatedProduct,{fields: ['name','description','category','tags','withdrawn']}) //kanw update
+                res.json({message: 'OK-updated prod'})
+            }
+        })
+    })
 }
 
 module.exports = productApiController;
