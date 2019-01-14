@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+    <title> hello</title>
+</head>
+<body>
+    <h1>hello world!</h1>
+
+    <div id="get-all">
+
+    </div>
+    
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $( document ).ready(function() {
+        console.log( "ready!" );
+
+        $.ajax({
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/users",
+        success: function (data, status) {
+            console.log(data)
+            for(i=0; i < data.length; i++){
+                $("#get-all").append("<h1>"+data[i].name+"</h1>")
+            }
+        }  
+      })
+
+      });
+      
+      
+    </script>
+</body>
