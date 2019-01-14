@@ -1,6 +1,7 @@
 $( document ).ready(function() {
     console.log( "ready!" );
 });
+
 var mymap;
 $.getScript("https://unpkg.com/leaflet@1.4.0/dist/leaflet.js",function(){
   console.log("mapedw");

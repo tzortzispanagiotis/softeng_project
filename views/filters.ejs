@@ -9,25 +9,21 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
   crossorigin=""/>
+    <link rel="stylesheet" href="/static/css/filters.css">
+    <link rel="stylesheet" href="/static/css/map.css">
 </head>
 <body>
   <div class="filterrow" name="container">
     <div class="filtercolumn1">
         <div class="filterTitle">
-          <div>
-          Επιλέξτε μέγιστη τιμή
+          <div >
+          <b value="">Μέγιστη Τιμή: <span id="showval"></span></b>
             <div class="slidecontainer">
               <input type="range" min="" max="" value="" class="slider" id="myRange">
             </div>
-            <b value="">Μέγιστη Τιμή: <span id="showval"></span></b>
           </div>
-          Επιλέξτε είδος καυσίμου
-          <div class="buttonselection">
-            <button type="button" class="filterbutton">Μια επιλογή</button>
-            <button type="button" class="filterbutton">Μια επιλογή</button>
-            <button type="button" class="filterbutton">Μια επιλογή</button>
-            <button type="button" class="filterbutton">Μια επιλογή</button>
-            <button type="button" class="filterbutton">Μια επιλογή</button>
+          <b>Είδος καυσίμου</b>
+          <div id="fuelbuttons" class="fuelbuttonselection">
           </div>
         </div>
     </div>
