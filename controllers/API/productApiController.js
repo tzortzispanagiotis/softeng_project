@@ -76,9 +76,7 @@ productApiController.getOneAction = (req, res) => {
 }
 
 productApiController.createAction = (req, res) => {
-    
     var newProduct = req.params.x
-
     Product.create(newProduct).then(newProd => {
     var tags = newProd.tags.split(",")
         res.json({
@@ -92,18 +90,11 @@ productApiController.createAction = (req, res) => {
     })
 }
 
-//for some reason fullUpdate works with 2 requests instead of 1!
 productApiController.fullUpdateAction = (req,res) => {
-
     var updatedProduct = req.params.x
     Product.findOne({where: {productId: req.params.id}})
     .then(found => {
         found.update(updatedProduct,{fields: ['name','description','category','tags']})
-    
-
-    //Product.findOne({where: {productId: req.params.id}})
-    //.then(found => {
-        //var tags = found.tags.split(",")
         res.json({
             id: req.params.id,
             name: updatedProduct.name,
@@ -117,55 +108,40 @@ productApiController.fullUpdateAction = (req,res) => {
 }
 
 productApiController.partialUpdateAction = (req,res) => {
-    var updatedProduct ={}
+    var updatedProduct = {}
     Product.findOne({where: {ProductId: req.params.id}})
     .then(found => { //osa pedia den exoun oristei ek neou krataw ta palia
-        if (req.body.name== null){
-            updatedProduct.name= found.name
-        }
-        else{
+        if (req.body.name == null){
+            updatedProduct.name = found.name
+        } else {
              updatedProduct.name= req.body.name
-            }
+        }
         if (req.body.description==null){
             updatedProduct.description= found.description
-        }
-        else{
+        } else{
             updatedProduct.description= req.body.description
-           }
+        }
         if (req.body.category==null){
             updatedProduct.category= found.category
-        }
-        else{
+        } else{
             updatedProduct.category= req.body.category
-           }
-        
+        }
         if (req.body.tags==null){
             updatedProduct.tags= found.tags
-        }
-        else{
+        } else{
             updatedProduct.tags= req.body.tags
-           }
+        }
         found.update(updatedProduct,{fields: ['name','description','category','tags','withdrawn']}) //kanw update
-
-    //db.Product.findOne({where: {shopId: req.params.id}}) //ta emfanizw
-    //.then(found => {
-       // var tags = found.tags.split(",")
         res.json({
             id: req.params.id,
             name: updatedProduct.name,
             description: updatedProduct.description,
             category: updatedProduct.category,
-            
             tags: updatedProduct.tags,
             withdrawn: updatedProduct.withdrawn
-
-    
         })
     })
-
 }
-
-
 
 productApiController.deleteAction = (req, res) => {
     var User = req.decoded.id

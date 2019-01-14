@@ -75,9 +75,7 @@ shopApiController.getOneAction = (req, res) => {
 }
 
 shopApiController.createAction = (req, res) => {
-    
     var newShops = req.params.x
-
     db.Shop.create(newShops).then(newShop => {
     var tags = newShop.tags.split(",")
         res.json({
@@ -92,46 +90,36 @@ shopApiController.createAction = (req, res) => {
     })
 }
 
-
 shopApiController.partialUpdateAction = (req,res) => {  
     var updatedShop ={}
     db.Shop.findOne({where: {ShopId: req.params.id}})
     .then(found => { //osa pedia den exoun oristei ek neou krataw ta palia
         if (req.body.name== null){
             updatedShop.name= found.name
-        }
-        else{
+        } else {
              updatedShop.name= req.body.name
-            }
+        }
         if (req.body.address==null){
             updatedShop.address= found.address
-        }
-        else{
+        } else {
             updatedShop.address= req.body.address
-           }
+        }
         if (req.body.longtitude==null){
             updatedShop.longtitude= found.longtitude
-        }
-        else{
+        } else {
             updatedShop.longtitude= req.body.longtitude
-           }
+        }
         if (req.body.latitude==null){
             updatedShop.latitude= found.latitude
-        }
-        else{
+        } else {
             updatedShop.latitude= req.body.latitude
-           }
+        }
         if (req.body.tags==null){
             updatedShop.tags= found.tags
-        }
-        else{
+        } else { 
             updatedShop.tags= req.body.tags
-           }
+        }
         found.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags']}) //kanw update
-
-    //db.Shop.findOne({where: {shopId: req.params.id}}) //ta emfanizw
-    //.then(found => {
-       // var tags = found.tags.split(",")
         res.json({
             id: req.params.id,
             name: updatedShop.name,
@@ -139,25 +127,17 @@ shopApiController.partialUpdateAction = (req,res) => {
             longtitude: updatedShop.longtitude,
             latitude:updatedShop.latitude, 
             tags: updatedShop.tags,
-            withdrawn: updatedShop.withdrawn
-
-    
+            withdrawn: updatedShop.withdrawn    
         })
     })
-
 }
 
 
 shopApiController.fullUpdate = (req,res) => {  
     var updatedShop = req.params.x
     db.Shop.findOne({where: {ShopId: req.params.id}})
-    .then(found => {
-       
+    .then(found => { 
         found.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags']}) //kanw update
-    
-    //db.Shop.findOne({where: {shopId: req.params.id}}) //ta emfanizw
-    //.then(found => {
-       // var tags = found.tags.split(",")
         res.json({
             id: req.params.id,
             name: updatedShop.name,
@@ -166,12 +146,10 @@ shopApiController.fullUpdate = (req,res) => {
             latitude:updatedShop.latitude, 
             tags: updatedShop.tags,
             withdrawn: updatedShop.withdrawn
-
-    
         })
     })
-
 } 
+
 shopApiController.deleteAction = (req, res) => {
     var User = req.decoded.id
     db.Shop.findOne({where: {shopId:req.params.id}})
