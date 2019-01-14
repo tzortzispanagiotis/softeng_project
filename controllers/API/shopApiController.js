@@ -11,9 +11,8 @@ shopApiController.getAllAction = (req, res) => {
         status: req.query.status || 'ACTIVE',
         sort: req.query.sort || 'id|DESC'
     }
-    var withdrawn= {} ; 
 
-     if (params.status == 'ACTIVE') {
+    if (params.status == 'ACTIVE') {
         whereClause = {
             withdrawn: false
         }
