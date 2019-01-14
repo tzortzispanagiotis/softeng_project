@@ -3,10 +3,10 @@ $( document ).ready(function() {
 });
 
 $("#login-btn").click(function(event) {
-    event.preventDefault(); 
-    
+    event.preventDefault();
+
     var myData = {
-        username : $("#username").val(),
+        username : $("#login-username").val(),
         password : $("#password").val()
     }
 
@@ -20,12 +20,12 @@ $("#login-btn").click(function(event) {
             var token = data.token
             localStorage.setItem("token", token)
             localStorage.setItem("username", myData.username)
-            $( location ).attr("href", "/");   
+            $( location ).attr("href", "/");
         },
         error: function(data,status) {
             alert("Wrong password or username")
             $( location ).attr("href", "/login");
         }
     })
-                    
-})   
+
+})

@@ -104,3 +104,10 @@ html, body {
 	background-color: #1CA347;
 	border-color: #1CA347;
 }
+.dontshow {
+  display: none;
+}
+.show {
+  display: inline;
+  color : red;
+}
