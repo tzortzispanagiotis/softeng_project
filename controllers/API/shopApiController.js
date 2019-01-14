@@ -1,5 +1,5 @@
-const shopApiController = {}
-const db= require('../../database/connect')
+const shopApiController = {},
+      db                = require('../../database/connect');
 
 shopApiController.getAllAction = (req, res) => {
     var whereClause = {}
