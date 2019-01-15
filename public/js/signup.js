@@ -35,9 +35,10 @@ $("#signup-btn").click(function(event) {
   var myData ={
     username: $("#username").val(),
     password: $("#password1").val(),
-    email: $("#email").val(),
+    email: $("#email1").val(),
     role: 'USER'
   }
+ 
   if($("#username").val()==""){
     $( "#usr" ).addClass("show");
     $( "#usr" ).removeClass("dontshow");
@@ -59,10 +60,11 @@ $("#signup-btn").click(function(event) {
     $( "#psw2" ).addClass("dontshow");
     $( "#psw2" ).removeClass("show");
     $.ajax({
-        url: "observatory/api/login",
+        url: "observatory/api/signup",
         method: "POST",
         data: myData,
         success: function(data,status) {
+          alert("Εγγραφή επιτυχής!")
           $( location ).attr("href", "/login");
          },
          error: function(data,status) {

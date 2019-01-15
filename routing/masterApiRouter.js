@@ -13,6 +13,9 @@ router.post('/login',
     authenticationPolicy.login,
     authenticationController.login)
 
+router.post('/signup',
+    authenticationController.signup)
+
 router.post('/logout', 
     authenticationController.logout)
 

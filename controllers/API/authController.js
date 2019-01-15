@@ -39,6 +39,24 @@ authController.login = function (req,res) {
       });
     }
 
+authController.signup = (req,res) => {
+    User.findOne({ where: {username: req.body.username}})
+    .then(foundUser => {
+        if (foundUser) {
+            res.status(400).json({signupSuccess : 'false',error : 'User already exists'})
+        }
+        else {
+            newUser = {}
+            newUser.username = req.body.username
+            newUser.password = bcrypt.hashSync(req.body.password, 10)
+            newUser.email = req.body.email
+            newUser.role = req.body.role
+            User.create(newUser)
+            res.status(200).json({signupSuccess : 'true', error: null})
+        }
+    })
+}
+
 authController.logout = (req, res) => {
     res.status(200).send({ auth: false, token: null });
 
