@@ -2,7 +2,7 @@ const router            = require('express').Router();
 const pricesApiController   = require("../../controllers/API/pricesApiController"),
 apiMiddlewares = require('../../middlewares/apiMiddlewares');
 
-router.get('/', pricesApiController.getAllAction)
+router.get('/', apiMiddlewares.checkRequestForPrices, pricesApiController.getAllAction)
 
 //router.get('/:id', pricesApiController.getOneAction)
 //no delete action is valid , u can deelete a price by deleting the product and shop 

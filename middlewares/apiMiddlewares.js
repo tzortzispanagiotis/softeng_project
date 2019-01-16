@@ -16,7 +16,10 @@ apiMiddlewares.apiBadFormatRequest = (req,res, next) => {
 }
 
 apiMiddlewares.checkRequestForProduct = (req,res, next) => {
-    if (req.body.name == null || req.body.description == null || req.body.category == null || req.body.tags ==null) {
+    if (req.body.name == null || 
+        req.body.description == null || 
+        req.body.category == null || 
+        req.body.tags == null) {
         res.status(400).json({error: 'Bad Request!!'})
     }
     else {
@@ -62,6 +65,22 @@ apiMiddlewares.checkRequestForShop = (req,res, next) => {
 }
 
 apiMiddlewares.checkRequestForPrices = (req,res, next) => {
-    
+    if (req.body.geoDist == null &&
+        req.body.geoLng == null &&
+        req.body.geoLat == null) 
+    {
+        next()
+    }
+    else if (req.body.geoDist != null &&
+        req.body.geoLng != null &&
+        req.body.geoLat != null
+        )
+    {
+        next()
+    }
+    else {
+        res.status(400).json({error: 'Bad Request'})
+    }
 }
+
 module.exports = apiMiddlewares
