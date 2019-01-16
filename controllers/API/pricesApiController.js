@@ -1,39 +1,51 @@
 const pricesApiController = {},
       db                   = require('../../database/connect'),
+      Op                    = db.sequelizeConnection.Op,
       user = db.User;
 
 pricesApiController.getAllAction = (req, res) => {
-    // var params = {
-    //     start: parseInt(req.query.start) || 0,
-    //     count: parseInt(req.query.count) || 20,
-    //     geoDist: req.query.geoDist ,
-    //     geoLng :req.query.geoLng ,
-    //     geoLat : req.query.geoLat , 
-    //     dateFrom : req.query.dateFrom , 
-    //     dateTo : req.query.dateTo , 
-    //     shops : req.query.shopIds , 
-    //     products : req.query.productIds , 
-    //     tags : req.query.tags , 
-    //     sort: req.query.sort || 'id|DESC'
-    // }
-    // if ((params.geoDist==null) && (!(params.geoLat==null) || !(params.geoLng==null))) {
-    //     res.status(400).json({error: 'You have to fill in either  all the distance related boxes or none'})
+    var whereClause = {}
+    var searchParams = {}
 
-    // }
-    // if ((params.geoLat==null) && (!(params.geoDist==null) || !(params.geoLng==null))) {
-    //     res.status(400).json({error: 'You have to fill in either all the distance related boxes or none'})
-
-    // }
-    // if ((params.geoLng==null) && (!(params.geoLat==null) || !(params.geoDist==null))) {
-    //     res.status(400).json({error: 'You have to fill in either all the distance related boxes or none'})
+    var params = {
+        start: parseInt(req.query.start) || 0,
+        count: parseInt(req.query.count) || 20,
+        geoDist: req.query.geoDist || null,
+        geoLng :req.query.geoLng || null,
+        geoLat : req.query.geoLat || null, 
+        dateFrom : req.query.dateFrom , 
+        dateTo : req.query.dateTo , 
+        shops : req.query.shopIds , 
+        products : req.query.productIds , 
+        tags : req.query.tags , 
+        sort: req.query.sort || 'id|DESC'
+    }
     
-    // }
-    // if ((params.dateFrom==null) && (!(params.dateTo==null))){
-    //     res.status(400).json({error: 'You have to fill in either all the DATE related boxes or none'})
+    shopIDs = []
+    if (params.shops) { 
+        for (var i in params.shops){
+            shopIDs.push(parseInt(params.shops[i]))
+        }
+        whereClause.shopId = {[Op.or] : shopIDs}
+    }
 
-    // }
-    // if ((params.dateTo==null) && (!(params.dateFrom==null))) {
-    //     res.status(400).json({error: 'You have to fill in either all the DATE related boxes or none'})
+    productIDs = []
+    if (params.products) {
+        for (var i in params.shops){
+            productIDs.push(parseInt(params.products[i]))
+        }
+        whereClause.productId = {[Op.or] : productIDs}
+    }
+
+
+
+
+    searchParams = {
+        offset: params.start, 
+        limit: params.count,
+        where: whereClause
+    }
+
 
     // }
     // if ((dateFrom==null) && (dateTo==null)) {

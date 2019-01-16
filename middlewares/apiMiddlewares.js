@@ -65,21 +65,26 @@ apiMiddlewares.checkRequestForShop = (req,res, next) => {
 }
 
 apiMiddlewares.checkRequestForPrices = (req,res, next) => {
-    if (req.body.geoDist == null &&
+    if ((req.body.geoDist == null &&
         req.body.geoLng == null &&
-        req.body.geoLat == null) 
-    {
-        next()
-    }
-    else if (req.body.geoDist != null &&
+        req.body.geoLat == null) ||
+        (req.body.geoDist != null &&
         req.body.geoLng != null &&
-        req.body.geoLat != null
-        )
+        req.body.geoLat != null)) 
     {
-        next()
-    }
+        if ((req.body.dateFrom == null &&
+            req.body.dateTo == null) ||
+            (req.body.dateFrom != null &&
+                req.body.dateTo != null))
+        {
+            next()
+        }
+        else {
+            res.status(400).json({error: 'Λάθως ερώτημα. Χρησιμοποιήστε ή και τα 2 πεδία dateFrom,dateTo ή κανένα'})
+        }
+    }    
     else {
-        res.status(400).json({error: 'Bad Request'})
+        res.status(400).json({error: 'Λάθος ερώτημα. Χρησιμοποιήστε ή και τα 3 πεδία geoDist, geoLng, geoLat ή κανένα'})
     }
 }
 
