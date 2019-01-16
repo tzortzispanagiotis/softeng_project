@@ -42,6 +42,9 @@ app.get("/getall", (req, res) => {
   res.render('getall')
 })
 
+app.get("/filters", (req, res) => {
+  res.render('filters')
+})
 // Initialize the server
 app.listen(process.env.PORT || 8765, () => {
   console.log("Hello World");
