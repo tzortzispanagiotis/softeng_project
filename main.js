@@ -25,19 +25,10 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 // API Router:
 const masterApiRouter = require("./routing/masterApiRouter.js")
 app.use("/observatory/api", apiMiddlewares.apiBadFormatRequest, masterApiRouter)
-// TODO: Index Routers
+// Index Router:
+const indexRouter = require("./routing/indexRouter.js")
+app.use('/', indexRouter)
 
-app.get("/", (req, res) => {
-  res.render('index')
-})
-
-app.get("/login", (req, res) => {
-  res.render('loginregister')
-})
-
-app.get("/contact", (req, res) => {
-  res.render('contact')
-})
 app.get("/getall", (req, res) => {
   res.render('getall')
 })

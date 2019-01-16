@@ -61,4 +61,7 @@ apiMiddlewares.checkRequestForShop = (req,res, next) => {
     }
 }
 
+apiMiddlewares.checkRequestForPrices = (req,res, next) => {
+    
+}
 module.exports = apiMiddlewares
