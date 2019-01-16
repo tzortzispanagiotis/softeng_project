@@ -32,7 +32,7 @@ const Shop = sequelize.import('./shops.js')
 //Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId' });
 //Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' });
 
-
+  
 User.sync({ force: true }).then(() => {
     var x = {
         username: 'Nick',
