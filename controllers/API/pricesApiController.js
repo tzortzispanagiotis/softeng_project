@@ -1,11 +1,15 @@
-const pricesApiController = {},
-      db                   = require('../../database/connect'),
+const pricesApiController   = {},
+      db                    = require('../../database/connect'),
       Op                    = db.sequelizeConnection.Op,
-      user = db.User;
+      User                  = db.User,
+      Product               = db.Product,
+      Shop                  = db.Shop,
+      distanceFunction      = require('./diastance');
 
 pricesApiController.getAllAction = (req, res) => {
-    var whereClause = {}
-    var searchParams = {}
+    var whereClause = {} //here we will build where clause for sequelize
+    var searchParams = {} //here is the final JSON for input on sequelize
+    
 
     var params = {
         start: parseInt(req.query.start) || 0,
@@ -21,6 +25,19 @@ pricesApiController.getAllAction = (req, res) => {
         sort: req.query.sort || 'id|DESC'
     }
     
+    includeClause = 
+        [
+            {
+                model: Product, 
+                attributes: ['name','tags']
+            },
+            {
+                model: Shop, 
+                attributes: ['name','address','longtitude','latitude', 'tags']
+            }
+        ]
+    
+
     shopIDs = []
     if (params.shops) { 
         for (var i in params.shops){
@@ -41,6 +58,7 @@ pricesApiController.getAllAction = (req, res) => {
 
 
     searchParams = {
+        include: includeClause,
         offset: params.start, 
         limit: params.count,
         where: whereClause
