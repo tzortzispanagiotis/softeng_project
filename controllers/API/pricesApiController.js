@@ -29,7 +29,7 @@ pricesApiController.getAllAction = (req, res) => {
         [
             {
                 model: Product, 
-                attributes: ['name','tags']
+                attributes: ['name','description', 'category','tags']
             },
             {
                 model: Shop, 

@@ -25,10 +25,11 @@ const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
 
+  
 Price.belongsTo(User, { onDelete: 'CASCADE', hooks:false});
 Price.belongsTo(Product, { onDelete: 'CASCADE', hooks:false});
 Price.belongsTo(Shop, { onDelete: 'CASCADE', hooks:false});
-  
+
 User.sync({ force: true }).then(() => {
     var x = {
         username: 'Nick',
@@ -86,16 +87,29 @@ Product.sync({force: true}).then(() => {
     Product.create(x4)
 })
 
-// Price.sync({ force: false }).then(() => {
-//     // var x5={
-//     //     productId:1,
-//     //     shopId:1,
-//     //     price:1.75 ,
-//     //     date:'1/1/2019'
 
-//     // }
-//     // Price.create(x5)
-// })
+
+Price.sync({ force: true }).then(() => {
+    var x5={
+        productId:1,
+        shopId:1,
+        userId:1,
+        price:1.75 ,
+        date:'1/1/2019'
+
+    }
+    Price.create(x5)
+    var x6 = {
+        productId:2,
+        shopId:2,
+        userId:2,
+        price:1.65,
+        date:'1/1/2018'
+    }
+    Price.create(x6)
+})
+
+
 
 
 
