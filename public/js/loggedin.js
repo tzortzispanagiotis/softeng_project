@@ -9,7 +9,7 @@ function show_loggedin(){
     $("#login").html('<a href="">Αποσυνδεση</a>').attr("name","logout");
   }
   else {
-    $("#login").html('<a href="">Login or Register</a>').attr("name","login");
+    $("#login").html('<a href="">Συνδεσου</a>').attr("name","login");
     $("#loggedin").remove();
   }
 }
