@@ -25,8 +25,14 @@ const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
 
+<<<<<<< HEAD
 //Shop.hasMany(Price, { foreignKey: 'shopId', sourceKey: 'shopId' });
 //Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId' });
+=======
+//Shop.belongsToMany(Product, { through: Price, foreignKey: 'shopId' ,otherKey:'productId' ,onDelete: 'CASCADE'});
+//Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId',onDelete: 'CASCADE' });
+//Product.belongsToMany(Shop, { through: Price, foreignKey: 'productId' ,otherKey:'shopId' ,onDelete: 'CASCADE'});
+>>>>>>> api-patches
 
 //Product.hasMany(Price, { foreignKey: 'productId', sourceKey: 'productId' });
 //Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' });
@@ -49,7 +55,7 @@ User.sync({ force: true }).then(() => {
     User.create(y);
 })
 
-Shop.sync().then(() => {
+Shop.sync({force : true}).then(() => {
     var x1 = {
         name: 'VENZINAREMUNIA',
         address: '43 Venzina Street',
@@ -59,7 +65,7 @@ Shop.sync().then(() => {
         withdrawn: false
     }
     var x2 = {
-        name: 'VENZINAREMUNIAA',
+        name: 'IOU',
         address: '43 Venzina Street',
         longtitude: '21.7261374',
         latitude: '38.2391013',
@@ -70,7 +76,7 @@ Shop.sync().then(() => {
     Shop.create(x2)
 })
 
-Product.sync().then(() => {
+Product.sync({force: true}).then(() => {
     var x3 = {
         name: 'AMOLIVDI',
         description: 'LOL',
@@ -89,16 +95,16 @@ Product.sync().then(() => {
     Product.create(x4)
 })
 
-Price.sync({ force: true }).then(() => {
-    var x5={
-        productId:1,
-        shopId:1,
-        price:1.75 ,
-        date:'1/1/2019'
+// Price.sync({ force: false }).then(() => {
+//     // var x5={
+//     //     productId:1,
+//     //     shopId:1,
+//     //     price:1.75 ,
+//     //     date:'1/1/2019'
 
-    }
-    Price.create(x5)
-})
+//     // }
+//     // Price.create(x5)
+// })
 
 
 

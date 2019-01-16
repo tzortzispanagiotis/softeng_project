@@ -1,27 +1,36 @@
-const shopApiController = {}
-const db= require('../../database/connect')
+const shopApiController = {},
+      db                = require('../../database/connect');
 
 shopApiController.getAllAction = (req, res) => {
+    var whereClause = {}
+    var searchParams = {}
+
     var params = {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,
         status: req.query.status || 'ACTIVE',
         sort: req.query.sort || 'id|DESC'
     }
-    var withdrawn= {} ; 
 
-    if (params.status=='Active'){
-        withdrawn:true}
-    else if (params.status=='Withdrawn'){
-        withdrawn:false
+    if (params.status == 'ACTIVE') {
+        whereClause = {
+            withdrawn: false
+        }
     }
-    findallparam = {
-        start:params.start ,
-        count:params.count , 
-        where:withdrawn
+    else if (params.status == 'WITHDRAWN') {
+        whereClause = {
+            withdrawn: true
+        }
     }
-    
-    db.Shop.findAll(findallparam).then(foundShops => {
+
+    searchParams = {
+        offset: params.start, 
+        limit: params.count,
+        where: whereClause
+    }
+
+    db.Shop.findAll(searchParams)
+    .then(foundShops => {
         var shops= [];
         var total = 0;
         foundShops.forEach(foundShop => {
@@ -38,8 +47,8 @@ shopApiController.getAllAction = (req, res) => {
             total++;
         })
         res.json({
-            start: findallparam.offset,
-            count: findallparam.limit,
+            start: searchParams.offset,
+            count: searchParams.limit,
             total: total,
             shops: shops
 
@@ -66,9 +75,7 @@ shopApiController.getOneAction = (req, res) => {
 }
 
 shopApiController.createAction = (req, res) => {
-    
     var newShops = req.params.x
-
     db.Shop.create(newShops).then(newShop => {
     var tags = newShop.tags.split(",")
         res.json({
@@ -83,46 +90,36 @@ shopApiController.createAction = (req, res) => {
     })
 }
 
-
 shopApiController.partialUpdateAction = (req,res) => {  
     var updatedShop ={}
     db.Shop.findOne({where: {ShopId: req.params.id}})
     .then(found => { //osa pedia den exoun oristei ek neou krataw ta palia
         if (req.body.name== null){
             updatedShop.name= found.name
-        }
-        else{
+        } else {
              updatedShop.name= req.body.name
-            }
+        }
         if (req.body.address==null){
             updatedShop.address= found.address
-        }
-        else{
+        } else {
             updatedShop.address= req.body.address
-           }
+        }
         if (req.body.longtitude==null){
             updatedShop.longtitude= found.longtitude
-        }
-        else{
+        } else {
             updatedShop.longtitude= req.body.longtitude
-           }
+        }
         if (req.body.latitude==null){
             updatedShop.latitude= found.latitude
-        }
-        else{
+        } else {
             updatedShop.latitude= req.body.latitude
-           }
+        }
         if (req.body.tags==null){
             updatedShop.tags= found.tags
-        }
-        else{
+        } else { 
             updatedShop.tags= req.body.tags
-           }
+        }
         found.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags']}) //kanw update
-
-    //db.Shop.findOne({where: {shopId: req.params.id}}) //ta emfanizw
-    //.then(found => {
-       // var tags = found.tags.split(",")
         res.json({
             id: req.params.id,
             name: updatedShop.name,
@@ -130,25 +127,17 @@ shopApiController.partialUpdateAction = (req,res) => {
             longtitude: updatedShop.longtitude,
             latitude:updatedShop.latitude, 
             tags: updatedShop.tags,
-            withdrawn: updatedShop.withdrawn
-
-    
+            withdrawn: updatedShop.withdrawn    
         })
     })
-
 }
 
 
 shopApiController.fullUpdate = (req,res) => {  
     var updatedShop = req.params.x
     db.Shop.findOne({where: {ShopId: req.params.id}})
-    .then(found => {
-       
+    .then(found => { 
         found.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags']}) //kanw update
-    
-    //db.Shop.findOne({where: {shopId: req.params.id}}) //ta emfanizw
-    //.then(found => {
-       // var tags = found.tags.split(",")
         res.json({
             id: req.params.id,
             name: updatedShop.name,
@@ -157,29 +146,33 @@ shopApiController.fullUpdate = (req,res) => {
             latitude:updatedShop.latitude, 
             tags: updatedShop.tags,
             withdrawn: updatedShop.withdrawn
-
-    
         })
     })
-
 } 
+
 shopApiController.deleteAction = (req, res) => {
-     var user = req.decoded.id
-     console.log(user)
-     db.Shops.findOne({where: {shopId:req.params.id}})
-     .then(found => {
-         user.findOne({where: {userId: user}})
-         .then(found => {
-             if (found.role == 'ADMIN') {
-                 found.destroy()
-                 res.json({message: 'OK'})
-             }
-             else {
-                 found.withdrawn = true
-                 res.json({message: 'OK'})
-             }
-         })
-     })
+    var User = req.decoded.id
+    db.Shop.findOne({where: {shopId:req.params.id}})
+    .then(foundShop => {
+        db.User.findOne({where: {userId: User}})
+        .then(found => {
+            if (found.role == 'ADMIN') {
+                console.log(found.role)
+                foundShop.destroy()
+                res.json({message: 'OK'})
+            }
+            else {
+                var updatedShop = {}
+                updatedShop.withdrawn = true
+                updatedShop.name = foundShop.name
+                updatedShop.description = foundShop.description
+                updatedShop.category = foundShop.category
+                updatedShop.tags = foundShop.tags
+                foundShop.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags', 'withdrawn']}) //kanw update
+                res.json({message: 'OK'})
+            }
+        })
+    })
 }
 
 module.exports = shopApiController;
