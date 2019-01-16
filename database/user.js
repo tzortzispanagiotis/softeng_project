@@ -22,6 +22,12 @@ module.exports = function(sequelize, DataTypes) {
         role:{
             type:DataTypes.ENUM('ADMIN','USER'),
             allowNull:false
+        }, 
+        invalid_info: {
+            type:DataTypes.INTEGER, 
+            allowNull: false,
+            defaultValue: 0 
+
         }
     });
 
