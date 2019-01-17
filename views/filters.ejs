@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Φιλτρα</title>
-    <link rel="stylesheet" href="/static/css/main.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+    <link href="/static/css/navbar.css" rel="stylesheet" />
+    <link href="/static/css/footer.css" rel= "stylesheet" />
     <link rel="stylesheet" href="/static/css/filters.css">
 </head>
 <body>
+  <% include partials/navbar %>
   <div class="filterrow" name="container">
     <div class="filtercolumn1">
         <div class="filterTitle">
           <div >
+            <p><b class="filterb">Φίλτρα Αναζήτησης</b></p>
           <b value="">Μέγιστη Τιμή: <span id="showval"></span></b>
             <div class="slidecontainer">
               <input type="range" min="" max="" value="" class="slider" id="myRange">
@@ -34,5 +39,6 @@
       crossorigin="anonymous">
   </script>
   <script type="text/javascript" src="/static/js/filters.js"></script>
+  <% include partials/footer %>
 </body>
 </html>

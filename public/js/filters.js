@@ -25,7 +25,7 @@ function price_range() {
          }
          slider.attr("min",min_price);
          slider.attr("max",max_price);
-         slider.attr("value",(min_price+max_price)/2);
+         slider.attr("value",max_price);
          output.html(slider.attr("value"));
        },
        error: function(data,status) {
