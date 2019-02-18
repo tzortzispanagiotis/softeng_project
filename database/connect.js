@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const Credentials = require("../configurations/credentials.js"); 
 const bcrypt = require("bcryptjs")
+let  myinit  = require("../database/database_init.js");
 
 const sequelize = new Sequelize(Credentials.database.db_name, Credentials.database.username, Credentials.database.password, {
     host: Credentials.host,
@@ -33,7 +34,8 @@ const Shop = sequelize.import('./shops.js')
 //Price.belongsTo(Product, { foreignKey: 'productId', targetKey: 'productId' });
 
   
-User.sync({ force: true }).then(() => {
+User.sync({force: true})
+    { force: true }).then(() => {
     var x = {
         username: 'Nick',
         password: bcrypt.hashSync('Cave', 10),
@@ -50,7 +52,7 @@ User.sync({ force: true }).then(() => {
     User.create(y);
 })
 
-Shop.sync({force : true}).then(() => {
+Shop.sync({force : true}){force : true}).then(() => {
     var x1 = {
         name: 'VENZINAREMUNIA',
         address: '43 Venzina Street',
@@ -71,7 +73,7 @@ Shop.sync({force : true}).then(() => {
     Shop.create(x2)
 })
 
-Product.sync({force: true}).then(() => {
+Product.sync({force: true}) {force: true}).then(() => {
     var x3 = {
         name: 'AMOLIVDI',
         description: 'LOL',
@@ -90,7 +92,8 @@ Product.sync({force: true}).then(() => {
     Product.create(x4)
 })
 
-// Price.sync({ force: false }).then(() => {
+
+ Price.sync({ force: false }).then(() => {
 //     // var x5={
 //     //     productId:1,
 //     //     shopId:1,
@@ -99,9 +102,9 @@ Product.sync({force: true}).then(() => {
 
 //     // }
 //     // Price.create(x5)
-// })
+// }) 
 
-
+Price.sync({ force: false })
 
 
 var db = {
@@ -111,5 +114,4 @@ var db = {
     Shop: Shop,
     Price: Price
 }
-
 module.exports = db;

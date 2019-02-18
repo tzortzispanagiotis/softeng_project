@@ -4,6 +4,14 @@ const express     = require('express'),
       methodOverride = require("method-override"),
       apiMiddlewares = require("./middlewares/apiMiddlewares"),
       db          = require("./database/connect");
+let  myinit  = require("./database/database_init.js");
+var fs = require('fs')
+  , https = require('https');
+
+var options = {
+    key:    fs.readFileSync("../server.key"),
+    cert:   fs.readFileSync("../server.cert"),
+};
 
 
 // set view engine as ejs to omit .ejs when rendering a view
@@ -43,6 +51,8 @@ app.get("/getall", (req, res) => {
 })
 
 // Initialize the server
-app.listen(process.env.PORT || 8765, () => {
+
+var server = https.createServer(options, app).listen(8999, function(){
   console.log("Hello World");
 })
+
