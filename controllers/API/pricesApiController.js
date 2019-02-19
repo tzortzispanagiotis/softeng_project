@@ -10,7 +10,6 @@ pricesApiController.getAllAction = (req, res) => {
     var whereClause = {} //here we will build where clause for sequelize
     var searchParams = {} //here is the final JSON for input on sequelize
     
-
     var params = {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,

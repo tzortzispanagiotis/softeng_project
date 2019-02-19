@@ -34,6 +34,6 @@ app.get("/getall", (req, res) => {
 })
 
 // Initialize the server
-app.listen(process.env.PORT || 8765, () => {
+app.listen(process.env.PORT || 8700, () => {
   console.log("Hello World");
 })

@@ -21,11 +21,10 @@ sequelize.authenticate()
 })
 
 const User = sequelize.import('./user.js')
-const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
+const Price = sequelize.import('./prices.js')
 
-  
 Price.belongsTo(User, { onDelete: 'CASCADE', hooks:false});
 Price.belongsTo(Product, { onDelete: 'CASCADE', hooks:false});
 Price.belongsTo(Shop, { onDelete: 'CASCADE', hooks:false});
@@ -91,18 +90,18 @@ Product.sync({force: true}).then(() => {
 
 Price.sync({ force: true }).then(() => {
     var x5={
-        productId:1,
-        shopId:1,
-        userId:1,
+        productProductId:1,
+        shopShopId:1,
+        userUserId:1,
         price:1.75 ,
         date:'1/1/2019'
 
     }
     Price.create(x5)
     var x6 = {
-        productId:2,
-        shopId:2,
-        userId:2,
+        productProductId:2,
+        shopShopId:2,
+        userUserId:2,
         price:1.65,
         date:'1/1/2018'
     }
