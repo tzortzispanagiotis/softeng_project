@@ -9,7 +9,7 @@ var fs = require('fs')
   , https = require('https');
 
 var options = {
-    key:    fs.readFileSync("../server.key"),
+    key:    fs.readFileSync("../server.key"), //mono gia ton maki oi alloi ta dika sas
     cert:   fs.readFileSync("../server.cert"),
 };
 
@@ -52,7 +52,7 @@ app.get("/getall", (req, res) => {
 
 // Initialize the server
 
-var server = https.createServer(options, app).listen(8999, function(){
+var server = https.createServer(options, app).listen(6590, function(){
   console.log("Hello World");
 })
 
