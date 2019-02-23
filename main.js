@@ -3,14 +3,14 @@ const express     = require('express'),
       bodyParser  = require("body-parser"),
       methodOverride = require("method-override"),
       apiMiddlewares = require("./middlewares/apiMiddlewares"),
-      db          = require("./database/connect");
-let  myinit  = require("./database/database_init.js");
-var fs = require('fs')
-  , https = require('https');
+      db          = require("./database/connect"),
+      myinit  = require("./database/database_init.js"),
+      fs = require('fs'),
+      https = require('https');
 
 var options = {
-    key:    fs.readFileSync("../server.key"), //mono gia ton maki oi alloi ta dika sas
-    cert:   fs.readFileSync("../server.cert"),
+    key:    fs.readFileSync("./certificates_for_https/server.key"), //mono gia ton maki oi alloi ta dika sas
+    cert:   fs.readFileSync("./certificates_for_https/server.cert"),
 };
 
 
