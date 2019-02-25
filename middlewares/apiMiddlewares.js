@@ -27,7 +27,7 @@ apiMiddlewares.checkRequestForProduct = (req,res, next) => {
             name: req.body.name,
             description: req.body.description,
             category: req.body.category,
-            tags: req.body.tags,
+            productTags: req.body.tags,
             withdrawn: false
         }
         req.params.x = x
@@ -56,7 +56,7 @@ apiMiddlewares.checkRequestForShop = (req,res, next) => {
             address: req.body.address,
             longtitude: req.body.longtitude,
             latitude: req.body.latitude,
-            tags: req.body.tags,
+            shopTags: req.body.tags,
             withdrawn: false
         }
         req.params.x = x

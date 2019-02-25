@@ -1,14 +1,16 @@
 const pricesApiController   = {},
-      db                    = require('../../database/connect'),
+      db                    = require('../../database/connect'), //require sequelize connection
       Op                    = db.sequelizeConnection.Op,
       User                  = db.User,
       Product               = db.Product,
       Shop                  = db.Shop,
-      distanceFunction      = require('./diastance');
+      Price                 = db.Price,
+      distanceFunction      = require('./diastance'); // function that calculates distance
 
 pricesApiController.getAllAction = (req, res) => {
-    var whereClause = {} //here we will build where clause for sequelize
-    var searchParams = {} //here is the final JSON for input on sequelize
+    var whereClause = {}    // here we will build where clause for sequelize
+    var includeClause = {}  // include clause for sequelize
+    var searchParams = {}   // here is the final JSON for input on sequelize
     
     var params = {
         start: parseInt(req.query.start) || 0,
@@ -16,11 +18,11 @@ pricesApiController.getAllAction = (req, res) => {
         geoDist: req.query.geoDist || null,
         geoLng :req.query.geoLng || null,
         geoLat : req.query.geoLat || null, 
-        dateFrom : req.query.dateFrom , 
-        dateTo : req.query.dateTo , 
-        shops : req.query.shopIds , 
-        products : req.query.productIds , 
-        tags : req.query.tags , 
+        dateFrom : req.query.dateFrom || null, 
+        dateTo : req.query.dateTo || null, 
+        shops : req.query.shopIds || null, 
+        products : req.query.productIds || null, 
+        tags : req.query.tags || null, 
         sort: req.query.sort || 'id|DESC'
     }
     
@@ -37,7 +39,7 @@ pricesApiController.getAllAction = (req, res) => {
         ]
     
 
-    shopIDs = []
+    shopIDs = [] //CHECK IF WORKS
     if (params.shops) { 
         for (var i in params.shops){
             shopIDs.push(parseInt(params.shops[i]))
@@ -53,27 +55,43 @@ pricesApiController.getAllAction = (req, res) => {
         whereClause.productId = {[Op.or] : productIDs}
     }
 
+    tags = []
+    if (params.tags) {
+        for (var i in params.tags){
+            tags.push(parseInt(params.tags[i]))
+        }
+        whereClause.productId = {[Op.or] : productIDs}
+    }
 
+    sort = params.sort.split('|')
 
+    date = new Date()
+    date.setHours(2,0,0,0) //Greek Time Zone
+    dateFrom = date
+    dateTo = date
+
+    if (params.dateFrom && params.dateTo){
+        dateFrom = new Date(req.query.dateFrom)
+        dateFrom.setHours(2,0,0,0)
+        dateTo = new Date (req.query.dateTo)
+        dateTo.setHours(2,0,0,0)
+    }
+
+    whereClause.date = {[Op.and]: {[Op.gte]: dateFrom, [Op.lte]: dateTo}}
+    
 
     searchParams = {
         include: includeClause,
         offset: params.start, 
         limit: params.count,
-        where: whereClause
+        where: whereClause,
+        order: [[sort[0],sort[1]]]
     }
 
+    Price.findAll(searchParams).then(foundPrices => {
 
-    // }
-    // if ((dateFrom==null) && (dateTo==null)) {
-    //      params.dateFrom =  sequelize.now, //NA TO VALW PALIA XRONIKI STIGMI GIA NA EINAI VALID I ANAZITISIsequelize.literal('CURRENT_TIMESTAMP') ; 
-    //      params.dateTo = sequelize.now//sequelize.literal('CURRENT_TIMESTAMP');
-    // }
-    // findallparam = {
-    //     start:params.start ,
-    //     count:params.count 
-    // }
-
+    })
+    
 // db.Price.findAndCountAll({
 //     include : {
 //         model : db.Shop , 
