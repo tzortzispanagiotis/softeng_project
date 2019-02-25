@@ -18,17 +18,14 @@ shopApiController.getAllAction = (req, res) => {
     temp = req.query.sort
     if (temp){       
         sort = temp.split('|')
-        console.log(sort)
         // if not ok, restore default
         if (sort[0] == 'id') sort[0] = 'shopId'
         if ((sort[0] != 'id') || (sort[0] != 'name')) {
             sort[0] = 'shopId'
         }
         if (sort[1] != 'ASC') {
-            console.log(sort)
             sort[1] = 'DESC'
         }
-        console.log(sort)
     }  
 
     if (params.status == 'ACTIVE') {

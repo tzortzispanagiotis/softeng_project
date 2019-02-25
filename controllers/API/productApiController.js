@@ -11,7 +11,23 @@ productApiController.getAllAction = (req, res) => {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,
         status: req.query.status || 'ACTIVE',
-        sort: req.query.sort || 'id|DESC'
+    }
+
+    var sort= {}
+    sort[0] = 'productId'
+    sort[1] = 'DESC'
+
+    temp = req.query.sort
+    if (temp){       
+        sort = temp.split('|')
+        // if not ok, restore default
+        if (sort[0] == 'id') sort[0] = 'productId'
+        if ((sort[0] != 'id') || (sort[0] != 'name')) {
+            sort[0] = 'productId'
+        }
+        if (sort[1] != 'ASC') {
+            sort[1] = 'DESC'
+        }
     }
 
     if (params.status == 'ACTIVE') {
@@ -28,7 +44,8 @@ productApiController.getAllAction = (req, res) => {
     searchParams = {
         offset: params.start, 
         limit: params.count,
-        where: whereClause
+        where: whereClause,
+        order: [[sort[0],sort[1]]]
     }
 
     Product.findAll(searchParams)
