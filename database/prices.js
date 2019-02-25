@@ -1,6 +1,11 @@
 module.exports = function(sequelize, DataTypes) {
 
     const Prices = sequelize.define('prices', {
+
+        userId: {
+            type: DataTypes.INTEGER,
+            allownull:false
+        },
         productId: {
             type: DataTypes.INTEGER,
             //primaryKey: true,

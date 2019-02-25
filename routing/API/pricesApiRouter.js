@@ -5,4 +5,5 @@ router.get('/', pricesApiController.getAllAction)
 
 router.get('/:id', pricesApiController.getOneAction)
 
+
 module.exports = router;

@@ -27,7 +27,7 @@
     "mariadb": "^2.0.2-rc",
     "method-override": "^3.0.0",
     "mysql2": "^1.6.4",
-    "nodemon": "^1.18.9",
+    "nodemon": "^1.18.10",
     "sequelize": "^5.0.0-beta.15"
   }
 }
