@@ -23,9 +23,24 @@ pricesApiController.getAllAction = (req, res) => {
         shops : req.query.shopIds || null, 
         products : req.query.productIds || null, 
         tags : req.query.tags || null, 
-        sort: req.query.sort || 'id|DESC'
     }
     
+    var sort= {}
+    sort[0] = 'price'
+    sort[1] = 'ASC'
+
+    temp = req.query.sort
+    if (temp){       
+        sort = temp.split('|')
+        // if not ok, restore default
+        if ((sort[0] != 'price') || (sort[0] != 'date')) {
+            sort[0] = 'price'
+        }
+        if (sort[1] != 'ASC') {
+            sort[1] = 'DESC'
+        }
+    }
+
     includeClause = 
         [
             {
@@ -60,10 +75,9 @@ pricesApiController.getAllAction = (req, res) => {
         for (var i in params.tags){
             tags.push(parseInt(params.tags[i]))
         }
-        whereClause.productId = {[Op.or] : productIDs}
+        whereClause.productTags = {[Op.or]: {[Op.or] : tags}}
+        //SOS NA TO FTIAKSW
     }
-
-    sort = params.sort.split('|')
 
     date = new Date()
     date.setHours(2,0,0,0) //Greek Time Zone
