@@ -29,6 +29,11 @@ module.exports = function(sequelize, DataTypes) {
         date: {
             type: DataTypes.DATE,
             allowNull: false
+        },
+        reportCount: {
+            type:DataTypes.INTEGER, 
+            allowNull:false, 
+            defaultValue: 0
         }
     },
     {
