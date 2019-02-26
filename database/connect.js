@@ -41,7 +41,7 @@ const Shop = sequelize.import('./shops.js')
 //          role: 'USER'
 //      }
 //      User.create(x);
-//      User.create(y); })
+//      User.create(y); }).then(()=>{ User.bulkCreate(myinit.users)})
 
 //      Shop.sync({force : true}).then(() => {
 //          var x1 = {
@@ -62,7 +62,8 @@ const Shop = sequelize.import('./shops.js')
 //          }
 //          Shop.create(x1)
 //          Shop.create(x2) 
-//          }).then(() => {
+//          }).then(() => {  Shop.bulkCreate(myinit.shops)})
+
 //              Product.sync({force: true}).then(() => {
 //                  var x3 = {
 //                      name: 'AMOLIVDI',
@@ -80,7 +81,8 @@ const Shop = sequelize.import('./shops.js')
 //                  }
 //                  Product.create(x3)
 //                  Product.create(x4) 
-//                   }) }).then(()  => {
+//                   }).then(()  => { Product.bulkCreate(myinit.products)})
+
 //                      Price.sync({ force: true }).then(() => {
                    
 //                          var x5={
@@ -94,9 +96,12 @@ const Shop = sequelize.import('./shops.js')
 //                             }
 //                             Price.create(x5)
 //                          })
+//                     .then(()=>{
+//                      Price.bulkCreate(myinit.prices)
 //                      });
 
-        
+ 
+
 Price.sync({ force: true }).then(() => {
                    
         var x5={
@@ -109,13 +114,16 @@ Price.sync({ force: true }).then(() => {
             
             }
             Price.create(x5)
-        })    
+        })
                  
 Product.belongsToMany(Shop , {through: 'prices',foreignKey: 'productId',onDelete: 'cascade' });
 Shop.belongsToMany(Product, { through: 'prices',foreignKey: 'shopId' ,onDelete: 'cascade'});
 
 User.hasMany(Price, { foreignKey: 'userId', sourceKey: 'userId' });
 Price.belongsTo(User, { foreignKey: 'userId', targetKey: 'userId' });
+
+
+
 var db = {
     sequelizeConnection: sequelize,
     User: User,

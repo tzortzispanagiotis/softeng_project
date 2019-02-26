@@ -52,7 +52,7 @@ app.get("/getall", (req, res) => {
 
 // Initialize the server
 
-var server = https.createServer(options, app).listen(7766, function(){
+var server = https.createServer(options, app).listen(6888, function(){
   console.log("Hello World");
 })
 
