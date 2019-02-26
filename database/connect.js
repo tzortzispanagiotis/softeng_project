@@ -47,7 +47,7 @@ const invalidTokens = sequelize.import('./invalidTokens.js')
 // // Price.sync({ force: false }).then(() => {
 // //     console.log("price model created successfully")})
 // //     .then(()=>   { Price.bulkCreate(myinit.prices)})
-
+ 
 // invalidTokens.sync({force : true}).then(() => {
 //         console.log("created invalid tokens model")})
     
@@ -59,14 +59,14 @@ const invalidTokens = sequelize.import('./invalidTokens.js')
 // User.hasMany(Price, { foreignKey: 'userId', sourceKey: 'userId' });
 // Price.belongsTo(User, { foreignKey: 'userId', targetKey: 'userId' });
 
-// Price.sync({ force: true }).then(() => {
-//     console.log("price model created successfully")})
-//     .then(()=>   { Price.bulkCreate(myinit.prices)})
+Price.belongsTo(Shop, {foreignKey: 'shopId', onDelete: 'cascade'})
+Price.belongsTo(Product, {foreignKey: 'productId', onDelete: 'cascade'})
+Price.belongsTo(User, {foreignKey: 'userId', onDelete: 'cascade'})
+
+Price.sync({ force: true }).then(() => {
+    console.log("price model created successfully")})
+    .then(()=>   { Price.bulkCreate(myinit.prices)})
                  
-
-
-
-
 
 var db = {
     sequelizeConnection: sequelize,

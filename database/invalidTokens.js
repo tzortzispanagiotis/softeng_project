@@ -3,10 +3,11 @@ module.exports = function(sequelize, DataTypes) {
     const invalidTokens = sequelize.define('invalidTokens', {
         tokenId: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         token: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull:false
         }
     },

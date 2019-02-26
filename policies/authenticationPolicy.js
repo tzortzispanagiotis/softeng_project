@@ -1,6 +1,8 @@
 const Joi = require('joi'),
       jwt = require('jsonwebtoken'),
-      config = require('../configurations/credentials');
+      config = require('../configurations/credentials'),
+      database = require('../database/connect'),
+      invalidTokens = database.invalidTokens;
 
 module.exports = {
     login (req, res, next){
@@ -40,23 +42,30 @@ module.exports = {
         }
       
         if (token) {
-          jwt.verify(token, config.jwt_secret, (err, decoded) => {
-            if (err) {
-              next();
-              return res.json({
-                success: false,
-                message: 'Token is not valid'
-              });
-            } else {
-              req.decoded = decoded;
-              next();
-            }
-          });
-        } else {
+          invalidTokens.findOne({where: {token: token}}).then(found => {
+          if (found) {
+            res.status(400).json({success : false, message: "invalid token"})
+          }
+          else {
+            jwt.verify(token, config.jwt_secret, (err, decoded) => {
+              if (err) {
+                next();
+                return res.json({
+                  success: false,
+                  message: 'Token is not valid'
+                });
+              } else {
+                req.decoded = decoded;
+                next();
+              }
+            });
+          }
+        })}
+        else {
           return res.json({
             success: false,
             message: 'Auth token is not supplied'
           });
         }
-      }
+    }
 }

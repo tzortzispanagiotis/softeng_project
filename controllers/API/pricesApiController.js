@@ -1,6 +1,7 @@
 const pricesApiController   = {},
       db                    = require('../../database/connect'), //require sequelize connection
-      Op                    = db.sequelizeConnection.Op,
+      sequelize             = require('sequelize')
+      Op                    = sequelize.Op,
       User                  = db.User,
       Product               = db.Product,
       Shop                  = db.Shop,
@@ -20,8 +21,8 @@ pricesApiController.getAllAction = (req, res) => {
         geoLat : req.query.geoLat || null, 
         dateFrom : req.query.dateFrom || null, 
         dateTo : req.query.dateTo || null, 
-        shops : req.query.shopIds || null, 
-        products : req.query.productIds || null, 
+        shops : req.query.shopId || null, 
+        products : req.query.productId || null, 
         tags : req.query.tags || null, 
     }
     
@@ -45,35 +46,51 @@ pricesApiController.getAllAction = (req, res) => {
         [
             {
                 model: Product, 
-                attributes: ['name','description', 'category','tags']
+                attributes: ['name','description', 'category','productTags']
             },
             {
                 model: Shop, 
-                attributes: ['name','address','longtitude','latitude', 'tags']
+                attributes: ['name','address','longtitude','latitude', 'shopTags']
             }
         ]
     
-
+    
     shopIDs = [] //CHECK IF WORKS
     if (params.shops) { 
-        for (var i in params.shops){
-            shopIDs.push(parseInt(params.shops[i]))
+        if (Array.isArray(params.shops)) {
+            for (var i in params.shops) {
+                console.log(params.shops[i])
+                shopIDs.push(parseInt(params.shops[i]))
+            }
+        }
+        else {
+            shopIDs.push(parseInt(params.shops))
         }
         whereClause.shopId = {[Op.or] : shopIDs}
     }
 
     productIDs = []
     if (params.products) {
-        for (var i in params.shops){
-            productIDs.push(parseInt(params.products[i]))
+        if (Array.isArray(params.products)) {
+            for (var i in params.products){
+                productIDs.push(parseInt(params.products[i]))
+            }
+        }
+        else {
+            productIDs.push(parseInt(params.products))
         }
         whereClause.productId = {[Op.or] : productIDs}
     }
 
     tags = []
     if (params.tags) {
-        for (var i in params.tags){
-            tags.push(parseInt(params.tags[i]))
+        if (Array.isArray(params.tags)) {
+            for (var i in params.tags){
+                tags.push(params.tags[i])
+            }
+        }
+        else {
+            tags.push(params.tags)
         }
         whereClause.productTags = {[Op.or]: {[Op.or] : tags}}
         //SOS NA TO FTIAKSW
@@ -91,8 +108,9 @@ pricesApiController.getAllAction = (req, res) => {
         dateTo.setHours(2,0,0,0)
     }
 
-    whereClause.date = {[Op.and]: {[Op.gte]: dateFrom, [Op.lte]: dateTo}}
-    
+    if (params.dateFrom) {
+        whereClause.date = {[Op.and]: {[Op.gte]: dateFrom, [Op.lte]: dateTo}}
+    }
 
     searchParams = {
         include: includeClause,
@@ -103,7 +121,7 @@ pricesApiController.getAllAction = (req, res) => {
     }
 
     Price.findAll(searchParams).then(foundPrices => {
-
+        res.json(foundPrices)
     })
     
 
