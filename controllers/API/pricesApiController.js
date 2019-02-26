@@ -54,7 +54,6 @@ pricesApiController.reportAction = (req,res) => {
                     updated.date=found.date ,
                     updated.price=found.price ,
                     updated.reportCount= found.reportCount +1
-
                     found.update(updated,{fields: ['userId','priceId','shopId','productId','date','price' , 'reportCount']}) //kanw update
             return updated;              
 }).then(updated1=>{
@@ -77,7 +76,7 @@ pricesApiController.reportAction = (req,res) => {
                         // })
     })
             })
-        }
+        } 
             updateprice(id1,res)
             res.json({
                 success:true  , 
