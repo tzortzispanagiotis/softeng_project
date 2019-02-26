@@ -4,6 +4,10 @@ const bcrypt = require("bcryptjs")
 let  myinit  = require("../database/database_init.js");
 
 const sequelize = new Sequelize(Credentials.database.db_name, Credentials.database.username, Credentials.database.password, {
+    define: {
+        charset: 'utf8',
+        collate: 'utf8_general_ci'
+    },
     host: Credentials.host,
     port: 3306,
     dialect: "mariadb" ,
@@ -28,47 +32,37 @@ const Price = sequelize.import('./prices.js')
 const invalidTokens = sequelize.import('./invalidTokens.js')
 
 
- User.sync({force: true}).then(() => {
-    console.log("user model created successfully")})
-    .then(()=>{ User.bulkCreate(myinit.users)})
+//  User.sync({force: true}).then(() => {
+//     console.log("user model created successfully")})
+//     .then(()=>{ User.bulkCreate(myinit.users)})
 
-Shop.sync({force : true}).then(() => {
-    console.log("shop model created successfully")})
-    .then(() => {  Shop.bulkCreate(myinit.shops)})
+// Shop.sync({force : true}).then(() => {
+//     console.log("shop model created successfully")})
+//     .then(() => {  Shop.bulkCreate(myinit.shops)})
 
-Product.sync({force: true}).then(() => { 
-    console.log("product model created successfully")})
-    .then(()  => { Product.bulkCreate(myinit.products)})
+// Product.sync({force: true}).then(() => { 
+//     console.log("product model created successfully")})
+//     .then(()  => { Product.bulkCreate(myinit.products)})
 
-Price.sync({ force: true }).then(() => {
-    console.log("price model created successfully")})
-    .then(()=>   { Price.bulkCreate(myinit.prices)})
+// // Price.sync({ force: false }).then(() => {
+// //     console.log("price model created successfully")})
+// //     .then(()=>   { Price.bulkCreate(myinit.prices)})
 
-invalidTokens.sync({force : true}).then(() => {
-        console.log("created invalid tokens model")})
+// invalidTokens.sync({force : true}).then(() => {
+//         console.log("created invalid tokens model")})
     
 
-// Price.sync({ force: true }).then(() => {
-                   
-//         var x5={
-//             userId:1,
-//             productId:1,
-//             shopId:1,
-//             price:1.75 ,
-//             date:'1/1/2019'
-                
-            
-//             }
-//             Price.create(x5)
-//         })
-                 
+
 // Product.belongsToMany(Shop , {through: 'prices',foreignKey: 'productId',onDelete: 'cascade' });
 // Shop.belongsToMany(Product, { through: 'prices',foreignKey: 'shopId' ,onDelete: 'cascade'});
 
 // User.hasMany(Price, { foreignKey: 'userId', sourceKey: 'userId' });
 // Price.belongsTo(User, { foreignKey: 'userId', targetKey: 'userId' });
 
-
+// Price.sync({ force: true }).then(() => {
+//     console.log("price model created successfully")})
+//     .then(()=>   { Price.bulkCreate(myinit.prices)})
+                 
 
 
 

@@ -106,38 +106,7 @@ pricesApiController.getAllAction = (req, res) => {
 
     })
     
-// db.Price.findAndCountAll({
-//     include : {
-//         model : db.Shop , 
-//         through : {
-//             where : {}
-//         } 
-//     }
 
-//     where = { shopId:  {[Op.in]: params.shops} , productId: {[Op.in]: params.products , date:{[Op.gt]:params.dateFrom , [Op.lt]:params.dateTo} } ,offset : params.start , limit :params.count}).then(found => {
-//     var prices= [];
-//     var total = 0;
-//     foundPrices = found.rows
-//     foundPrices.forEach(foundPrice => {
-        
-//         prices.push ({
-//             id: foundPrice.priceId,
-//             shopid: foundPrice.shopId,
-//             productid:foundPrice.productId,
-//             price: foundPrice.price,
-//             date: foundPrice.date,
-//             //withdrawn: foundPrice.withdrawn
-//         })
-//         //total++;
-//     })
-//     res.json({
-//         start: findallparam.offset,
-//         count: findallparam.limit,
-//         total: total,
-//         prices: prices
-
-//     })
-// })
 
 }
 

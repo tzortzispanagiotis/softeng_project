@@ -107,7 +107,6 @@ var productObj = [
             withdrawn: false
         },
         {
-            id: 1,
             name: 'DIESEL',
             description: 'ΠΕΤΡΕΛΕΟ ΚΙΝΗΣΗΣ',
             category: 'ΚΑΥΣΙΜΑ',
@@ -115,7 +114,6 @@ var productObj = [
             withdrawn: false
         },
         {
-            id: 1,
             name: 'ULTIMATE DIESEL',
             description: 'ΠΕΤΡΕΛΕΟ ΚΙΝΗΣΗΣ',
             category: 'ΚΑΥΣΙΜΑ',
@@ -123,7 +121,6 @@ var productObj = [
             withdrawn: false
         },
         {
-            id: 1,
             name: 'ΥΓΡΑΕΡΙΟ',
             description: 'ΑΕΡΙΟ ΚΙΝΗΣΗΣ',
             category: 'ΚΑΥΣΙΜΑ',
@@ -167,186 +164,46 @@ var productObj = [
             date:'1/1/2019',
         },
         {
-            userId: 1,
-            shopId: 2,
-            productId:1,
-            price: 1.211 , 
+            userId: 2,
+            shopId: 1,
+            productId:2,
+            price: 1.511 , 
+            date:'1/2/2019',
+        },
+        {
+            userId: 3,
+            shopId: 1,
+            productId:3,
+            price: 1.511 , 
             date:'1/1/2019',
-
         },
         {
             userId: 1,
             shopId: 3,
             productId:1,
-            price: 1.611 , 
-            date: '1/1/2019',
-        },
-        {
-            userId: 1,
-            shopId: 5,
-            productId:1,
-            price: 1.4, 
+            price: 1.511 , 
             date:'1/1/2019',
-
-        },
-        {
-            userId: 1,
-            shopId: 6,
-            productId:1,
-            price: 1.195, 
-            date:'1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 1,
-            productId: 2,
-            price: 1.484, 
-            date:'1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 1,
-            productId: 2,
-            price: 1.984, 
-            date:'1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 4,
-            productId: 2,
-            price: 1.384, 
-            date:'1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 8,
-            productId: 2,
-            price: 1.784, 
-            date:'1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 9,
-            productId: 2,
-            price: 1.584, 
-            date:'1/1/2019',
-
         },
         {
             userId: 1,
             shopId: 10,
-            productId: 2,
-            price: 1.333, 
-            date:'1/1/2019',
-
-        },
-        {
-            userId: 1,
-            shopId: 7,
-            productId: 2,
-            price: 1.666, 
-            date:'1/1/2019',
-
-        },
-        {
-            userId: 1,
-            shopId: 1,
-            productId:3,
-            price: 1.62 , 
-            date:'1/1/2019',
-        },
-        {
-            userId: 1,
-            shopId: 3,
-            productId:3,
-            price: 1.211 , 
-            date:'1/1/2019',
-
-        },
-        {
-            userId: 1,
-            shopId: 5,
             productId:1,
-            price: 1.19 , 
-            date:'1/1/2019' ,
-        },
-        {
-            userId: 1,
-            shopId: 4,
-            productId:3,
-            price: 1.4, 
+            price: 1.511 , 
             date:'1/1/2019',
-
-        },
-        {
-            userId: 1,
-            shopId: 6,
-            productId:4,
-            price: 1.195, 
-            date:'1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 1,
-            productId: 4,
-            price: 1.484, 
-            date:'1/1/2019',
-
         },
         {
             userId: 1,
             shopId: 1,
-            productId: 5,
-            price: 0.64, 
+            productId:5,
+            price: 1.511 , 
             date:'1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 4,
-            productId: 5,
-            price: 0.98, 
-            date:'1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 8,
-            productId: 4,
-            price: 1.784, 
-            date: '1/1/2019',
-
-        },
-
-        {
-            userId: 1,
-            shopId: 5,
-            productId: 5,
-            price: 0.77, 
-            date:'1/1/2019',
-
         },
         {
             userId: 1,
             shopId: 10,
-            productId: 5,
-            price: 0.57, 
+            productId:5,
+            price: 1.511 , 
             date:'1/1/2019',
-
         },
     ]
 
