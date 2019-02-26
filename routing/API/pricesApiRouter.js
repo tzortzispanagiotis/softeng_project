@@ -5,4 +5,5 @@ router.get('/', pricesApiController.getAllAction)
 
 router.get('/:id', pricesApiController.getOneAction)
 
+router.get('/report/:id',pricesApiController.reportAction)
 module.exports = router;

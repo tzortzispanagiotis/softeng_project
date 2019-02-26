@@ -17,16 +17,17 @@ authController.login = function (req,res) {
             bcrypt.compare(req.body.password, foundUser.password, (err, result) => {
                 if (err) throw err;
                 if (result === true) {
-                //   foundUser.update({
-                //     last_login: Date.now()
-                //   });
-                    var token = jwt.sign({ id: foundUser.userId }, config.jwt_secret, {
-                        expiresIn: 86400 // expires in 24 hours
-                    });
-
-                    res.status(200).send({ auth: true, token: token });
-                    
-                } 
+                    if (foundUser.invalidUser==true){
+                        res.status(400).json({success:false , 
+                        message:'Account suspended'})
+                    }
+                    else {    
+                        var token = jwt.sign({ id: foundUser.userId }, config.jwt_secret, {
+                            expiresIn: 86400 // expires in 24 hours
+                        });
+                        res.status(200).send({ auth: true, token: token });
+                    } 
+                }
                 else {            
                     res.status(401).send({ auth:false, token: null});
                 }

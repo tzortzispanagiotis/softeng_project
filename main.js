@@ -3,7 +3,15 @@ const express     = require('express'),
       bodyParser  = require("body-parser"),
       methodOverride = require("method-override"),
       apiMiddlewares = require("./middlewares/apiMiddlewares"),
-      db          = require("./database/connect");
+      db          = require("./database/connect"),
+      myinit  = require("./database/database_init.js"),
+      fs = require('fs'),
+      https = require('https');
+
+var options = {
+    key:    fs.readFileSync("./certificates_for_https/server.key"), //mono gia ton maki oi alloi ta dika sas
+    cert:   fs.readFileSync("./certificates_for_https/server.cert"),
+};
 
 
 // set view engine as ejs to omit .ejs when rendering a view
@@ -43,6 +51,8 @@ app.get("/getall", (req, res) => {
 })
 
 // Initialize the server
-app.listen(process.env.PORT || 8765, () => {
+
+var server = https.createServer(options, app).listen(6888, function(){
   console.log("Hello World");
 })
+

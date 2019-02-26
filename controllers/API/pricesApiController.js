@@ -1,7 +1,8 @@
 const pricesApiController = {},
       db                   = require('../../database/connect'),
       user = db.User;
-pricesApiController.getAllAction = (req, res) => {
+
+      pricesApiController.getAllAction = (req, res) => {
     var params = {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,
@@ -40,6 +41,49 @@ pricesApiController.getOneAction = (req, res) => {
     res.send("HELLO PRICES GETONE!!")
 }
 
-
-
+pricesApiController.reportAction = (req,res) => {
+    var updated={}
+    var id1 =req.params.id
+    function  updateprice(id,res){
+        db.Price.findOne({where: {priceId: id}}).then(found => {
+            //osa pedia den exoun oristei ek neou krataw ta palia
+                    updated.userId=found.userId
+                    updated.priceId= found.priceId ,
+                    updated.shopId=found.shopId ,
+                    updated.productId=found.productId ,
+                    updated.date=found.date ,
+                    updated.price=found.price ,
+                    updated.reportCount= found.reportCount +1
+                    found.update(updated,{fields: ['userId','priceId','shopId','productId','date','price' , 'reportCount']}) //kanw update
+            return updated;              
+}).then(updated1=>{
+       //var updated1= await updateprice (updated,id,res)
+        console.log(updated1)
+        var updated2={}
+        db.User.findOne({where: {userId: updated1.userId}}).then(found2 => {
+            //osa pedia den exoun oristei ek neou krataw ta palia
+                
+                    updated2.userId= found2.userId ,
+                    updated2.username=found2.username ,
+                    updated2.password=found2.password ,
+                    updated2.email=found2.email ,
+                    updated2.role=found2.role ,
+                    updated2.reportCount= found2.reportCount +1
+                    if (updated2.reportCount>=10) {updated2.invalidUser=true}
+                    else {updated2.invalidUser=false}
+                    found2.update(updated2,{fields: ['userId','username','password','email','role', 'reportCount' , 'invalidUser']}) //kanw update
+                        // res.json({
+                        //    success:true  , 
+                        //    message: "User was reported" 
+                        // })
+    })
+            })
+        } 
+            updateprice(id1,res)
+            res.json({
+                success:true  , 
+                message: "Report was filed" ,
+                
+             })
+    }
 module.exports = pricesApiController;

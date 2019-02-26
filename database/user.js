@@ -22,7 +22,18 @@ module.exports = function(sequelize, DataTypes) {
         role:{
             type:DataTypes.ENUM('ADMIN','USER'),
             allowNull:false
+        },
+        reportCount: {
+            type:DataTypes.INTEGER, 
+            allowNull:false, 
+            defaultValue: 0
+        },
+        invalidUser:{
+            type:DataTypes.BOOLEAN, 
+            allowNull:false , 
+            defaultValue:false 
         }
+
     });
 
     return User;
