@@ -9,8 +9,24 @@ shopApiController.getAllAction = (req, res) => {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,
         status: req.query.status || 'ACTIVE',
-        sort: req.query.sort || 'id|DESC'
     }
+
+    var sort= {}
+    sort[0] = 'shopId'
+    sort[1] = 'DESC'
+
+    temp = req.query.sort
+    if (temp){       
+        sort = temp.split('|')
+        // if not ok, restore default
+        if (sort[0] == 'id') sort[0] = 'shopId'
+        if ((sort[0] != 'id') || (sort[0] != 'name')) {
+            sort[0] = 'shopId'
+        }
+        if (sort[1] != 'ASC') {
+            sort[1] = 'DESC'
+        }
+    }  
 
     if (params.status == 'ACTIVE') {
         whereClause = {
@@ -26,7 +42,8 @@ shopApiController.getAllAction = (req, res) => {
     searchParams = {
         offset: params.start, 
         limit: params.count,
-        where: whereClause
+        where: whereClause,
+        order: [[sort[0],sort[1]]]
     }
 
     db.Shop.findAll(searchParams)
@@ -34,7 +51,7 @@ shopApiController.getAllAction = (req, res) => {
         var shops= [];
         var total = 0;
         foundShops.forEach(foundShop => {
-            var tags = foundShop.tags.split(",")
+            var tags = foundShop.shopTags.split(",")
             shops.push ({
                 id: foundShop.shopId,
                 name: foundShop.name,
@@ -51,19 +68,18 @@ shopApiController.getAllAction = (req, res) => {
             count: searchParams.limit,
             total: total,
             shops: shops
-
         })
     })
-    
 }
+
 shopApiController.getOneAction = (req, res) => {
     db.Shop.findOne({where: {
-        ShopId: req.params.id
+        shopId: req.params.id
     }})
       .then(foundShop => {
-        var tags = foundShop.tags.split(",")
+        var tags = foundShop.shopTags.split(",")
         res.json({
-            id: foundShop.shopId,
+                id: foundShop.shopId,
                 name: foundShop.name,
                 address:foundShop.address,
                 lng: foundShop.longtitude,
@@ -77,9 +93,9 @@ shopApiController.getOneAction = (req, res) => {
 shopApiController.createAction = (req, res) => {
     var newShops = req.params.x
     db.Shop.create(newShops).then(newShop => {
-    var tags = newShop.tags.split(",")
+    var tags = newShop.shopTags.split(",")
         res.json({
-            id: newShop.ShopId,
+            id: newShop.shopId,
             name: newShop.name,
             address: newShop.address,
             longtitude: newShop.longtitude,
@@ -92,7 +108,7 @@ shopApiController.createAction = (req, res) => {
 
 shopApiController.partialUpdateAction = (req,res) => {  
     var updatedShop ={}
-    db.Shop.findOne({where: {ShopId: req.params.id}})
+    db.Shop.findOne({where: {shopId: req.params.id}})
     .then(found => { //osa pedia den exoun oristei ek neou krataw ta palia
         if (req.body.name== null){
             updatedShop.name= found.name
@@ -115,18 +131,18 @@ shopApiController.partialUpdateAction = (req,res) => {
             updatedShop.latitude= req.body.latitude
         }
         if (req.body.tags==null){
-            updatedShop.tags= found.tags
+            updatedShop.shopTags= found.shopTags
         } else { 
-            updatedShop.tags= req.body.tags
+            updatedShop.shopTags= req.body.tags
         }
-        found.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags']}) //kanw update
+        found.update(updatedShop,{fields: ['name','address','longtitude','latitude','shopTags']}) //kanw update
         res.json({
             id: req.params.id,
             name: updatedShop.name,
             address: updatedShop.address,
             longtitude: updatedShop.longtitude,
             latitude:updatedShop.latitude, 
-            tags: updatedShop.tags,
+            tags: updatedShop.shopTags,
             withdrawn: updatedShop.withdrawn    
         })
     })
@@ -135,16 +151,16 @@ shopApiController.partialUpdateAction = (req,res) => {
 
 shopApiController.fullUpdate = (req,res) => {  
     var updatedShop = req.params.x
-    db.Shop.findOne({where: {ShopId: req.params.id}})
+    db.Shop.findOne({where: {shopId: req.params.id}})
     .then(found => { 
-        found.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags']}) //kanw update
+        found.update(updatedShop,{fields: ['name','address','longtitude','latitude','shopTags']}) //kanw update
         res.json({
             id: req.params.id,
             name: updatedShop.name,
             address: updatedShop.address,
             longtitude: updatedShop.longtitude,
             latitude:updatedShop.latitude, 
-            tags: updatedShop.tags,
+            tags: updatedShop.shopTags,
             withdrawn: updatedShop.withdrawn
         })
     })
@@ -167,8 +183,8 @@ shopApiController.deleteAction = (req, res) => {
                 updatedShop.name = foundShop.name
                 updatedShop.description = foundShop.description
                 updatedShop.category = foundShop.category
-                updatedShop.tags = foundShop.tags
-                foundShop.update(updatedShop,{fields: ['name','address','longtitude','latitude','tags', 'withdrawn']}) //kanw update
+                updatedShop.shopTags = foundShop.shopTags
+                foundShop.update(updatedShop,{fields: ['name','address','longtitude','latitude','shopTags', 'withdrawn']}) //kanw update
                 res.json({message: 'OK'})
             }
         })

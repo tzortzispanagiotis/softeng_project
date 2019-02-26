@@ -22,9 +22,9 @@ sequelize.authenticate()
 })
 
 const User = sequelize.import('./user.js')
-const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
+const Price = sequelize.import('./prices.js')
 
 
 //  User.sync({force: true}).then(() => {
@@ -121,6 +121,8 @@ Shop.belongsToMany(Product, { through: 'prices',foreignKey: 'shopId' ,onDelete: 
 
 User.hasMany(Price, { foreignKey: 'userId', sourceKey: 'userId' });
 Price.belongsTo(User, { foreignKey: 'userId', targetKey: 'userId' });
+
+
 
 
 

@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        tags: {
+        productTags: {
             type: DataTypes.STRING,
             allowNull: false
         },

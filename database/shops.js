@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.DOUBLE,
             allowNull: false
         },
-        tags: {
+        shopTags: {
             type: DataTypes.STRING,
             allowNull: false
         },

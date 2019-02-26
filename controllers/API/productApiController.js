@@ -11,7 +11,23 @@ productApiController.getAllAction = (req, res) => {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,
         status: req.query.status || 'ACTIVE',
-        sort: req.query.sort || 'id|DESC'
+    }
+
+    var sort= {}
+    sort[0] = 'productId'
+    sort[1] = 'DESC'
+
+    temp = req.query.sort
+    if (temp){       
+        sort = temp.split('|')
+        // if not ok, restore default
+        if (sort[0] == 'id') sort[0] = 'productId'
+        if ((sort[0] != 'id') || (sort[0] != 'name')) {
+            sort[0] = 'productId'
+        }
+        if (sort[1] != 'ASC') {
+            sort[1] = 'DESC'
+        }
     }
 
     if (params.status == 'ACTIVE') {
@@ -28,7 +44,8 @@ productApiController.getAllAction = (req, res) => {
     searchParams = {
         offset: params.start, 
         limit: params.count,
-        where: whereClause
+        where: whereClause,
+        order: [[sort[0],sort[1]]]
     }
 
     Product.findAll(searchParams)
@@ -36,7 +53,7 @@ productApiController.getAllAction = (req, res) => {
         var products = [];
         var total = 0;
         foundProducts.forEach(foundProduct => {
-            var tags = foundProduct.tags.split(",")
+            var tags = foundProduct.productTags.split(",")
             products.push ({
                 id: foundProduct.productId,
                 name: foundProduct.name,
@@ -63,7 +80,7 @@ productApiController.getOneAction = (req, res) => {
         productId: req.params.id
     }})
       .then(foundProduct => {
-        var tags = foundProduct.tags.split(",")
+        var tags = foundProduct.productTags.split(",")
         res.json({
             id: foundProduct.productId,
             name: foundProduct.name,
@@ -78,7 +95,7 @@ productApiController.getOneAction = (req, res) => {
 productApiController.createAction = (req, res) => {
     var newProduct = req.params.x
     Product.create(newProduct).then(newProd => {
-    var tags = newProd.tags.split(",")
+    var tags = newProd.productTags.split(",")
         res.json({
             id: newProd.productId,
             name: newProd.name,
@@ -94,13 +111,13 @@ productApiController.fullUpdateAction = (req,res) => {
     var updatedProduct = req.params.x
     Product.findOne({where: {productId: req.params.id}})
     .then(found => {
-        found.update(updatedProduct,{fields: ['name','description','category','tags']})
+        found.update(updatedProduct,{fields: ['name','description','category','productTags']})
         res.json({
             id: req.params.id,
             name: updatedProduct.name,
             description: updatedProduct.description,
             category: updatedProduct.category,
-            tags: updatedProduct.tags,
+            tags: updatedProduct.productTags,
             withdrawn: updatedProduct.withdrawn
         })
     })
@@ -127,17 +144,17 @@ productApiController.partialUpdateAction = (req,res) => {
             updatedProduct.category= req.body.category
         }
         if (req.body.tags==null){
-            updatedProduct.tags= found.tags
+            updatedProduct.productTags= found.productTags
         } else{
-            updatedProduct.tags= req.body.tags
+            updatedProduct.productTags= req.body.tags
         }
-        found.update(updatedProduct,{fields: ['name','description','category','tags','withdrawn']}) //kanw update
+        found.update(updatedProduct,{fields: ['name','description','category','productTags','withdrawn']}) //kanw update
         res.json({
             id: req.params.id,
             name: updatedProduct.name,
             description: updatedProduct.description,
             category: updatedProduct.category,
-            tags: updatedProduct.tags,
+            tags: updatedProduct.productTags,
             withdrawn: updatedProduct.withdrawn
         })
     })
@@ -161,8 +178,8 @@ productApiController.deleteAction = (req, res) => {
                 updatedProduct.name = foundProduct.name
                 updatedProduct.description = foundProduct.description
                 updatedProduct.category = foundProduct.category
-                updatedProduct.tags = foundProduct.tags
-                foundProduct.update(updatedProduct,{fields: ['name','description','category','tags','withdrawn']}) //kanw update
+                updatedProduct.tags = foundProduct.productTags
+                foundProduct.update(updatedProduct,{fields: ['name','description','category','productTags','withdrawn']}) //kanw update
                 res.json({message: 'OK-updated prod'})
             }
         })
