@@ -42,9 +42,10 @@ pricesApiController.getOneAction = (req, res) => {
 }
 
 pricesApiController.reportAction = (req,res) => {
-    var updated ={}
-    var updated2={}
-        db.Price.findOne({where: {priceId: req.params.id}}).then(found => {
+    var updated={}
+    var id1 =req.params.id
+    function  updateprice(id,res){
+        db.Price.findOne({where: {priceId: id}}).then(found => {
             //osa pedia den exoun oristei ek neou krataw ta palia
                     updated.userId=found.userId
                     updated.priceId= found.priceId ,
@@ -55,24 +56,33 @@ pricesApiController.reportAction = (req,res) => {
                     updated.reportCount= found.reportCount +1
 
                     found.update(updated,{fields: ['userId','priceId','shopId','productId','date','price' , 'reportCount']}) //kanw update
-                    res.json({
-                       success:true  , 
-                       message: "Report was filed" 
-                    })
+            return updated;              
+}).then(updated1=>{
+       //var updated1= await updateprice (updated,id,res)
+        console.log(updated1)
+        var updated2={}
+        db.User.findOne({where: {userId: updated1.userId}}).then(found2 => {
+            //osa pedia den exoun oristei ek neou krataw ta palia
+                
+                    updated2.userId= found2.userId ,
+                    updated2.username=found2.username ,
+                    updated2.password=found2.password ,
+                    updated2.email=found2.email ,
+                    updated2.role=found2.role ,
+                    updated2.reportCount= found2.reportCount +1
+                    found2.update(updated,{fields: ['userId','username','password','email','role', 'reportCount']}) //kanw update
+                        // res.json({
+                        //    success:true  , 
+                        //    message: "User was reported" 
+                        // })
     })
-    db.User.findOne({where: {userId: updated.userId}}).then(found2 => {
-        //osa pedia den exoun oristei ek neou krataw ta palia
-            
-                updated2.userId= found2.userId ,
-                updated2.username=found2.username ,
-                updated2.password=found2.password ,
-                updated2.email=found2.email ,
-                updated2.role=found2.role ,
-                updated2.reportCount= found.reportCount +1
-                found.update(updated,{fields: ['userId','username','password','email','role', 'reportCount']}) //kanw update
-                    res.json({
-                       success:true  , 
-                       message: "User was reported" 
-                    })
-})}
+            })
+        }
+            updateprice(id1,res)
+            res.json({
+                success:true  , 
+                message: "Report was filed" ,
+                
+             })
+    }
 module.exports = pricesApiController;
