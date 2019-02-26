@@ -1,0 +1,87 @@
+/* FILTRA
+============================================================================*/
+html, body {
+    margin: 0;
+    height: 100%;
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+    background-position: center center;
+}
+.filtercolumn1 {
+  margin 0;
+  color: white;
+  border-color: black;
+  border-width: 4px;
+}
+.filtercolumn2 {
+  float :left;
+  width : 80%;
+}
+.filterrow:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.filterTitle {
+  text-align: center;
+}
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 60%; /* Full-width */
+  height: 6px; /* Specified height */
+  background: grey; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 14px; /* Set a specific slider handle width */
+  height: 16px; /* Slider handle height */
+  border-radius: 50%;
+  background: #8331c6; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 10px; /* Set a specific slider handle width */
+  height: 10px; /* Slider handle height */
+  background: white; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.filterbutton{
+  font-size: 100%;
+  background-color: #8331c6;
+  border-color: black;
+  border-radius: 4px;
+  margin: 2% 4%;
+  width: 42%;
+  display: inline-block;
+  color: white;
+}
+.whole{
+  width: 92%;
+}
+.filterbutton:hover {
+  background-color: #55d6aa; /* Green */
+  color: black;
+}
+
+/*Telos filtrwn
+=============================================================================*/

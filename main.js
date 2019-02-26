@@ -30,7 +30,9 @@ app.use("/observatory/api", apiMiddlewares.apiBadFormatRequest, masterApiRouter)
 app.get("/", (req, res) => {
   res.render('index')
 })
-
+app.get("/filters", (req, res) => {
+  res.render('filters')
+})
 app.get("/login", (req, res) => {
   res.render('loginregister')
 })
