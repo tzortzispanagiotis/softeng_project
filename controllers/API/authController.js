@@ -5,7 +5,8 @@ const db = require("../../database/connect"),
       jwt    = require("jsonwebtoken"),
       config = require("../../configurations/credentials");
 
-var User = db.User;
+var User = db.User,
+    invalidToken = db.invalidTokens;
 
 authController.renderLoginAction = function (req, res) {
     res.render('login')
@@ -58,8 +59,22 @@ authController.signup = (req,res) => {
 }
 
 authController.logout = (req, res) => {
-    res.status(200).send({ auth: false, token: null });
-
+    let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+        if (!token) {
+          return res.json({
+          success: false,
+          message: 'Auth token is not supplied'
+          })
+        }
+        if (token.startsWith('Bearer ')) {
+          // Remove Bearer from string
+          token = token.slice(7, token.length);
+        }
+      
+        if (token) {
+            invalidToken.create({token:token})
+            res.status(200).send({ auth: false, token: null });
+        }
 }
 
 module.exports = authController

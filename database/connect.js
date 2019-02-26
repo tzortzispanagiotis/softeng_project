@@ -24,6 +24,7 @@ const User = sequelize.import('./user.js')
 const Price = sequelize.import('./prices.js')
 const Product = sequelize.import('./products.js')
 const Shop = sequelize.import('./shops.js')
+const invalidTokens = sequelize.import('./invalidTokens.js')
 
 //Shop.belongsToMany(Product, { through: Price, foreignKey: 'shopId' ,otherKey:'productId' ,onDelete: 'CASCADE'});
 //Price.belongsTo(Shop, { foreignKey: 'shopId', targetKey: 'shopId',onDelete: 'CASCADE' });
@@ -102,6 +103,11 @@ Product.sync({force: true}).then(() => {
 // })
 
 
+invalidTokens.sync({force : true}).then(() => {
+    console.log("created invalid tokens model")
+})
+
+
 
 
 var db = {
@@ -109,7 +115,8 @@ var db = {
     User: User,
     Product: Product,
     Shop: Shop,
-    Price: Price
+    Price: Price,
+    invalidTokens : invalidTokens
 }
 
 module.exports = db;
