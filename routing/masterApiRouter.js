@@ -4,7 +4,8 @@ const router               = require('express').Router(),
       shopsApiRouter = require("../routing/API/shopApiRouter"),
       pricesApiRouter = require("../routing/API/pricesApiRouter"),
       authenticationController = require('../controllers/API/authController'),
-      authenticationPolicy     = require('../policies/authenticationPolicy');
+      authenticationPolicy     = require('../policies/authenticationPolicy'),
+      apiMiddlewares            = require('../middlewares/apiMiddlewares');
       
 router.get('/login', 
     authenticationController.renderLoginAction)
