@@ -1,10 +1,12 @@
 html, body {
     margin: 0;
     height: 100%;
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+    background-position: center center;
 }
 
 .login {
-  background-color: #585858;
   padding-top: 5%;
 }
 
