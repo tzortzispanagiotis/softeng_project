@@ -69,7 +69,9 @@ pricesApiController.reportAction = (req,res) => {
                     updated2.email=found2.email ,
                     updated2.role=found2.role ,
                     updated2.reportCount= found2.reportCount +1
-                    found2.update(updated,{fields: ['userId','username','password','email','role', 'reportCount']}) //kanw update
+                    if (updated2.reportCount>=10) {updated2.invalidUser=true}
+                    else {updated2.invalidUser=false}
+                    found2.update(updated2,{fields: ['userId','username','password','email','role', 'reportCount' , 'invalidUser']}) //kanw update
                         // res.json({
                         //    success:true  , 
                         //    message: "User was reported" 
