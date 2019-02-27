@@ -15,41 +15,51 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <% include partials/navbar %>
-  <div name="container">
-      <div class="col-md-3  col-md-offset 0 col-sm-2 col-sm-offset 0 filtercolumn1">
-        <div class="filterTitle">
-          <div >
-            <p><b class="filterb">Φίλτρα Αναζήτησης</b></p>
-            <div class="row">
-              <b value="">Μέγιστη Τιμή: <span id="showval"></span></b>
-            </div>
-              <div class="slidecontainer">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    </nav>
+    <div class="pad">
+    </div>
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xx-3 white-bg">
+          <h1 class="my-4 text-center">Φίλτρα Αναζήτησης</h1>
+          <div class="row margin">
+            <h3 class="my-2 text-center">Μέγιστη Τιμή: <span id="showval"></span></h3>
+            <div class="slidecontainer">
               <input type="range" min="" max="" value="" class="slider" id="myRange">
             </div>
           </div>
-          <div class="row">
-          <b>Είδος καυσίμου</b>
-          <div id="fuelbuttons" class="fuelbuttonselection">
+          <div class="row margin">
+            <h3 class="my-2 text-center">Κατάστημα</h3>
+            <div id= "shopbuttons" class="">
+            </div>
           </div>
-          <b>Κατάστημα</b>
-          <div id= "shopbuttons" class="">
+          <div class="row margin">
+            <h3 class="my-2 text-center">Τύπος Καυσίμου</h3>
+            <div id= "fuelbuttons" class="">
+            </div>
+          </div>
+        </div>
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9 white-bg">
+          <div class="mapcontainer">
+
+          </div>
+          <div class="row">
 
           </div>
         </div>
-        </div>
       </div>
-    <div class="container">
-        <div id=mapid class="mapcontainer">
-        </div>
+      <!-- /.row -->
+
     </div>
-  </div>
   <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous">
   </script>
   <script type="text/javascript" src="/static/js/filters.js"></script>
-  <% include partials/footer %>
-</body>
+  </body>
 </html>
