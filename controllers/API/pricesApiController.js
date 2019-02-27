@@ -83,6 +83,7 @@ pricesApiController.getAllAction = (req, res) => {
     }
 
     tags = []
+    combinedList= []
     if (params.tags) {
         if (Array.isArray(params.tags)) {
             for (var i in params.tags){
