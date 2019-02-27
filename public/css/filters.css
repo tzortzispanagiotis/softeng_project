@@ -13,6 +13,12 @@ html, body {
   border-radius: 6%;
   opacity: 0.89;
 }
+.white-bg-noround {
+  background-color: white;
+  opacity: 0.89;
+  padding: 0;
+  margin: 0;
+}
 .margin{
   margin:3%;
 }
