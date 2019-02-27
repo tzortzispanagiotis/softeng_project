@@ -6,7 +6,6 @@ html {
   -webkit-text-size-adjust: 100%;
   /* 2 */
 }
-
 /* Sections
    ========================================================================== */
 /**
@@ -817,7 +816,8 @@ legend {
   -ms-flex-align: center;
       align-items: center;
   font-family: 'Poppins', sans-serif;
-  background-color: #585858;
+  /*background-color: #585858;*/
+  background-image: url("../img/background.jpg");
   background-size: cover;
   background-position: center center;
   padding: 15px;
@@ -843,7 +843,7 @@ legend {
 }
 
 .s003 form .inner-form .input-field {
-  height: 68px;
+  height: 42px;
 }
 
 .s003 form .inner-form .input-field input {
@@ -1026,4 +1026,25 @@ legend {
     margin-bottom: 0;
     width: 100%;
   }
+}
+select#select {
+   -webkit-appearance: button;
+   -webkit-border-radius: 0px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-position: 100% center;
+   background-repeat: no-repeat;
+   border: 1px solid #AAA;
+   color: #555;
+   font-size: inherit;
+   overflow: hidden;
+   padding: 5px 10px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 100%;
+   height: 100%;
+
 }

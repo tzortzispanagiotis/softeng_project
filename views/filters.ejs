@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Φιλτρα</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+    <link href="/static/css/navbar.css" rel="stylesheet" />
+    <link href="/static/css/footer.css" rel= "stylesheet" />
+    <link rel="stylesheet" href="/static/css/filters.css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <% include partials/navbar %>
+  <div name="container">
+      <div class="col-md-3  col-md-offset 0 col-sm-2 col-sm-offset 0 filtercolumn1">
+        <div class="filterTitle">
+          <div >
+            <p><b class="filterb">Φίλτρα Αναζήτησης</b></p>
+            <div class="row">
+              <b value="">Μέγιστη Τιμή: <span id="showval"></span></b>
+            </div>
+              <div class="slidecontainer">
+              <input type="range" min="" max="" value="" class="slider" id="myRange">
+            </div>
+          </div>
+          <div class="row">
+          <b>Είδος καυσίμου</b>
+          <div id="fuelbuttons" class="fuelbuttonselection">
+          </div>
+          <b>Κατάστημα</b>
+          <div id= "shopbuttons" class="">
+
+          </div>
+        </div>
+        </div>
+      </div>
+    <div class="container">
+        <div id=mapid class="mapcontainer">
+        </div>
+    </div>
+  </div>
+  <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+  </script>
+  <script type="text/javascript" src="/static/js/filters.js"></script>
+  <% include partials/footer %>
+</body>
+</html>
