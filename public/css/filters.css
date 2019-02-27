@@ -16,6 +16,10 @@ html, body {
 .margin{
   margin:3%;
 }
+.doubles {
+  width: 44%;
+  margin:3%;
+}
 .slidecontainer {
   width: 90%; /* Width of the outside container */
   margin: 5%;
@@ -25,7 +29,7 @@ html, body {
 .slider {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
-  width: 60%; /* Full-width */
+  width: 100%; /* Full-width */
   height: 6px; /* Specified height */
   background: grey; /* Grey background */
   outline: none; /* Remove outline */

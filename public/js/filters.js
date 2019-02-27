@@ -50,10 +50,10 @@ function fuel_range(){
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-        $("#fuelbuttons").append('<button type="button" class="btn btn-primary btn-md btn-block"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+          $("#fuelbuttons").append('<button type="button" class="btn btn-outline-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
       }
       if (i%2==1){
-        $("#fuelbutton"+(i-1)).addClass("whole");
+        $("#fuelbutton"+(i-1)).addClass("w-100");
       }
     }
 
@@ -72,11 +72,11 @@ function shops(){
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-        $("#shopbuttons").append('<button type="button" class="btn btn-primary btn-md btn-block"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
+        $("#shopbuttons").append('<button type="button" class="btn btn-outline-primary text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
       }
-      /*if (i%2==1){
-        $("#shopbuttons"+(i-1)).addClass("whole");
-      }*/
+      if (i%2==1){
+        $("#shopbuttons"+(i-1)).addClass("w-100");
+      }
     }
 
   })
