@@ -48,6 +48,17 @@ app.get("/login", (req, res) => {
   res.render('loginregister')
 })
 
+app.get('/insertshop', (req,res) => {
+  res.render('insertshop')
+})
+
+
+app.get('/insertproduct', (req,res) => {
+  res.render('insertproduct')
+})
+app.get("/contact", (req, res) => {
+  res.render('contact')
+})
 app.get("/getall", (req, res) => {
   res.render('getall')
 })
