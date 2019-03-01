@@ -44,13 +44,12 @@ module.exports = {
         if (token) {
           invalidTokens.findOne({where: {token: token}}).then(found => {
           if (found) {
-            res.status(400).json({success : false, message: "invalid token"})
+            res.status(403).json({success : false, message: "invalid token"})
           }
           else {
             jwt.verify(token, config.jwt_secret, (err, decoded) => {
               if (err) {
-                next();
-                return res.json({
+                return res.status(403).json({
                   success: false,
                   message: 'Token is not valid'
                 });
@@ -62,7 +61,7 @@ module.exports = {
           }
         })}
         else {
-          return res.json({
+          return res.status(403).json({
             success: false,
             message: 'Auth token is not supplied'
           });
