@@ -42,7 +42,7 @@ pricesApiController.getAllAction = (req, res) => {
         }
     }
     includeClause = []
-    if (params.geoDist==null){
+    if (!params.geoDist){
     includeClause = 
         [
             {
@@ -58,6 +58,7 @@ pricesApiController.getAllAction = (req, res) => {
         ]
     }
     else { 
+        console.log("giati eisai malakas")
         var atr=['name','address','longtitude','latitude', 'shopTags'  ]
         var dis =sequelize.literal("6371 * acos(cos(radians("+params.geoLat+")) * cos(radians(latitude)) * cos(radians("+params.geoLng+") - radians(longtitude)) + sin(radians("+params.geoLat+")) * sin(radians(latitude)))")
         atr.push([dis,'dis'])
@@ -122,30 +123,38 @@ pricesApiController.getAllAction = (req, res) => {
         whereClause.productTags = {[Op.or]: {[Op.or] : tags}}
         //SOS NA TO FTIAKSW
     }
-    // if (!( ( (typeof(params.geoDist)==="undefined") && (typeof(params.geoLng)==="undefined")  && (typeof(params.geoLat)==="undefined") ) || ( (typeof(geoDist)!="undefined") && (typeof(geoLng)!="undefined")  && (typeof(geoLat)!="undefined") ))){
-    //     res.status(400).json({message: "Either set ALL geo* parameters or none."});
-    //     return res;}
+    
     //-------------------------------DATE FIXING------------------------------
     date = new Date()
     date.setHours(2,0,0,0) //Greek Time Zone
     dateFrom = date
     dateTo = date
     dateinvalid = date
+    if (((params.dateFrom) && (!params.dateTo)) || ((!params.dateFrom) && (params.dateTo)))
+    {
+        return res.status(400).json({
+        message: "you must give both arguments"
+    })}
+
     if (params.dateFrom && params.dateTo){
         dateFrom = new Date(req.query.dateFrom)
+        console.log(params.dateFrom)
+
         dateFrom.setHours(2,0,0,0)
         dateTo = new Date (req.query.dateTo)
         dateTo.setHours(2,0,0,0)
         dateinvalid = new Date("30/15/2019")
         dateinvalid.setHours(2,0,0,0)
+        console.log(dateTo)
 
     
-    if (dateFrom=dateinvalid) {
-        return res.status(400).json({
+    if (dateFrom==dateinvalid) {
+        console.log(dateFrom)
+        return res.status(401).json({
         message: "invalid date given , try again"
     })}
-    if (dateTo=dateinvalid) {
-        return res.status(400).json({
+    if (dateTo==dateinvalid) {
+        return res.status(402).json({
         message: "invalid date given , try again in the format month/day/year"
     })}
 //lets confirm that date_from < date_to (eg: 1990-12-30 < 2000-9-4)
@@ -182,7 +191,8 @@ pricesApiController.getAllAction = (req, res) => {
         //include: [Shop] ,
         order: [[sort[0],sort[1]]]
     }}
-    else {searchParams = {
+    else {
+        searchParams = {
         include: includeClause,
         offset: params.start, 
         limit: params.count,
