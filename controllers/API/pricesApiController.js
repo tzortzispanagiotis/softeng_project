@@ -5,9 +5,9 @@ const pricesApiController   = {},
       User                  = db.User,
       Product               = db.Product,
       Shop                  = db.Shop,
-      Price                 = db.Price,
-      distanceFunction      = require('./diastance'); // function that calculates distance
-
+      Price                 = db.Price ;
+var distanceFunction      = require('./diastance'); // function that calculates distance
+      
 pricesApiController.getAllAction = (req, res) => {
     var whereClause = {}    // here we will build where clause for sequelize
     var includeClause = {}  // include clause for sequelize
@@ -41,7 +41,8 @@ pricesApiController.getAllAction = (req, res) => {
             sort[1] = 'DESC'
         }
     }
-
+    includeClause = []
+    if (params.geoDist==null){
     includeClause = 
         [
             {
@@ -51,8 +52,33 @@ pricesApiController.getAllAction = (req, res) => {
             {
                 model: Shop, 
                 attributes: ['name','address','longtitude','latitude', 'shopTags']
+                
+            
             }
         ]
+    }
+    else { 
+        var atr=['name','address','longtitude','latitude', 'shopTags'  ]
+        var dis =sequelize.literal("6371 * acos(cos(radians("+params.geoLat+")) * cos(radians(latitude)) * cos(radians("+params.geoLng+") - radians(longtitude)) + sin(radians("+params.geoLat+")) * sin(radians(latitude)))")
+        atr.push([dis,'dis'])
+        includeClause = 
+        [
+            {
+                model: Product, 
+                attributes: ['name','description', 'category','productTags']
+            },
+            {  
+                
+                model: Shop, 
+                //attributes: ['name','address','longtitude','latitude', 'shopTags'  ,[sequelize.literal("6371 * acos(cos(radians("+params.geoLat+")) * cos(radians(latitude)) * cos(radians("+params.geoLng+") - radians(longitude)) + sin(radians("+params.geoLat+")) * sin(radians(latitude)))"),'distance']],
+                    attributes: atr,
+                    where: 
+                         sequelize.where(dis , '<' , params.geoDist)
+            
+            
+            } ]
+    
+    }
     
     
     shopIDs = [] //CHECK IF WORKS
@@ -99,7 +125,7 @@ pricesApiController.getAllAction = (req, res) => {
     // if (!( ( (typeof(params.geoDist)==="undefined") && (typeof(params.geoLng)==="undefined")  && (typeof(params.geoLat)==="undefined") ) || ( (typeof(geoDist)!="undefined") && (typeof(geoLng)!="undefined")  && (typeof(geoLat)!="undefined") ))){
     //     res.status(400).json({message: "Either set ALL geo* parameters or none."});
     //     return res;}
-    
+    //-------------------------------DATE FIXING------------------------------
     date = new Date()
     date.setHours(2,0,0,0) //Greek Time Zone
     dateFrom = date
@@ -113,22 +139,14 @@ pricesApiController.getAllAction = (req, res) => {
         dateinvalid = new Date("30/15/2019")
         dateinvalid.setHours(2,0,0,0)
 
-        console.log(dateinvalid)
     
-
-    // if(!isValidDate(dateFrom)){
-    //     return res.status(400).json({
-    //         message: "enter a valid date_from, eg 1990-12-30"
-    //     })
-    // }
-    // if(!isValidDate(dateTo)){
-    //     return res.status(400).json({
-    //         message: "enter a valid date_to, eg 1990-12-30"
-    //     })
-    // }
     if (dateFrom=dateinvalid) {
         return res.status(400).json({
         message: "invalid date given , try again"
+    })}
+    if (dateTo=dateinvalid) {
+        return res.status(400).json({
+        message: "invalid date given , try again in the format month/day/year"
     })}
 //lets confirm that date_from < date_to (eg: 1990-12-30 < 2000-9-4)
     if((dateFrom) > (dateTo)){
@@ -137,30 +155,47 @@ pricesApiController.getAllAction = (req, res) => {
         })}
     }
   
-    if (params.dateFrom) {
-        console.log(dateFrom)
-        console.log(dateTo)
+    if (params.dateFrom && params.dateTo) {
+        
 
         whereClause.date = {[Op.and]: {[Op.gte]: dateFrom, [Op.lte]: dateTo}}
     }
+    //-----------------DISTANCE FIXING----------------------------------
+    // var lat = parseFloat(req.query.geoLng);
+    // var lng = parseFloat(req.query.geoLat);
+    // var location = sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})')`);
+    // var distance = sequelize.fn('ST_Distance_Sphere', sequelize.literal('location'), location);
+
+    // console.log(location)
+    // console.log(lat)
+    // console.log(distance)
+
+
+
     if (params.dateFrom && params.dateTo){
     searchParams = {
+
         include: includeClause,
         offset: params.start, 
         limit: params.count,
         where: whereClause,
+        //include: [Shop] ,
         order: [[sort[0],sort[1]]]
     }}
     else {searchParams = {
         include: includeClause,
         offset: params.start, 
         limit: params.count,
-        //where: whereClause,
+        //include: [Shop] ,
+
+        where: whereClause,
         order: [[sort[0],sort[1]]]
     }}
 
     Price.findAll(searchParams).then(foundPrices => {
         res.json(foundPrices)
+         //var lista =[]
+       // for prices in foundPrices
     })
     
 
@@ -214,4 +249,5 @@ pricesApiController.reportAction = (req,res) => {
     }
 
 
+    
 module.exports = pricesApiController;

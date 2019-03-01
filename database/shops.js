@@ -25,6 +25,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        // corporation: {
+        //     type : DataTypes.STRING ,
+        //     allowNull : false
+        // }
         withdrawn: {
             type: DataTypes.BOOLEAN,
             allowNull: false

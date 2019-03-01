@@ -6,6 +6,9 @@ function toRadians (angle) {
   }
 //distance function for price query
 distanceFunctions.distance = (lat1,lat2,lon1,lon2) => {
+    console.log(lat1)
+    console.log(lat2)
+
     var R = 6371e3; // metres
     var f1 = lat1.toRadians()
     var f2 = lat2.toRadians();
