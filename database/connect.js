@@ -56,41 +56,20 @@ const invalidTokens = sequelize.import('./invalidTokens.js')
 //         console.log("created invalid tokens model")})
     
 
-Price.sync({ force: true }).then(() => {
+// Price.sync({ force: true }).then(() => {
                    
-        var x5={
-            userId:1,
-            productId:1,
-            shopId:1,
-            price:1.75 ,
-            date:'1/1/2019'
+//         var x5={
+//             userId:1,
+//             productId:1,
+//             shopId:1,
+//             price:1.75 ,
+//             date:'1/1/2019'
                 
             
-            }
-            Price.create(x5)
-        })
-               
-        
- User.destroy({
-    where: {},
-    truncate: true
-          }).then(() => {
-            Shop.destroy({
-                where: {},
-                truncate: true
-              })
-          }).then (() => {
-              Product.destroy({
-                where: {},
-                truncate: true
-              })
-          }).then(()  => {
-            Price.destroy({
-                where: {},
-                truncate: true
-              })
-          }
-          )
+//             }
+//             Price.create(x5)
+//         })
+                 
 //Product.belongsToMany(Shop , {through: 'prices',foreignKey: 'productId',onDelete: 'cascade' });
 //Shop.belongsToMany(Product, { through: 'prices',foreignKey: 'shopId' ,onDelete: 'cascade'});
 

@@ -161,7 +161,7 @@ var productObj = [
             shopId: 1,
             productId:1,
             price: 1.511 , 
-            date:'1/1/2019',
+            date:'1/19/2019',
         },
         {
             userId: 2,
@@ -189,14 +189,14 @@ var productObj = [
             shopId: 10,
             productId:1,
             price: 1.511 , 
-            date:'1/1/2019',
+            date:'1/2/2019',
         },
         {
             userId: 1,
             shopId: 1,
             productId:5,
             price: 1.511 , 
-            date:'1/1/2019',
+            date:'12/1/2018',
         },
         {
             userId: 1,

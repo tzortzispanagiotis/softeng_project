@@ -110,16 +110,26 @@ pricesApiController.getAllAction = (req, res) => {
     }
 
     if (params.dateFrom) {
+        console.log(dateFrom)
+        console.log(dateTo)
+
         whereClause.date = {[Op.and]: {[Op.gte]: dateFrom, [Op.lte]: dateTo}}
     }
-
+    if (params.dateFrom && params.dateTo){
     searchParams = {
         include: includeClause,
         offset: params.start, 
         limit: params.count,
         where: whereClause,
         order: [[sort[0],sort[1]]]
-    }
+    }}
+    else {searchParams = {
+        include: includeClause,
+        offset: params.start, 
+        limit: params.count,
+        //where: whereClause,
+        order: [[sort[0],sort[1]]]
+    }}
 
     Price.findAll(searchParams).then(foundPrices => {
         res.json(foundPrices)
