@@ -96,19 +96,37 @@ pricesApiController.getAllAction = (req, res) => {
         whereClause.productTags = {[Op.or]: {[Op.or] : tags}}
         //SOS NA TO FTIAKSW
     }
+    // if (!( ( (typeof(params.geoDist)==="undefined") && (typeof(params.geoLng)==="undefined")  && (typeof(params.geoLat)==="undefined") ) || ( (typeof(geoDist)!="undefined") && (typeof(geoLng)!="undefined")  && (typeof(geoLat)!="undefined") ))){
+    //     res.status(400).json({message: "Either set ALL geo* parameters or none."});
+    //     return res;}
 
     date = new Date()
     date.setHours(2,0,0,0) //Greek Time Zone
     dateFrom = date
     dateTo = date
-
     if (params.dateFrom && params.dateTo){
         dateFrom = new Date(req.query.dateFrom)
         dateFrom.setHours(2,0,0,0)
         dateTo = new Date (req.query.dateTo)
         dateTo.setHours(2,0,0,0)
-    }
+    
 
+    // if(!isValidDate(dateFrom)){
+    //     return res.status(400).json({
+    //         message: "enter a valid date_from, eg 1990-12-30"
+    //     })
+    // }
+    // if(!isValidDate(dateTo)){
+    //     return res.status(400).json({
+    //         message: "enter a valid date_to, eg 1990-12-30"
+    //     })
+    // }
+//lets confirm that date_from < date_to (eg: 1990-12-30 < 2000-9-4)
+    if((dateFrom) > (dateTo)){
+        return res.status(400).json({
+            message: "date_from > date_to"
+        })}}
+  
     if (params.dateFrom) {
         console.log(dateFrom)
         console.log(dateTo)
@@ -184,4 +202,32 @@ pricesApiController.reportAction = (req,res) => {
                 
              })
     }
+
+
+    function isValidDate(dateString)
+{
+    //we consider a date to be formatted like: 1990-12-30
+    // First check for the pattern
+    if(!((/^\d{4}\-\d{1,2}\-\d{1,2}$/).test(dateString)))
+       return false;
+
+    // Parse the date parts to integers
+    var parts = dateString.split("-");
+    var year = parseInt(parts[0], 10);
+    var month = parseInt(parts[1], 10);
+    var day = parseInt(parts[2], 10);
+    console.log(parts);
+    // Check the ranges of month and year
+    if(year < 1700 || year > 2400 || month == 0 || month > 12)
+        return false;
+
+    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+    // Adjust for leap years
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        monthLength[1] = 29;
+
+    // Check the range of the day
+    return day > 0 && day <= monthLength[month - 1];
+};
 module.exports = pricesApiController;
