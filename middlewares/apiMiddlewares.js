@@ -36,20 +36,12 @@ apiMiddlewares.checkRequestForProduct = (req,res, next) => {
 }
 
 apiMiddlewares.checkRequestForShop = (req,res, next) => {
-    if (req.body.name == null ) {
-        res.status(400).json({error: 'Bad Request'})
-    }
-    if (req.body.address == null ) {
-        res.status(400).json({error: 'Bad Request'})
-    }
-    if ( req.body.longtitude == null ) {
-        res.status(400).json({error: 'Bad Request'})
-    }
-    if ( req.body.latitude  ==null) {
-        res.status(400).json({error: 'Bad Request'})
-    }
-    if (  req.body.tags ==null) {
-        res.status(400).json({error: 'Bad Request'})
+    if ((req.body.name == null ) || 
+        (req.body.address == null ) || 
+        (req.body.longtitude == null ) || 
+        (req.body.latitude  ==null) || 
+        (req.body.tags ==null)) {
+        res.status(400).json({error: 'Bad Request!!'})
     }
     else {
         var x = {
