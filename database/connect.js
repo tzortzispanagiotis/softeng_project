@@ -4,6 +4,10 @@ const bcrypt = require("bcryptjs")
 let  myinit  = require("../database/database_init.js");
 
 const sequelize = new Sequelize(Credentials.database.db_name, Credentials.database.username, Credentials.database.password, {
+    define: {
+        charset: 'utf8',
+        collate: 'utf8_general_ci'
+    },
     host: Credentials.host,
     port: 3306,
     dialect: "mariadb" ,
@@ -44,6 +48,10 @@ const invalidTokens = sequelize.import('./invalidTokens.js')
 //     console.log("price model created successfully")})
 //     .then(()=>   { Price.bulkCreate(myinit.prices)})
 
+// // Price.sync({ force: false }).then(() => {
+// //     console.log("price model created successfully")})
+// //     .then(()=>   { Price.bulkCreate(myinit.prices)})
+ 
 // invalidTokens.sync({force : true}).then(() => {
 //         console.log("created invalid tokens model")})
     
@@ -61,18 +69,45 @@ Price.sync({ force: true }).then(() => {
             }
             Price.create(x5)
         })
+               
+        
+ User.destroy({
+    where: {},
+    truncate: true
+          }).then(() => {
+            Shop.destroy({
+                where: {},
+                truncate: true
+              })
+          }).then (() => {
+              Product.destroy({
+                where: {},
+                truncate: true
+              })
+          }).then(()  => {
+            Price.destroy({
+                where: {},
+                truncate: true
+              })
+          }
+          )
+//Product.belongsToMany(Shop , {through: 'prices',foreignKey: 'productId',onDelete: 'cascade' });
+//Shop.belongsToMany(Product, { through: 'prices',foreignKey: 'shopId' ,onDelete: 'cascade'});
+
+// Product.belongsToMany(Shop , {through: 'prices',foreignKey: 'productId',onDelete: 'cascade' });
+// Shop.belongsToMany(Product, { through: 'prices',foreignKey: 'shopId' ,onDelete: 'cascade'});
+
+//User.hasMany(Price, { foreignKey: 'userId', sourceKey: 'userId' });
+//Price.belongsTo(User, { foreignKey: 'userId', targetKey: 'userId' });
+
+Price.belongsTo(Shop, {foreignKey: 'shopId', onDelete: 'cascade'})
+Price.belongsTo(Product, {foreignKey: 'productId', onDelete: 'cascade'})
+Price.belongsTo(User, {foreignKey: 'userId', onDelete: 'cascade'})
+
+Price.sync({ force: true }).then(() => {
+    console.log("price model created successfully")})
+    .then(()=>   { Price.bulkCreate(myinit.prices)})
                  
-Product.belongsToMany(Shop , {through: 'prices',foreignKey: 'productId',onDelete: 'cascade' });
-Shop.belongsToMany(Product, { through: 'prices',foreignKey: 'shopId' ,onDelete: 'cascade'});
-
-User.hasMany(Price, { foreignKey: 'userId', sourceKey: 'userId' });
-Price.belongsTo(User, { foreignKey: 'userId', targetKey: 'userId' });
-
-
-
-
-
-
 
 var db = {
     sequelizeConnection: sequelize,
