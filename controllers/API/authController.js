@@ -5,8 +5,8 @@ const db = require("../../database/connect"),
       jwt    = require("jsonwebtoken"),
       config = require("../../configurations/credentials");
 
-var User = db.User,
-    invalidToken = db.invalidTokens;
+var User = require('../../database/user'),
+    invalidToken = require('../../database/invalidTokens');
 
 authController.renderLoginAction = function (req, res) {
     res.render('login')

@@ -2,7 +2,7 @@ const Joi = require('joi'),
       jwt = require('jsonwebtoken'),
       config = require('../configurations/credentials'),
       database = require('../database/connect'),
-      invalidTokens = database.invalidTokens;
+      invalidTokens = require('../database/invalidTokens');
 
 module.exports = {
     login (req, res, next){
