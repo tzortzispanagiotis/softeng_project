@@ -48,17 +48,50 @@ function fuel_range(){
       for (var i = 0; i < data.products.length; i++) {
         unique.push(data.products[i].category);
       }
+      var vars = getQueryVars();
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-          $("#fuelbuttons").append('<button type="button" class="btn btn-outline-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+          if(unique[i] === decodeURIComponent(vars.cat)){
+            $("#fuelbuttons").append('<button type="button" class="category-btn btn btn-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+          } else {
+            $("#fuelbuttons").append('<button type="button" class="category-btn btn btn-outline-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+          }
       }
       if (i%2==1){
         $("#fuelbutton"+(i-1)).addClass("w-100");
       }
+      $(".category-btn").click(function (event){
+          cat = event.currentTarget.innerText
+          var url = '/searchResults?';
+          var u = [];
+          if(cat) {
+            u.push('cat=' + cat);
+          }
+          if (vars.lat) {
+            u.push('lat=' + vars.lat);
+          }
+          if(vars.lng) {
+            u.push('lng=' + vars.lng);
+          }
+          u.map((u, index) => {
+            if(index === 0) {
+              url += u;
+            } else {
+              url += '&' + u;
+            }
+          })
+          window.location.assign(url);
+      })
+      // @TODO to be implemented
+      // $('.category-btn').on('click', function(event){
+      //   $('.category-btn').css('class', )
+      //   var element = event.currentTarget;
+      // });
     }
 
   })
 }
+
 
 function shops(){
   $.ajax({
@@ -68,11 +101,11 @@ function shops(){
       // console.log(data);
       var unique=[];
       for (var i = 0; i < data.shops.length; i++) {
-        unique.push(data.shops[i].name);  //edw na ginei typos
+        unique.push(data.shops[i].name);  //edw na ginei typoscategory
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-        $("#shopbuttons").append('<button type="button" class="btn btn-outline-primary text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
+        $("#shopbuttons").append('<button type="button" class="shops-btn btn btn-outline-primary text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
       }
       if (i%2==1){
         $("#shopbuttons"+(i-1)).addClass("w-100");
@@ -82,7 +115,11 @@ function shops(){
   })
 }
 
-function searchResults() {
+function updateButtonSelected(event) {
+  console.log(event);
+}
+
+function getQueryVars(){
   var vars = [], hash;
   var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
   for(var i = 0; i < hashes.length; i++)
@@ -94,6 +131,16 @@ function searchResults() {
   var lng = vars["lng"];
   var lat = vars["lat"];
   var cat = vars["cat"];
+  return { lng, lat, cat}
+}
+
+
+function searchResults() {
+  var vars = getQueryVars();
+  var lng = vars.lng;
+  var lat = vars.lat;
+  var cat = vars.cat;
+
   $.get('/observatory/api/products?cat=' + cat, function(response, status) {
     var productsInCategory = response.products;
     console.log(productsInCategory);
@@ -135,10 +182,12 @@ function searchResults() {
 
 /*Telos dilwsewn
 =================================================*/
-price_range();
-fuel_range();
-shops();
-searchResults();
+$(document).ready(function() {
+  price_range();
+  fuel_range();
+  shops();
+  searchResults();
+})
 //real time ektypwsh ths epilegmenis timis
 slider.on('input',function() {
   output.html(this.value);
