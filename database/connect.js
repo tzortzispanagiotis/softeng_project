@@ -3,6 +3,7 @@ const Credentials = require("../configurations/credentials.js");
 const bcrypt = require("bcryptjs")
 let  myinit  = require("../database/database_init.js");
 
+
 const sequelize = new Sequelize(Credentials.database.db_name, Credentials.database.username, Credentials.database.password, {
     define: {
         charset: 'utf8',
@@ -25,11 +26,6 @@ sequelize.authenticate()
     console.error("Unable to connect to the database", err);
 })
 
-const User = sequelize.import('./user.js')
-const Product = sequelize.import('./products.js')
-const Shop = sequelize.import('./shops.js')
-const Price = sequelize.import('./prices.js')
-const invalidTokens = sequelize.import('./invalidTokens.js')
 
 
 //  User.sync({force: true}).then(() => {
@@ -88,13 +84,13 @@ const invalidTokens = sequelize.import('./invalidTokens.js')
 //     .then(()=>   { Price.bulkCreate(myinit.prices)})
                  
 
-var db = {
-    sequelizeConnection: sequelize,
-    User: User,
-    Product: Product,
-    Shop: Shop,
-    Price: Price,
-    invalidTokens : invalidTokens
-}
+// var db = {
+//     sequelizeConnection: sequelize,
+//     User: User,
+//     Product: Product,
+//     Shop: Shop,
+//     Price: Price,
+//     invalidTokens : invalidTokens
+// }
     
-module.exports = db 
+module.exports = sequelize;

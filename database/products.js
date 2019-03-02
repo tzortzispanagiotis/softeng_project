@@ -1,34 +1,42 @@
-module.exports = function(sequelize, DataTypes) {
-    const Products = sequelize.define('product', {
-        productId: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        description : {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        category: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        productTags: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        withdrawn: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        }
+const Sequelize = require("sequelize"),
+dbo       = require("./connect");
+const myinit = require('./database_init');
+const Price = require('./prices');
+
+const Products = dbo.define('product', {
+    productId: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    description : {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    category: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    productTags: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    withdrawn: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    }
     },
     {
         tableName: 'product',
         timestamps: false
     })
-    return Products;
-}
+
+
+    Products.sync({force: false}).then(() => { 
+        console.log("product model created successfully")})
+        // .then(()  => { Products.bulkCreate(myinit.products)})
+    module.exports = Products;
