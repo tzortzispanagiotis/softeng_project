@@ -8,6 +8,7 @@ $("#submit-btn").click(function(event) {
     var inputData = {
         name : $("#shop-name").val(),
         address : $("#shop-address").val(),
+        tags: $("#sel1").val()
     }
 
     var temp = inputData.address.split(" ")
@@ -34,7 +35,7 @@ $("#submit-btn").click(function(event) {
                 address : inputData.address,
                 longtitude : geocode.lng,
                 latitude : geocode.lat,
-                tags : "a"
+                tags : inputData.tags
             }
 
             $.ajax({
