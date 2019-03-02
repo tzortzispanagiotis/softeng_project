@@ -10,23 +10,23 @@ var slider=$("#myRange");
 var output=$("#showval");
 function price_range() {
   $.ajax({
-       url: "https://jsonplaceholder.typicode.com/posts",
+       url: "observatory/api/prices",
        method: "GET",
        success: function(data,status) {
-         min_price=data[0].id;
-         max_price=data[0].id;
+         min_price=data[0].price;
+         max_price=data[0].price;
          for(var i=1;i<data.length;i++){
-           if(data[i].id>max_price){
-             max_price=data[i].id;
+           if(data[i].price>max_price){
+             max_price=data[i].price;
            }
-           else if (data[i].id<min_price){
-             min_price=data[i].id;
+           else if (data[i].price<min_price){
+             min_price=data[i].price;
            }
          }
          slider.attr("min",min_price);
          slider.attr("max",max_price);
          slider.attr("value",max_price);
-         output.html(slider.attr("value"));
+         output.html(Number(slider.attr("value")).toFixed(3));
        },
        error: function(data,status) {
          console.log(status);
@@ -50,10 +50,10 @@ function fuel_range(){
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-        $("#fuelbuttons").append('<button type="button" class="filterbutton"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+          $("#fuelbuttons").append('<button type="button" class="btn btn-outline-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
       }
       if (i%2==1){
-        $("#fuelbutton"+(i-1)).addClass("whole");
+        $("#fuelbutton"+(i-1)).addClass("w-100");
       }
     }
 
@@ -65,28 +65,44 @@ function shops(){
     url: "observatory/api/shops ",
     method: "GET",
     success: function(data,status) {
-      console.log(data);
+      // console.log(data);
       var unique=[];
       for (var i = 0; i < data.shops.length; i++) {
-        unique.push(data.shops[i].name);
+        unique.push(data.shops[i].name);  //edw na ginei typos
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-        $("#shopbuttons").append('<button type="button" class="filterbutton"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
+        $("#shopbuttons").append('<button type="button" class="btn btn-outline-primary text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
       }
       if (i%2==1){
-        $("#shopbuttons"+(i-1)).addClass("whole");
+        $("#shopbuttons"+(i-1)).addClass("w-100");
       }
     }
 
   })
 }
+
+function searchResults() {
+  var vars = [], hash;
+  var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  for(var i = 0; i < hashes.length; i++)
+  {
+      hash = hashes[i].split('=');
+      vars.push(hash[0]);
+      vars[hash[0]] = hash[1];
+  }
+  var lng = vars["lng"];
+  var lat = vars["lat"];
+  var cat = vars["cat"];
+  console.log(lng, lat, cat);
+}
+
 /*Telos dilwsewn
 =================================================*/
 price_range();
 fuel_range();
 shops();
-
+searchResults();
 //real time ektypwsh ths epilegmenis timis
 slider.on('input',function() {
   output.html(this.value);

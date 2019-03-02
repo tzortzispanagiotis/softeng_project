@@ -1,0 +1,16 @@
+.map-container{
+  width:80%;
+  height: 50vh;
+  margin-left:10%;
+  margin-right: 10%;
+}
+.results {
+  border-top: 1px solid black;
+  border-radius: 2px;
+}
+
+.search-container {
+  margin-top: 3vh;
+  margin-left: 10%;
+  margin-right: 10%;
+}
