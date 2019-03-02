@@ -48,7 +48,7 @@ User.sync({force: false}).then(() => {
     console.log("user model created successfully")
 })
 .then(()=>{ 
-    // User.bulkCreate(myinit.users)
+    User.bulkCreate(myinit.users)
 })
 
 
