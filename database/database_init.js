@@ -95,35 +95,35 @@ var productObj = [
         {
             name: 'AMOLIVDI 95',
             description: 'ΒΕΝΖΙΝΗ',
-            category: 'ΚΑΥΣΙΜΑ',
+            category: 'ΑΜΟΛΥΒΔΗ',
             productTags: 'ΦΘΗΝΗ',
             withdrawn: false
         },
         {
             name: ' SUPER AMOLIVDI 99',
             description: 'ΒΕΝΖΙΝΗ',
-            category: 'ΚΑΥΣΙΜΑ',
+            category: 'ΑΜΟΛΥΒΔΗ',
             productTags: 'ΣΟΥΠΕΡ',
             withdrawn: false
         },
         {
             name: 'DIESEL',
             description: 'ΠΕΤΡΕΛΕΟ ΚΙΝΗΣΗΣ',
-            category: 'ΚΑΥΣΙΜΑ',
+            category: 'ΝΤΙΖΕΛ',
             productTags: 'ΠΕΤΡΕΛΕΟΚΙΝΗΤΑ',
             withdrawn: false
         },
         {
             name: 'ULTIMATE DIESEL',
             description: 'ΠΕΤΡΕΛΕΟ ΚΙΝΗΣΗΣ',
-            category: 'ΚΑΥΣΙΜΑ',
+            category: 'ΠΕΤΡΕΛΑΙΟ ΘΕΡΜΑΝΣΗΣ',
             productTags: 'ΠΕΤΡΕΛΕΟΚΙΝΗΤΑ',
             withdrawn: false
         },
         {
             name: 'ΥΓΡΑΕΡΙΟ',
             description: 'ΑΕΡΙΟ ΚΙΝΗΣΗΣ',
-            category: 'ΚΑΥΣΙΜΑ',
+            category: 'ΥΓΡΑΕΡΙΟ',
             productTags: 'AUTOGAS',
             withdrawn: false
         },

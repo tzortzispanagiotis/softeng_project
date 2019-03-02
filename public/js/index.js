@@ -13,11 +13,11 @@ function show_alternatives() {
     success: function(data,status) {
       //console.log(data);
       for (var i = 0; i < data.products.length; i++) {
-        unique.push(data.products[i].name);
+        unique.push(data.products[i].category);
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-        $('#select').append("<option>"+unique[i]+"</option>")
+        $('#select').append("<option value=\""+unique[i]+"\">"+unique[i]+"</option>")
       }
     }
 
