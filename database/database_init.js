@@ -7,7 +7,7 @@ var shopObj =  [
         address :'ΚΑΠΟΔΙΣΤΡΙΟΥ 78, ΜΑΡΟΥΣΙ',
         latitude: 38.030540,
         longtitude: 23.778410,
-        shopTags: 'a',
+        shopTags: 'EKO, fuel',
         withdrawn: false
     },
    
@@ -16,7 +16,7 @@ var shopObj =  [
         address :'ΒΑΣ. ΣΟΦΙΑΣ 100,ΑΘΗΝΑ',
         latitude: 37.982578,
         longtitude: 23.757160,
-        shopTags: 'ΠΛΗΝΤΥΡΙΟ',
+        shopTags: 'SHELL',
         withdrawn: false
     },
     {
@@ -24,7 +24,7 @@ var shopObj =  [
         address :'ΠΕΙΡΑΙΩΣ 250,ΑΘΗΝΑ',
         latitude: 37.954830,
         longtitude: 23.673790,
-        shopTags: 'a',
+        shopTags: 'AVIN',
         withdrawn: false
     },
     {
@@ -32,7 +32,7 @@ var shopObj =  [
         address :'ΟΥΛΩΦ ΠΑΛΜΕ 24 ,ΑΓ.ΑΝΑΡΓΥΡΟΙ',
         latitude: 38.029160,
         longtitude: 23.722670,
-        shopTags: 'a',
+        shopTags: 'AVIN',
         withdrawn: false
     },
     {
@@ -40,7 +40,7 @@ var shopObj =  [
         address :'Καραολή και Δημητρίου και Σοφιανοπούλου, 18547, Αθήνα',
         latitude: 37.9482607,
         longtitude: 23.6620392,
-        shopTags: 'a',
+        shopTags: 'SHELL',
         withdrawn: false
     },
     {
@@ -48,7 +48,7 @@ var shopObj =  [
         address :'Νικ. Γενηματά, Αμπελόκηποι, 11524, ΑΘήνα',
         latitude: 37.9938309,
         longtitude: 23.7616977,
-        shopTags: 'a',
+        shopTags: 'EKO',
         withdrawn: false
      
     },
@@ -57,7 +57,7 @@ var shopObj =  [
         address :' Ιερά Οδός 59, Αθήνα',
         latitude: 37.9810466,
         longtitude: 23.7085819,
-        shopTags: 'a',
+        shopTags: 'BP',
         withdrawn: false
         
     },
@@ -66,7 +66,7 @@ var shopObj =  [
         address : 'Βενέζη 6, Ηράκλειο, 14121, Αθήνα',
         latitude: 38.0430615,
         longtitude: 23.7730606,
-        shopTags: 'a',
+        shopTags: 'BP',
         withdrawn: false
        
     },
@@ -75,7 +75,7 @@ var shopObj =  [
         address : 'Ερμού 48, Αιγάλεο, 12244, Αθήνα',
         latitude:38.0430615,
         longtitude: 23.7730606,
-        shopTags: 'a',
+        shopTags: 'SHELL',
         withdrawn: false  
     },
         
@@ -84,7 +84,7 @@ var shopObj =  [
         address : 'Πολυγύρου 14, 11527, Αθήνα',
         latitude:  37.987712,
         longtitude: 23.7662746,
-        shopTags: 'a',
+        shopTags: 'SHELL',
         withdrawn: false
     }
 ]

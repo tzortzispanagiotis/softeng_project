@@ -7,7 +7,7 @@ $("#submit-btn").click(function(event) {
 
     var inputData = {
         name : $("#shop-name").val(),
-        address : $("#shop-address").val()
+        address : $("#shop-address").val(),
     }
 
     var temp = inputData.address.split(" ")
@@ -27,7 +27,8 @@ $("#submit-btn").click(function(event) {
         success: function(data,status) {
             geocode.lat = data.results[0].geometry.location.lat
             geocode.lng = data.results[0].geometry.location.lng
-
+            
+            
             createData = {
                 name : inputData.name,
                 address : inputData.address,
