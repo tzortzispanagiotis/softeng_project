@@ -1,9 +1,11 @@
 $( document ).ready(function() {
     console.log( "ready!" );
 });
+
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
+
 var unique=[];
 //zitaei apo ti vasi ta names twn proiontwn kai ta typwnei
 function show_alternatives() {
@@ -23,4 +25,40 @@ function show_alternatives() {
 
   })
 }
+
 show_alternatives()
+
+$("#btn-src").click(function(event) {
+  event.preventDefault();
+
+  inputData = {
+    productCategory: $("#select").val(),
+    address: $("#address").val()
+  }
+
+  var temp = inputData.address.split(" ")
+
+    var list = ""
+    for (var i in temp) {
+        list = list + temp[i]
+        list = list + "+"
+    }
+    list = list.substring(0, list.length - 1)
+
+    var geocode = {}
+    $.ajax({
+        url: "https://maps.googleapis.com/maps/api/geocode/json?address="+list+"&key=AIzaSyCL-EHbgBsjgKSaP4hZ38JFx2GtLv9R5wM",
+        method: "GET",
+        success: function(data,status) {
+            geocode.lat = data.results[0].geometry.location.lat
+            geocode.lng = data.results[0].geometry.location.lng
+
+            $( location ).attr("href", "/searchresults?lat="+geocode.lat+"&lng="+geocode.lng+"&cat="+inputData.productCategory)
+
+        },
+        error: function(data,status) {
+          alert("PULO")
+        }
+  })
+})
+
