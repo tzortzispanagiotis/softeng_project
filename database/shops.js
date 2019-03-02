@@ -1,42 +1,51 @@
-module.exports = function(sequelize, DataTypes) {
-    const Shops = sequelize.define('shop', {
-        shopId: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        address : {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        longtitude: {
-            type: DataTypes.DOUBLE,
-            allowNull: false
-        },
-        latitude: {
-            type: DataTypes.DOUBLE,
-            allowNull: false
-        },
-        shopTags: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        // corporation: {
-        //     type : DataTypes.STRING ,
-        //     allowNull : false
-        // }
-        withdrawn: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        }
+const Sequelize = require("sequelize")
+dbo       = require("./connect");
+const myinit = require('./database_init');
+const Price = require('./prices');
+
+const Shops = dbo.define('shop', {
+    shopId: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
-    {
-        tableName: 'shop',
-        timestamps: false
-    })
-    return Shops;
-}
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    address : {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    longtitude: {
+        type: Sequelize.DOUBLE,
+        allowNull: false
+    },
+    latitude: {
+        type: Sequelize.DOUBLE,
+        allowNull: false
+    },
+    shopTags: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    // corporation: {
+    //     type : Sequelize.STRING ,
+    //     allowNull : false
+    // }
+    withdrawn: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    }
+},
+{
+    tableName: 'shop',
+    timestamps: false
+})
+
+
+Shops.sync({force : false}).then(() => {
+    console.log("shop model created successfully")})
+    .then(() => {  Shops.bulkCreate(myinit.shops)})
+
+module.exports = Shops;

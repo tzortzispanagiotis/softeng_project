@@ -1,5 +1,7 @@
 const shopApiController = {},
-      db                = require('../../database/connect');
+      db                = require('../../database/connect'),
+      Shop              = require('../../database/shops'),
+      User              = require('../../database/user');
 
 shopApiController.getAllAction = (req, res) => {
     var whereClause = {}
@@ -46,7 +48,7 @@ shopApiController.getAllAction = (req, res) => {
         order: [[sort[0],sort[1]]]
     }
 
-    db.Shop.findAll(searchParams)
+    Shop.findAll(searchParams)
     .then(foundShops => {
         var shops= [];
         var total = 0;
@@ -73,7 +75,7 @@ shopApiController.getAllAction = (req, res) => {
 }
 
 shopApiController.getOneAction = (req, res) => {
-    db.Shop.findOne({where: {
+    Shop.findOne({where: {
         shopId: req.params.id
     }})
       .then(foundShop => {
@@ -92,7 +94,7 @@ shopApiController.getOneAction = (req, res) => {
 
 shopApiController.createAction = (req, res) => {
     var newShops = req.params.x
-    db.Shop.create(newShops).then(newShop => {
+    Shop.create(newShops).then(newShop => {
     var tags = newShop.shopTags.split(",")
         res.json({
             id: newShop.shopId,
@@ -108,7 +110,7 @@ shopApiController.createAction = (req, res) => {
 
 shopApiController.partialUpdateAction = (req,res) => {  
     var updatedShop ={}
-    db.Shop.findOne({where: {shopId: req.params.id}})
+    Shop.findOne({where: {shopId: req.params.id}})
     .then(found => { //osa pedia den exoun oristei ek neou krataw ta palia
         if (req.body.name== null){
             updatedShop.name= found.name
@@ -151,7 +153,7 @@ shopApiController.partialUpdateAction = (req,res) => {
 
 shopApiController.fullUpdate = (req,res) => {  
     var updatedShop = req.params.x
-    db.Shop.findOne({where: {shopId: req.params.id}})
+    Shop.findOne({where: {shopId: req.params.id}})
     .then(found => { 
         found.update(updatedShop,{fields: ['name','address','longtitude','latitude','shopTags']}) //kanw update
         res.json({
@@ -168,9 +170,9 @@ shopApiController.fullUpdate = (req,res) => {
 
 shopApiController.deleteAction = (req, res) => {
     var User = req.decoded.id
-    db.Shop.findOne({where: {shopId:req.params.id}})
+    Shop.findOne({where: {shopId:req.params.id}})
     .then(foundShop => {
-        db.User.findOne({where: {userId: User}})
+        User.findOne({where: {userId: User}})
         .then(found => {
             if (found.role == 'ADMIN') {
                 console.log(found.role)

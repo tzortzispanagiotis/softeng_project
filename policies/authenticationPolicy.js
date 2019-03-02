@@ -2,7 +2,7 @@ const Joi = require('joi'),
       jwt = require('jsonwebtoken'),
       config = require('../configurations/credentials'),
       database = require('../database/connect'),
-      invalidTokens = database.invalidTokens;
+      invalidTokens = require('../database/invalidTokens');
 
 module.exports = {
     login (req, res, next){
@@ -31,10 +31,11 @@ module.exports = {
     checkToken (req, res, next) {
         let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
         if (!token) {
-          return res.json({
+          res.status(401).json({
           success: false,
           message: 'Auth token is not supplied'
           })
+          return
         }
         if (token.startsWith('Bearer ')) {
           // Remove Bearer from string
@@ -44,28 +45,32 @@ module.exports = {
         if (token) {
           invalidTokens.findOne({where: {token: token}}).then(found => {
           if (found) {
-            res.status(400).json({success : false, message: "invalid token"})
+            res.status(401).json({success : false, message: "invalid token"})
+            return
           }
           else {
             jwt.verify(token, config.jwt_secret, (err, decoded) => {
               if (err) {
-                next();
-                return res.json({
+                res.status(401).json({
                   success: false,
                   message: 'Token is not valid'
-                });
-              } else {
+                })
+                return
+              } 
+              else {
                 req.decoded = decoded;
+                console.log("VERIFIED!")
                 next();
               }
             });
           }
         })}
         else {
-          return res.json({
+          res.status(401).json({
             success: false,
             message: 'Auth token is not supplied'
-          });
+          })
+          return
         }
     }
 }

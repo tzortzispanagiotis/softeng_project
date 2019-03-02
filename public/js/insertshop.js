@@ -27,39 +27,36 @@ $("#submit-btn").click(function(event) {
         success: function(data,status) {
             geocode.lat = data.results[0].geometry.location.lat
             geocode.lng = data.results[0].geometry.location.lng
+
+            createData = {
+                name : inputData.name,
+                address : inputData.address,
+                longtitude : geocode.lng,
+                latitude : geocode.lat,
+                tags : "a"
+            }
+
+            $.ajax({
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+                url: "/observatory/api/shops",
+                method: "POST",
+                data: createData,
+                
+                success: function(data,status) {
+                    alert("Το κατάστημα προστέθηκε επιτυχώς!")
+                    $( location ).attr("href", "/");
+                },
+                error: function(data,status) {
+                    alert("Αποτυχία. Προσπαθήστε ξανά")
+                    $( location ).attr("href", "/insertshop");
+                }
+            })
         },
         error: function(data,status) {
             alert("PULO")
         }
     })
-
-    console.log(geocode) // HERE WE HAVE lat, lng!!!
-
-    createData = {
-        name : inputData.name,
-        address : inputData.address,
-        longtitude : geocode.lng,
-        latitude : geocode.lat,
-        tags : "a"
-    }
-
-    $.ajax({
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        url: "/observatory/api/shops",
-        method: "POST",
-        data: createData,
-        
-        success: function(data,status) {
-            alert("Το κατάστημα προστέθηκε επιτυχώς!")
-            $( location ).attr("href", "/");
-        },
-        error: function(data,status) {
-            alert("Αποτυχία. Προσπαθήστε ξανά")
-            $( location ).attr("href", "/insertshop");
-        }
-    })
-
 })
   

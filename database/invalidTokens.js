@@ -1,13 +1,14 @@
-module.exports = function(sequelize, DataTypes) {
+const Sequelize = require("sequelize"),
+      dbo       = require("./connect");
 
-    const invalidTokens = sequelize.define('invalidTokens', {
+    const invalidTokens = dbo.define('invalidTokens', {
         tokenId: {
-            type: DataTypes.INTEGER,
+            type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
         token: {
-            type: DataTypes.STRING,
+            type: Sequelize.STRING,
             allowNull:false
         }
     },
@@ -15,5 +16,8 @@ module.exports = function(sequelize, DataTypes) {
         tableName: 'invalidTokens',
         timestamps: false
     })
-    return invalidTokens;
-}
+
+    invalidTokens.sync({force : true}).then(() => {
+        console.log("created invalid tokens model")})
+    
+    module.exports = invalidTokens;

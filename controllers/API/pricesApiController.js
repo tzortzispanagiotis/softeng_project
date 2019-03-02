@@ -2,10 +2,10 @@ const pricesApiController   = {},
       db                    = require('../../database/connect'), //require sequelize connection
       sequelize             = require('sequelize')
       Op                    = sequelize.Op,
-      User                  = db.User,
-      Product               = db.Product,
-      Shop                  = db.Shop,
-      Price                 = db.Price ;
+      User                  = require('../../database/user'),
+      Product               = require('../../database/products'),
+      Shop                  = require('../../database/shops'),
+      Price                 = require('../../database/prices') ;
 var distanceFunction      = require('./diastance'); // function that calculates distance
       
 pricesApiController.getAllAction = (req, res) => {
@@ -216,7 +216,7 @@ pricesApiController.reportAction = (req,res) => {
     var updated={}
     var id1 =req.params.id
     function  updateprice(id,res){
-        db.Price.findOne({where: {priceId: id}}).then(found => {
+        Price.findOne({where: {priceId: id}}).then(found => {
             //osa pedia den exoun oristei ek neou krataw ta palia
                     updated.userId=found.userId
                     updated.priceId= found.priceId ,
@@ -231,7 +231,7 @@ pricesApiController.reportAction = (req,res) => {
        //var updated1= await updateprice (updated,id,res)
         console.log(updated1)
         var updated2={}
-        db.User.findOne({where: {userId: updated1.userId}}).then(found2 => {
+        User.findOne({where: {userId: updated1.userId}}).then(found2 => {
             //osa pedia den exoun oristei ek neou krataw ta palia
                 
                     updated2.userId= found2.userId ,

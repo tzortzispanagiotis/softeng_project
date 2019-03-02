@@ -213,3 +213,4 @@ module.exports = {
     products: productObj,
     prices: pricesObj
  }
+
