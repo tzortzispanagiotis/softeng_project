@@ -259,5 +259,33 @@ pricesApiController.reportAction = (req,res) => {
     }
 
 
+    pricesApiController.createAction = (req, res) => {
+        var newitems ={
+
+            price: req.body.price,
+            date: req.body.date,
+            reportCount: req.body.reportCount,
+               shopId:req.body.shopId ,
+               productId:req.body.productId ,
+               userid:req.body.userId
+
+        }       
+        console.log(newitems)
+
+        Price.create(newitems).then(newitem => {
+        console.log(newitem.price)
+            res.json({
+               // id: newitem.shopId,
+               price: newitem.price,
+               date: newitem.date,
     
+               reportCount: newitem.reportCount,
+               shopId:newitem.shopId ,
+               productId:newitem.productId ,
+               userid:newitem.userId
+                
+               
+            })
+        })
+    }  
 module.exports = pricesApiController;
