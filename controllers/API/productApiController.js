@@ -1,7 +1,7 @@
 const productApiController = {},
       db                   = require('../../database/connect'),
-      Product              = db.Product,
-      user                 = db.User;
+      Product              = require('../../database/products'),
+      user                 = require('../../database/user');
 
 productApiController.getAllAction = (req, res) => {
     var whereClause = {}

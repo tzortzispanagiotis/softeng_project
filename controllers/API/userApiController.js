@@ -1,7 +1,7 @@
 const userApiController = {},
       database            = require('../../database/connect');
 
-var User = database.User;
+var User = require('../../database/user');
 
 userApiController.getAllAction = (req, res) => {
     User.findAll({attributes: ['username']}).then(found => {
