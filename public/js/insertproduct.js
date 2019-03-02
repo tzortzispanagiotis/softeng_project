@@ -9,26 +9,33 @@ $("#submit-btn").click(function(event) {
         name : $("#product-name").val(),
         description : $("#product-description").val(),
         category: $("#product-category").val(),
-        tags: "a"
+        tags: $("#product-tags").val()
     }
 
-    // var temp = inputData.address.split(" ")
+    var temp = inputData.tags.split(" ")
 
-    // var list = ""
-    // for (var i in temp) {
-    //     list = list + temp[i]
-    //     list = list + "+"
-    // }
-    // list = list.substring(0, list.length - 1)
+    var list = ""
+    for (var i in temp) {
+        list = list + temp[i]
+        list = list + ","
+    }
+    list1 = list.substring(0, list.length - 1)
 
-
+    var finalinputData = {
+        name : inputData.name,
+        description : inputData.description,
+        category: inputData.category,
+        tags: list1
+    }
+    
+    
     $.ajax({
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         url: "/observatory/api/products",
         method: "POST",
-        data: inputData,
+        data: finalinputData, //
         
         success: function(data,status) {
             alert("Το προιον προστέθηκε επιτυχώς!")
