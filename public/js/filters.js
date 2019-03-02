@@ -46,7 +46,7 @@ function fuel_range(){
     success: function(data,status) {
       var unique=[];
       for (var i = 0; i < data.products.length; i++) {
-        unique.push(data.products[i].name);
+        unique.push(data.products[i].category);
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
@@ -94,7 +94,43 @@ function searchResults() {
   var lng = vars["lng"];
   var lat = vars["lat"];
   var cat = vars["cat"];
-  console.log(lng, lat, cat);
+  $.get('/observatory/api/products?cat=' + cat, function(response, status) {
+    var productsInCategory = response.products;
+    console.log(productsInCategory);
+    var pricesQuery = '/observatory/api/prices?' + productsInCategory.map((p, index) => {
+      return index !== 0 ? '&productId=' + p.id: 'productId=' + p.id
+    }).join('') + '&geoDist=100&geoLat=' + lat + '&geoLng=' + lng + '&sort=price|ASC'
+    $.get(pricesQuery, function(prices) {
+      console.log(prices);
+      var html = '';
+      prices.forEach(price => {
+        html += `
+        <div class="col-md-6">
+          <div class="card mb-3">
+            <div class="card-header">${price.shop.address}</div>
+            <div class="card-body">
+              <div class="float-right">
+                ${price.price.toFixed(2)} &euro;
+              </div>
+              <div>
+                ${price.date}
+              </div>
+            </div>
+            <div class="card-footer">${price.product.name} | ${price.product.description}</div>
+          </div>
+        </div>
+        `
+      })
+      $('#results').html(html);
+    })
+  })
+
+
+  // var pricesQuery = '/observatory/api/prices?' + productsInCategory.map(p => p.id)
+  // $.get('/observatory/api/prices?productId=' )
+
+
+
 }
 
 /*Telos dilwsewn

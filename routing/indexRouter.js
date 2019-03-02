@@ -7,9 +7,7 @@ router.get('/login', indexController.renderLoginAction)
 
 router.get('/contact', indexController.renderContactAction)
 
-router.get("/filters", (req, res) => {
-    res.render('filters')
-  })
+router.get("/searchResults", indexController.renderSearchResultsAction);
 
 router.get('/insertshop', indexController.renderInsertShopAction)
 

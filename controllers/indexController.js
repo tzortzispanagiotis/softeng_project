@@ -1,7 +1,7 @@
 const indexController = {}
 const Shop = require('../database/shops')
 
-function onlyUnique(value, index, self) { 
+function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
@@ -17,6 +17,10 @@ indexController.renderContactAction = (req,res) => {
     res.render('contact')
 }
 
+indexController.renderSearchResultsAction = (req, res) => {
+  res.render('filters');
+}
+
 indexController.renderInsertShopAction = (req,res) => {
     Shop.findAll().then(foundShops => {
         var tags = foundShops.map(shop => {
@@ -29,6 +33,6 @@ indexController.renderInsertShopAction = (req,res) => {
 
 indexController.renderInsertProductAction = (req,res) => {
     res.render('insertproduct')
-    
+
 }
 module.exports = indexController
