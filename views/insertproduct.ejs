@@ -8,15 +8,15 @@
       <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
       <link href="/static/css/insert.css" rel="stylesheet" />
       <link href="/static/css/footer.css" rel= "stylesheet" />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     </head>
     <body>
-      <!--<% include partials/navbar %>-->
-          <div class="pt-5">
+      <% include partials/navbar %>
+                <div style="padding-top:10%">
             <div class="container">
               <div class=row>
                 <div class="col-md-6 offset-md-3">
@@ -34,16 +34,15 @@
                                     <input type="text" id="product-description" tabindex="1" class="form-control" placeholder="Περιγραφή προιόντος" value="">
                                 </div>
                                 <div class="form-group">
-                                        <select class="form-control" id="sel1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
+                                        <select class="form-control" id="product-category">
+                                            <% categories.forEach(category => {%>
+                                                <option value="<%= category %>"><%= category %></option>
+                                            <% }) %>
                                         </select>      
                                 </div>
                                 <div class="form-group">
                                       <div id="shop-tags">
-                                        Εδω θα μπει dropdown
+                                            <input type="text" id="product-tags" tabindex="1" class="form-control" placeholder="Ετικέτες Προιόντος" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -63,9 +62,7 @@
             </div>
               
           </div>
-          <script src="/static/js/loginregister.js"></script>
-          <script src="/static/js/login.js"></script>
-          <script type="text/javascript" src="/static/js/signup.js"></script>
-      <!--<% include partials/footer %>-->
+          <script src="/static/js/insertproduct.js"></script>      
+          <!--<% include partials/footer %>-->
     </body>
 </html>

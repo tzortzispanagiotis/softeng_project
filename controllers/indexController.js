@@ -1,5 +1,6 @@
 const indexController = {}
-const Shop = require('../database/shops')
+const Shop = require('../database/shops'),
+      Product = require('../database/products');
 
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -28,7 +29,13 @@ indexController.renderInsertShopAction = (req,res) => {
 }
 
 indexController.renderInsertProductAction = (req,res) => {
-    res.render('insertproduct')
+    Product.findAll().then(foundProducts => {
+        var categories = foundProducts.map(product => {
+            return product.category
+        })
+        categories = categories.filter( onlyUnique);
+        res.render('insertproduct', {categories})
+    })
     
 }
 module.exports = indexController
