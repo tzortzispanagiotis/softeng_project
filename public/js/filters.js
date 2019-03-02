@@ -98,10 +98,10 @@ function shops(){
     url: "observatory/api/shops ",
     method: "GET",
     success: function(data,status) {
-      // console.log(data);
+      console.log(data);
       var unique=[];
       for (var i = 0; i < data.shops.length; i++) {
-        unique.push(data.shops[i].name);  //edw na ginei typoscategory
+        unique.push(data.shops[i].tags[0]);  //edw na ginei typoscategory
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
@@ -157,13 +157,13 @@ function searchResults() {
             <div class="card-header">${price.shop.address}</div>
             <div class="card-body">
               <div class="float-right">
-                ${price.price.toFixed(2)} &euro;
+                ${price.price.toFixed(3)} &euro;
               </div>
               <div>
                 ${price.date}
               </div>
             </div>
-            <div class="card-footer">${price.product.name} | ${price.product.description}</div>
+            <div class="card-footer">${price.product.name} | ${price.product.category}</div>
           </div>
         </div>
         `
