@@ -6,11 +6,7 @@ module.exports = {
         password: process.env.DB_PASS || "my_password"
     },
     jwt_secret: process.env.SECRET || 'mylittlesecret'
-<<<<<<< HEAD
-} 
-=======
 }
 
 //  Kwdikos Google Map Api
 //  AIzaSyCL-EHbgBsjgKSaP4hZ38JFx2GtLv9R5wM
->>>>>>> filtra

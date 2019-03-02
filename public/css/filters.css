@@ -8,9 +8,12 @@ html, body {
     background-position: center center;
 }
 
+.pad-up{
+  padding-top: 4%;
+}
 .white-bg {
   background-color: white;
-  border-radius: 6%;
+  /* border-radius: 6%; */
   opacity: 0.89;
 }
 .white-bg-noround {

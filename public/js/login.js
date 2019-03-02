@@ -10,8 +10,6 @@ $("#login-btn").click(function(event) {
         password : $("#password").val()
     }
 
-    console.log(myData)
-
     $.ajax({
         url: "/observatory/api/login",
         method: "POST",

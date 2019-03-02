@@ -1,12 +1,11 @@
 $( document ).ready(function() {
-  console.log( "ready!" );
-});
-
+    console.log( "ready!" );
+}); 
 
 function show_loggedin(){
 if (localStorage.token!=null){
   $("#list").prepend('<li class="nav-item" id="loggedin" title="Δες το προφιλ σου"><a class="nav-link" href="">'+localStorage.username+'</a></li>');
-  $("#login").html('<a class="nav-link" href="">Δες το προφίλ σου</a>').attr("name","logout");
+  $("#login").html('<a class="nav-link" href="">Αποσύνδεση</a>').attr("name","logout");
 }
 else {
   $("#login").html('<a class="nav-link" href="">Συνδέσου</a>').attr("name","login");
