@@ -16,7 +16,7 @@ productApiController.getAllAction = (req, res) => {
     var sort= {}
     sort[0] = 'productId'
     sort[1] = 'DESC'
-
+ 
     temp = req.query.sort
     if (temp){       
         sort = temp.split('|')
