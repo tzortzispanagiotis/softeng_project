@@ -35,7 +35,10 @@ indexController.renderInsertProductAction = (req,res) => {
         })
         categories = categories.filter( onlyUnique);
         res.render('insertproduct', {categories})
-    })
-    
+    })   
+}
+
+indexController.renderInsertPriceAction = (req,res) => {
+    res.render('insertprice')
 }
 module.exports = indexController

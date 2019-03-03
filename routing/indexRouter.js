@@ -15,5 +15,6 @@ router.get('/insertshop', indexController.renderInsertShopAction)
 
 router.get('/insertproduct', indexController.renderInsertProductAction)
 
+router.get('/insertprice', indexController.renderInsertPriceAction)
 
 module.exports = router;
