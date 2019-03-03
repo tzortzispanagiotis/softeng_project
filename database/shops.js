@@ -1,5 +1,5 @@
-const Sequelize = require("sequelize")
-dbo       = require("./connect");
+const Sequelize = require("sequelize") ,
+       dbo       = require("./connect");
 const myinit = require('./database_init');
 const Price = require('./prices');
 

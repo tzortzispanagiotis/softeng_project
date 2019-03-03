@@ -1,8 +1,9 @@
 const Sequelize = require("sequelize");
 const Credentials = require("../configurations/credentials.js"); 
-const bcrypt = require("bcryptjs")
-let  myinit  = require("../database/database_init.js");
+const bcrypt = require("bcryptjs") ;
+//const empty = require("../database/database_empty.js"); 
 
+let  myinit  = require("../database/database_init.js");
 
 const sequelize = new Sequelize(Credentials.database.db_name, Credentials.database.username, Credentials.database.password, {
     define: {
@@ -92,5 +93,5 @@ sequelize.authenticate()
 //     Price: Price,
 //     invalidTokens : invalidTokens
 // }
-    
+//empty.emptynow() 
 module.exports = sequelize;
