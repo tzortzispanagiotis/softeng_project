@@ -4,6 +4,55 @@ $( document ).ready(function() {
 /*Dilwseis synarthsewn
 ===================================*/
 //synarthsh xeirismou tou Slider
+function getCategoryUrl(cat) {
+  var vars=getQueryVars();
+  var url='/searchResults?'
+  var u = [];
+  if(cat) {
+    u.push('cat=' + cat);
+  }
+  else {
+    u.push('cat='+vars.cat);
+  }
+  if (vars.lat) {
+    u.push('lat=' + vars.lat);
+  }
+  if(vars.lng) {
+    u.push('lng=' + vars.lng);
+  }
+  u.map((u, index) => {
+    if(index === 0) {
+      url += u;
+    } else {
+      url += '&' + u;
+    }
+  })
+  return url;
+}
+//ama use=1 tote epilogh alliws an 0 tote apoepilogh
+function getCorpUrl(corp,use) {
+  var vars=getQueryVars();
+  var prevcorp= vars.corp ?  vars.corp.split(','):[];
+  var url='';
+  var u=[];
+  if (corp && use==1){
+    u.push('&corp='+corp);
+  }
+  for (var i = 0; i < prevcorp.length; i++) {
+    if (use==1){
+      u.push('&corp='+prevcorp[i]);
+    }
+    else if (use==0){
+      if(prevcorp[i]!=corp) {
+        u.push('&corp='+prevcorp[i]);
+      }
+    }
+  }
+  u.map((u, index) => {
+      url += u;
+  })
+  return url;
+}
 
 var min_price;
 var max_price;
@@ -72,25 +121,8 @@ function fuel_range(){
         $("#fuelbutton"+(i-1)).addClass("w-100");
       }
       $(".category-btn").click(function (event){
-          cat = event.currentTarget.innerText
-          var url = '/searchResults?';
-          var u = [];
-          if(cat) {
-            u.push('cat=' + cat);
-          }
-          if (vars.lat) {
-            u.push('lat=' + vars.lat);
-          }
-          if(vars.lng) {
-            u.push('lng=' + vars.lng);
-          }
-          u.map((u, index) => {
-            if(index === 0) {
-              url += u;
-            } else {
-              url += '&' + u;
-            }
-          })
+          cat = event.currentTarget.innerText;
+          url=getCategoryUrl(cat)+getCorpUrl();
           window.location.assign(url);
       })
     }
@@ -134,46 +166,12 @@ function shops(){
       $(".shops-btn-notSelected").click(function (event){
         corp = event.currentTarget.innerText;
         //console.log(tag);
-        var url = '/searchResults?';
-        var u = [];
-        u.push('cat='+vars.cat);
-        u.push('lat='+vars.lat);
-        u.push('lng='+vars.lng);
-        if (corp){
-          u.push('corp='+corp);
-        }
-        for (var i = 0; i < prevcorp.length; i++) {
-          u.push('corp='+prevcorp[i]);
-        }
-        u.map((u, index) => {
-          if(index === 0) {
-            url += u;
-          } else {
-            url += '&' + u;
-          }
-        })
+        url=getCategoryUrl(null)+getCorpUrl(corp,1);
         window.location.assign(url);
       })
       $(".shops-btn-Selected").click(function (event) {
         corp = event.currentTarget.innerText;
-        //console.log(tag);
-        var url = '/searchResults?';
-        var u = [];
-        u.push('cat='+vars.cat);
-        u.push('lat='+vars.lat);
-        u.push('lng='+vars.lng);
-        for (var i = 0; i < prevcorp.length; i++) {
-          if(prevcorp[i]!=corp) {
-            u.push('corp='+prevcorp[i]);
-          }
-        }
-        u.map((u, index) => {
-          if(index === 0) {
-            url += u;
-          } else {
-            url += '&' + u;
-          }
-        })
+        var url=getCategoryUrl()+getCorpUrl(corp,0);
         window.location.assign(url);
       })
     }
@@ -286,4 +284,23 @@ slider.on('input',function() {
 });
 distance_slider.on('input',function() {
   distance_output.html(this.value);
+  var url = '/searchResults?';
+  var u = [];
+  if(cat) {
+    u.push('cat=' + cat);
+  }
+  if (vars.lat) {
+    u.push('lat=' + vars.lat);
+  }
+  if(vars.lng) {
+    u.push('lng=' + vars.lng);
+  }
+  u.map((u, index) => {
+    if(index === 0) {
+      url += u;
+    } else {
+      url += '&' + u;
+    }
+  })
+  window.location.assign(url);
 });
