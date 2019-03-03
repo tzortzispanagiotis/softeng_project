@@ -48,7 +48,7 @@ $("#submit-btn").click(function(event) {
                 
                 success: function(data,status) {
                     alert("Το κατάστημα προστέθηκε επιτυχώς!")
-                    $( location ).attr("href", "/");
+                    $( location ).attr("href", "/insertprice");
                 },
                 error: function(data,status) {
                     alert("Αποτυχία. Προσπαθήστε ξανά")

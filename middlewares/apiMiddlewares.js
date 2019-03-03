@@ -43,7 +43,7 @@ apiMiddlewares.checkRequestForShop = (req,res, next) => {
         (req.body.tags ==null)) {
         res.status(400).json({error: 'Bad Request!!'})
     }
-    else {
+    else {  
         var x = {
             name: req.body.name,
             address: req.body.address,
@@ -57,18 +57,32 @@ apiMiddlewares.checkRequestForShop = (req,res, next) => {
     }
 }
 
+apiMiddlewares.checkRequestForShopGetAll = (req, res, next) => {
+    if (((req.query.geoDist == null) &&
+        (req.query.geoLng == null) &&
+        (req.query.geoLat == null)) ||
+        ((req.query.geoDist != null) &&
+        (req.query.geoLng != null) &&
+        (req.query.geoLat != null))) {
+            next();
+    }
+    else {
+        res.status(400).json({error: 'Bad Request!!'})
+    }
+}
+
 apiMiddlewares.checkRequestForPrices = (req,res, next) => {
-    if ((req.body.geoDist == null &&
-        req.body.geoLng == null &&
-        req.body.geoLat == null) ||
-        (req.body.geoDist != null &&
-        req.body.geoLng != null &&
-        req.body.geoLat != null)) 
+    if ((req.query.geoDist == null &&
+        req.query.geoLng == null &&
+        req.query.geoLat == null) ||
+        (req.query.geoDist != null &&
+        req.query.geoLng != null &&
+        req.query.geoLat != null)) 
     {
-        if ((req.body.dateFrom == null &&
-            req.body.dateTo == null) ||
-            (req.body.dateFrom != null &&
-                req.body.dateTo != null))
+        if ((req.query.dateFrom == null &&
+            req.query.dateTo == null) ||
+            (req.query.dateFrom != null &&
+                req.query.dateTo != null))
         {
             next()
         }

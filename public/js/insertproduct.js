@@ -39,7 +39,7 @@ $("#submit-btn").click(function(event) {
         
         success: function(data,status) {
             alert("Το προιον προστέθηκε επιτυχώς!")
-            $( location ).attr("href", "/");
+            $( location ).attr("href", "/insertprice");
         },
         error: function(data,status) {
             console.log(status)
