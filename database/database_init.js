@@ -93,40 +93,61 @@ var shopObj =  [
 
 var productObj = [
         {
-            name: 'AMOLIVDI 95',
+            name: 'ΑΜΟΛΥΒΔΗ 95',
             description: 'ΒΕΝΖΙΝΗ',
             category: 'ΑΜΟΛΥΒΔΗ',
             productTags: 'ΦΘΗΝΗ',
             withdrawn: false
         },
         {
-            name: ' SUPER AMOLIVDI 99',
+            name: ' SUPER ΑΜΟΛΥΒΔΗ 99',
             description: 'ΒΕΝΖΙΝΗ',
             category: 'ΑΜΟΛΥΒΔΗ',
             productTags: 'ΣΟΥΠΕΡ',
             withdrawn: false
         },
         {
-            name: 'DIESEL',
+            name: 'EKO SUPER DIESEL',
             description: 'ΠΕΤΡΕΛΕΟ ΚΙΝΗΣΗΣ',
-            category: 'ΝΤΙΖΕΛ',
+            category: 'ΠΕΤΡΕΛAIΟ ΚΙΝΗΣΗΣ',
             productTags: 'ΠΕΤΡΕΛΕΟΚΙΝΗΤΑ',
             withdrawn: false
         },
         {
             name: 'ULTIMATE DIESEL',
             description: 'ΠΕΤΡΕΛΕΟ ΚΙΝΗΣΗΣ',
-            category: 'ΠΕΤΡΕΛΑΙΟ ΘΕΡΜΑΝΣΗΣ',
+            category: 'ΠΕΤΡΕΛAIΟ ΚΙΝΗΣΗΣ',
             productTags: 'ΠΕΤΡΕΛΕΟΚΙΝΗΤΑ',
             withdrawn: false
         },
         {
-            name: 'ΥΓΡΑΕΡΙΟ',
+            name: 'SHELL ΥΓΡΑΕΡΙΟ',
+            description: 'ΑΕΡΙΟ ΚΙΝΗΣΗΣ',
+            category: 'ΥΓΡΑΕΡΙΟ',
+            productTags: 'SHELL',
+            withdrawn: false
+        },
+        {
+            name: 'SHELL ΥΓΡΑΕΡΙΟ',
             description: 'ΑΕΡΙΟ ΚΙΝΗΣΗΣ',
             category: 'ΥΓΡΑΕΡΙΟ',
             productTags: 'AUTOGAS',
             withdrawn: false
         },
+        {
+            name: 'SUPER ΥΓΡΑΕΡΙΟ',
+            description: 'ΑΕΡΙΟ ΚΙΝΗΣΗΣ',
+            category: 'ΥΓΡΑΕΡΙΟ',
+            productTags: 'AUTOGAS',
+            withdrawn: false
+        },
+        {
+            name: 'EXTREME ΘΕΡΜΑΝΣΗ',
+            description: 'ΑΕΡΙΟ ΚΙΝΗΣΗΣ',
+            category: 'ΠΕΤΡΕΛΑΙΟ ΘΕΡΜΑΝΣΗΣ',
+            productTags: 'AUTOGAS',
+            withdrawn: false
+        }
     ]
 
 //--------------------------USERS---------------------------------//
