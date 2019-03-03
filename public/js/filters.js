@@ -60,6 +60,13 @@ function getGeoDist() {
   }
   return u;
 }
+function getPriceLimit(){
+  u='';
+  if (getQueryVars().priceLimit) {
+    u+='&priceLimit='+ getQueryVars().priceLimit;
+  }
+  return u;
+}
 var min_price;
 var max_price;
 var slider=$("#myRange");
@@ -79,10 +86,13 @@ function price_range() {
              min_price=data[i].price;
            }
          }
-         slider.attr("min",min_price);
-         slider.attr("max",max_price);
-         slider.attr("value",(min_price+max_price)/2);
-         output.html(Number(slider.attr("value")).toFixed(3));
+         var priceLimit=getQueryVars().priceLimit ? getQueryVars().priceLimit : max_price;
+         // slider.attr("min",min_price);
+         // slider.attr("max",max_price);
+         slider.attr("min",0.231);
+         slider.attr("max",4.2);
+         slider.attr("value",parseFloat(priceLimit).toFixed(3));
+         output.html(parseFloat(priceLimit).toFixed(3));
        },
        error: function(data,status) {
          console.log(status);
@@ -129,7 +139,7 @@ function fuel_range(){
       }
       $(".category-btn").click(function (event){
           cat = event.currentTarget.innerText;
-          url=getCategoryUrl(cat)+getCorpUrl(null,1)+getGeoDist();
+          url=getCategoryUrl(cat)+getCorpUrl(null,1)+getGeoDist()+getPriceLimit();
           window.location.assign(url);
       })
     }
@@ -173,12 +183,12 @@ function shops(){
       $(".shops-btn-notSelected").click(function (event){
         corp = event.currentTarget.innerText;
         //console.log(tag);
-        url=getCategoryUrl(null)+getCorpUrl(corp,1)+getGeoDist();
+        url=getCategoryUrl(null)+getCorpUrl(corp,1)+getGeoDist()+getPriceLimit();
         window.location.assign(url);
       })
       $(".shops-btn-Selected").click(function (event) {
         corp = event.currentTarget.innerText;
-        var url=getCategoryUrl()+getCorpUrl(corp,0)+getGeoDist();
+        var url=getCategoryUrl()+getCorpUrl(corp,0)+getGeoDist()+getPriceLimit();
         window.location.assign(url);
       })
     }
@@ -200,8 +210,9 @@ function getQueryVars(){
   var lat = vars["lat"];
   var cat = vars["cat"];
   var corp= vars["corp"];
-  var geoDist=vars["geoDist"]
-  return { lng, lat, cat,corp,geoDist}
+  var geoDist=vars["geoDist"];
+  var priceLimit=vars["priceLimit"];
+  return { lng, lat, cat,corp,geoDist,priceLimit}
 }
 
 
@@ -212,6 +223,7 @@ function searchResults() {
   var cat = vars.cat;
   var corp= vars.corp ? vars.corp.split(','):[];
   var geoDist=vars.geoDist ? vars.geoDist : 5;
+  var priceLimit = vars.priceLimit ? vars.priceLimit : max_price;
   //console.log(corp);
   var shopids=[];
   $.get('/observatory/api/shops',function(data,status){
@@ -238,27 +250,34 @@ function searchResults() {
       $.get(pricesQuery, function(prices) {
         //console.log(prices);
         var html = '';
-        if (prices.length==0 || (shopids.length==0 && corp.length!=0)) {
+        var outputprices=[];
+        console.log(prices);
+        for (var i = 0; i <prices.length; i++) {
+          if (prices[i].price<=priceLimit) {
+            outputprices.push(prices[i]);
+          }
+        }
+        if (outputprices.length==0 || (shopids.length==0 && corp.length!=0)) {
           html+='<div class="offset-md-3 col-md-6 text-center">Δεν βρέθηκαν αποτελέσματα</div>';
         }
         else {
-          prices.forEach(price => {
-            html += `
-            <div class="col-md-6">
-              <div class="card mb-3">
-                <div class="card-header">${price.shop.address}</div>
-                <div class="card-body">
-                  <div class="float-right">
-                    ${price.price.toFixed(3)} &euro;
+          outputprices.forEach(price => {
+              html += `
+              <div class="col-md-6">
+                <div class="card mb-3">
+                  <div class="card-header">${price.shop.address}</div>
+                  <div class="card-body">
+                    <div class="float-right">
+                      ${price.price.toFixed(3)} &euro;
+                    </div>
+                    <div>
+                      ${price.date}
+                    </div>
                   </div>
-                  <div>
-                    ${price.date}
-                  </div>
+                  <div class="card-footer">${price.product.name} | ${price.product.category}</div>
                 </div>
-                <div class="card-footer">${price.product.name} | ${price.product.category}</div>
               </div>
-            </div>
-            `
+              `
           })
         }
         $('#results').html(html);
@@ -290,13 +309,17 @@ $(document).ready(function() {
 //real time ektypwsh ths epilegmenis timis
 slider.on('input',function() {
   output.html(this.value);
+  slider.on('mouseout',function() {
+    url=getCategoryUrl()+getCorpUrl(null,1)+getGeoDist()+'&priceLimit='+this.value;
+    window.location.assign(url);
+  });
 });
 distance_slider.on('input',function() {
   distance_output.html(this.value);
   // url=getCategoryUrl()+getCorpUrl(null,1)+'&geoDist='+this.value;
   // window.location.assign(url);
   distance_slider.on('mouseout',function() {
-    url=getCategoryUrl()+getCorpUrl(null,1)+'&geoDist='+this.value;
+    url=getCategoryUrl()+getCorpUrl(null,1)+'&geoDist='+this.value+getPriceLimit();
     window.location.assign(url);
   });
 });
