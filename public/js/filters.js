@@ -53,7 +53,13 @@ function getCorpUrl(corp,use) {
   })
   return url;
 }
-
+function getGeoDist() {
+  u='';
+  if (getQueryVars().geoDist) {
+    u+='&geoDist='+ getQueryVars().geoDist;
+  }
+  return u;
+}
 var min_price;
 var max_price;
 var slider=$("#myRange");
@@ -87,10 +93,11 @@ function price_range() {
 var distance_slider = $("#myDistance");
 var distance_output= $("#showdistval");
 function distance_range(){
+  var geoDist=getQueryVars().geoDist ? getQueryVars().geoDist: 5;
   distance_slider.attr("min",1);
   distance_slider.attr("max",15);
-  distance_slider.attr("value",5);
-  distance_output.html(5);
+  distance_slider.attr("value",geoDist);
+  distance_output.html(geoDist);
 }
 
 //voi8itiki synarthsh gia fuel range
@@ -122,7 +129,7 @@ function fuel_range(){
       }
       $(".category-btn").click(function (event){
           cat = event.currentTarget.innerText;
-          url=getCategoryUrl(cat)+getCorpUrl();
+          url=getCategoryUrl(cat)+getCorpUrl(null,1)+getGeoDist();
           window.location.assign(url);
       })
     }
@@ -166,12 +173,12 @@ function shops(){
       $(".shops-btn-notSelected").click(function (event){
         corp = event.currentTarget.innerText;
         //console.log(tag);
-        url=getCategoryUrl(null)+getCorpUrl(corp,1);
+        url=getCategoryUrl(null)+getCorpUrl(corp,1)+getGeoDist();
         window.location.assign(url);
       })
       $(".shops-btn-Selected").click(function (event) {
         corp = event.currentTarget.innerText;
-        var url=getCategoryUrl()+getCorpUrl(corp,0);
+        var url=getCategoryUrl()+getCorpUrl(corp,0)+getGeoDist();
         window.location.assign(url);
       })
     }
@@ -193,7 +200,8 @@ function getQueryVars(){
   var lat = vars["lat"];
   var cat = vars["cat"];
   var corp= vars["corp"];
-  return { lng, lat, cat,corp}
+  var geoDist=vars["geoDist"]
+  return { lng, lat, cat,corp,geoDist}
 }
 
 
@@ -203,7 +211,8 @@ function searchResults() {
   var lat = vars.lat;
   var cat = vars.cat;
   var corp= vars.corp ? vars.corp.split(','):[];
-  console.log(corp);
+  var geoDist=vars.geoDist ? vars.geoDist : 5;
+  //console.log(corp);
   var shopids=[];
   $.get('/observatory/api/shops',function(data,status){
     for(var i=0;i<data.shops.length;i++){
@@ -224,7 +233,7 @@ function searchResults() {
       //console.log(corpQuery);
       var pricesQuery = '/observatory/api/prices?' + productsInCategory.map((p, index) => {
         return index !== 0 ? '&productId=' + p.id : 'productId=' + p.id
-      }).join('') + corpQuery + '&geoDist=100&geoLat=' + lat + '&geoLng=' + lng + '&sort=price|ASC'
+      }).join('') + corpQuery + '&geoDist='+geoDist+'&geoLat=' + lat + '&geoLng=' + lng + '&sort=price|ASC'
       //console.log(pricesQuery);
       $.get(pricesQuery, function(prices) {
         //console.log(prices);
@@ -284,23 +293,10 @@ slider.on('input',function() {
 });
 distance_slider.on('input',function() {
   distance_output.html(this.value);
-  var url = '/searchResults?';
-  var u = [];
-  if(cat) {
-    u.push('cat=' + cat);
-  }
-  if (vars.lat) {
-    u.push('lat=' + vars.lat);
-  }
-  if(vars.lng) {
-    u.push('lng=' + vars.lng);
-  }
-  u.map((u, index) => {
-    if(index === 0) {
-      url += u;
-    } else {
-      url += '&' + u;
-    }
-  })
-  window.location.assign(url);
+  // url=getCategoryUrl()+getCorpUrl(null,1)+'&geoDist='+this.value;
+  // window.location.assign(url);
+  distance_slider.on('mouseout',function() {
+    url=getCategoryUrl()+getCorpUrl(null,1)+'&geoDist='+this.value;
+    window.location.assign(url);
+  });
 });
