@@ -36,22 +36,48 @@ $("#shop-submit-btn").click(function(event) {
         success: function(data,status) {
             geocode.lat = data.results[0].geometry.location.lat
             geocode.lng = data.results[0].geometry.location.lng
-
+           
             $.ajax({
-                url: "/observatory/api/prices?geoDist=5&geoLng="+geocode.lng+"&geoLat="+geocode.lat,
+                url: "/observatory/api/shops?geoDist=3&geoLng="+geocode.lng+"&geoLat="+geocode.lat,
                 method: "GET",
                 success: function(data,status) {
-                    console.log(data)
+                    for (var i = 0; i < data.shops.length; i++) {
+                        $("#shop-choices").append("<option value=\""+data.shops[i].id+"\">"+data.shops[i].name+"</option>")
+                    }
+
+                    $.ajax({
+                        url:"/observatory/api/products",
+                        method: "GET",
+                        success: function(data,status) {
+                            for (var i = 0; i < data.products.length; i++) {
+                                $("#product-choices").append("<option value=\""+data.products[i].id+"\">"+data.products[i].name+"</option>")
+                            }
+        
+                        },
+                        error: function(data,status) {
+                        
+                        }
+                    })
                 },
                 error: function(data,status) {
-                    
+                    alert("ERROR")
                 }
             })
-
         },
         error: function(data,status){
             console.log("error!!!!")
         }
     })
+})
 
+$("#submit-btn").click(function(event) {
+    event.preventDefault();
+
+    inputData = {
+        shopId: $("#shop-choices").val(),
+        productId: $("#product-choices").val(),
+        price: $("#price").val()
+    }
+
+    console.log(inputData)
 })
