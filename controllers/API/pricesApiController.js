@@ -58,14 +58,14 @@ pricesApiController.getAllAction = (req, res) => {
         ]
     }
     else { 
-        console.log("giati eisai malakas")
+        console.log("giati eisai malakas") 
         var atr=['name','address','longtitude','latitude', 'shopTags'  ]
         var dis =sequelize.literal("6371 * acos(cos(radians("+params.geoLat+")) * cos(radians(latitude)) * cos(radians("+params.geoLng+") - radians(longtitude)) + sin(radians("+params.geoLat+")) * sin(radians(latitude)))")
         atr.push([dis,'dis'])
         includeClause = 
         [
             {
-                model: Product, 
+                model: Product , as : 'product',
                 attributes: ['name','description', 'category','productTags']
             },
             {  
@@ -188,6 +188,7 @@ pricesApiController.getAllAction = (req, res) => {
         offset: params.start, 
         limit: params.count,
         where: whereClause,
+        raw: true,
         //include: [Shop] ,
         order: [[sort[0],sort[1]]]
     }}
@@ -196,6 +197,7 @@ pricesApiController.getAllAction = (req, res) => {
         include: includeClause,
         offset: params.start, 
         limit: params.count,
+        raw: true,
         //include: [Shop] ,
 
         where: whereClause,
@@ -203,9 +205,64 @@ pricesApiController.getAllAction = (req, res) => {
     }}
 
     Price.findAll(searchParams).then(foundPrices => {
-        res.json(foundPrices)
-         //var lista =[]
-       // for prices in foundPrices
+       var total =0 
+       var results =[]
+        foundPrices.forEach(found => {
+            var obj1 = Object(found)
+            var tags = Object.keys(obj1)
+            var arr2 = tags.map(function (k) {
+                return obj1[k];
+            })
+            //console.log(arr2[10])
+            //var tags2 = tags.split(",") 
+            //console.log(tags)
+        if (arr2.length==18){
+            var distance = arr2[17]
+        }
+        else {
+            var distance = undefined
+        }
+            var obj= {
+        
+         date :  found.date ,
+         
+         
+         productName :   arr2[8] ,
+         productId :  found.productId,
+         productTags :  arr2[11] ,
+         shopId : found.shopId,
+         shopName :  arr2[12] ,
+         shopTags : arr2[16],
+         shopAddress :  arr2[13],
+         shopDist :distance
+         
+        }
+        total ++ 
+        results.push(obj)
+    })
+    res.json({
+        start: searchParams.offset,
+        count: searchParams.limit,
+        total: total,
+        prices: results
+    })
+        //  var lista =[]
+        //  var total = []
+        //  foundPrices.forEach(foundPrice => {
+        //     var product = Product.findOne({where: {
+        //         productId: foundPrice.productId
+        //     }})
+        //     var shop = Shop.findOne({where: {
+        //         shopId: foundPrice.shopId
+        //     }})
+        //     lista.push ({
+        //         date: foundPrice.date,
+        //         productName: product.name,
+        //         productId:foundShop.add
+        //         productTags:
+        //         shopId
+        //         shopName
+        //         shopTags
     })
     
 
