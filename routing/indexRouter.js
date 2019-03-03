@@ -1,5 +1,6 @@
 const router               = require('express').Router(),
-      indexController      = require('../controllers/indexController');
+      indexController      = require('../controllers/indexController'),
+      apiMiddlewares       = require('../middlewares/apiMiddlewares');
 
 router.get('/', indexController.renderIndexAction)
 
@@ -15,5 +16,5 @@ router.get('/insertshop', indexController.renderInsertShopAction)
 
 router.get('/insertproduct', indexController.renderInsertProductAction)
 
-
+router.get('/profile', indexController.renderProfileAction)
 module.exports = router;

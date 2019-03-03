@@ -1,0 +1,21 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+    background-position: center center;
+}
+
+reducebtn {
+
+    font-style: normal;
+    font-size: 5px ! important; 
+    
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+    max-height: 250px;
+    overflow-y: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
