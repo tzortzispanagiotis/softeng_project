@@ -108,12 +108,20 @@ function shops(){
       var unique=[];
       var corp;
       var vars=getQueryVars();
+      var prevcorp= vars.corp ?  vars.corp.split(','):[];
+      console.log(prevcorp);
       for (var i = 0; i < data.shops.length; i++) {
         unique.push(data.shops[i].tags[0]);  //edw na ginei typoscategory
       }
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-        if(unique[i] === decodeURIComponent(vars.corp)){
+        var flag=0;
+        for (var j=0;j<prevcorp.length;j++){
+          if(unique[i] === decodeURIComponent(prevcorp[j])) {
+            flag=1;
+          }
+        }
+        if(flag){
           $("#shopbuttons").append('<button type="button" class="shops-btn-Selected btn btn-primary text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
         }
         else{
@@ -134,6 +142,31 @@ function shops(){
         if (corp){
           u.push('corp='+corp);
         }
+        for (var i = 0; i < prevcorp.length; i++) {
+          u.push('corp='+prevcorp[i]);
+        }
+        u.map((u, index) => {
+          if(index === 0) {
+            url += u;
+          } else {
+            url += '&' + u;
+          }
+        })
+        window.location.assign(url);
+      })
+      $(".shops-btn-Selected").click(function (event) {
+        corp = event.currentTarget.innerText;
+        //console.log(tag);
+        var url = '/searchResults?';
+        var u = [];
+        u.push('cat='+vars.cat);
+        u.push('lat='+vars.lat);
+        u.push('lng='+vars.lng);
+        for (var i = 0; i < prevcorp.length; i++) {
+          if(prevcorp[i]!=corp) {
+            u.push('corp='+prevcorp[i]);
+          }
+        }
         u.map((u, index) => {
           if(index === 0) {
             url += u;
@@ -153,12 +186,15 @@ function getQueryVars(){
   {
       hash = hashes[i].split('=');
       vars.push(hash[0]);
-      vars[hash[0]] = hash[1];
+      if (vars[hash[0]]!=undefined){
+        vars[hash[0]]=vars[hash[0]]+','+hash[1];
+      }
+      else vars[hash[0]] = hash[1];
   }
   var lng = vars["lng"];
   var lat = vars["lat"];
   var cat = vars["cat"];
-  var corp= vars["corp"]
+  var corp= vars["corp"];
   return { lng, lat, cat,corp}
 }
 
@@ -168,12 +204,15 @@ function searchResults() {
   var lng = vars.lng;
   var lat = vars.lat;
   var cat = vars.cat;
-  var corp = vars.corp
+  var corp= vars.corp ? vars.corp.split(','):[];
+  console.log(corp);
   var shopids=[];
   $.get('/observatory/api/shops',function(data,status){
     for(var i=0;i<data.shops.length;i++){
-      if (data.shops[i].tags[0]==corp){
-        shopids.push(data.shops[i].id);
+      for (var j=0;j<corp.length;j++){
+        if (data.shops[i].tags[0]==corp[j]){
+          shopids.push(data.shops[i].id);
+        }
       }
     }
     //console.log(shopids);
@@ -192,7 +231,7 @@ function searchResults() {
       $.get(pricesQuery, function(prices) {
         //console.log(prices);
         var html = '';
-        if (prices.length==0 || (shopids.length==0 && corp!=undefined)) {
+        if (prices.length==0 || (shopids.length==0 && corp.length!=0)) {
           html+='<div class="offset-md-3 col-md-6 text-center">Δεν βρέθηκαν αποτελέσματα</div>';
         }
         else {
