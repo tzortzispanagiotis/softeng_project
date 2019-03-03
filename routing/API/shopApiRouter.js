@@ -1,7 +1,8 @@
 const router            = require('express').Router();
 const shopApiController   = require("../../controllers/API/shopApiController"),
       apiMiddlewares = require('../../middlewares/apiMiddlewares');
-router.get('/', shopApiController.getAllAction) //CHECKD
+      
+router.get('/', apiMiddlewares.checkRequestForShopGetAll, shopApiController.getAllAction) //CHECKD
 
 router.get('/:id', shopApiController.getOneAction) //CHECKED
 

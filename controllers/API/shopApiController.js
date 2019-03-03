@@ -1,7 +1,8 @@
 const shopApiController = {},
       db                = require('../../database/connect'),
       Shop              = require('../../database/shops'),
-      User              = require('../../database/user');
+      User              = require('../../database/user'),
+      distance          = require('./diastance');
 
 shopApiController.getAllAction = (req, res) => {
     var whereClause = {}
@@ -11,8 +12,11 @@ shopApiController.getAllAction = (req, res) => {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,
         status: req.query.status || 'ACTIVE',
+        geoDist: parseInt(req.query.geoDist) || null,
+        geoLng :parseFloat(req.query.geoLng) || null,
+        geoLat : parseFloat(req.query.geoLat) || null, 
     }
-
+    console.log(params)
     var sort= {}
     sort[0] = 'shopId'
     sort[1] = 'DESC'
@@ -41,6 +45,7 @@ shopApiController.getAllAction = (req, res) => {
         }
     }
 
+
     searchParams = {
         offset: params.start, 
         limit: params.count,
@@ -53,6 +58,23 @@ shopApiController.getAllAction = (req, res) => {
         var shops= [];
         var total = 0;
         foundShops.forEach(foundShop => {
+            if (req.query.geoDist) {
+                var dist = distance.distance(foundShop.latitude, foundShop.longtitude, params.geoLat,  params.geoLng, 'K')
+                if (dist <= params.geoDist) {
+                    var tags = foundShop.shopTags.split(",")
+                    shops.push ({
+                        id: foundShop.shopId,
+                        name: foundShop.name,
+                        address:foundShop.address,
+                        lng: foundShop.longtitude,
+                        lat: foundShop.latitude,
+                        tags: tags,
+                        withdrawn: foundShop.withdrawn
+                    })
+                    total++;
+                }
+            }
+            else {
             var tags = foundShop.shopTags.split(",")
             shops.push ({
                 id: foundShop.shopId,
@@ -64,7 +86,7 @@ shopApiController.getAllAction = (req, res) => {
                 withdrawn: foundShop.withdrawn
             })
             total++;
-        })
+        }})
         res.json({
             start: searchParams.offset,
             count: searchParams.limit,
