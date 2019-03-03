@@ -226,7 +226,7 @@ pricesApiController.getAllAction = (req, res) => {
         
          date :  found.date ,
          
-         
+         price: found.price,
          productName :   arr2[8] ,
          productId :  found.productId,
          productTags :  arr2[11] ,
