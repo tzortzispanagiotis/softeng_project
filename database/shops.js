@@ -1,5 +1,5 @@
-const Sequelize = require("sequelize")
-dbo       = require("./connect");
+const Sequelize = require("sequelize") ,
+       dbo       = require("./connect");
 const myinit = require('./database_init');
 const Price = require('./prices');
 
@@ -44,8 +44,8 @@ const Shops = dbo.define('shop', {
 })
 
 
-Shops.sync({force : false}).then(() => {
-    console.log("shop model created successfully")})
-    .then(() => {  Shops.bulkCreate(myinit.shops)})
+// Shops.sync({force : false}).then(() => {
+//     console.log("shop model created successfully")})
+//     .then(() => {  Shops.bulkCreate(myinit.shops)})
 
 module.exports = Shops;

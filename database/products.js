@@ -36,7 +36,7 @@ const Products = dbo.define('product', {
     })
 
 
-    Products.sync({force: false}).then(() => { 
-        console.log("product model created successfully")})
-        .then(()  => { Products.bulkCreate(myinit.products)})
+    // Products.sync({force: false}).then(() => { 
+    //     console.log("product model created successfully")})
+    //     .then(()  => { Products.bulkCreate(myinit.products)})
     module.exports = Products;

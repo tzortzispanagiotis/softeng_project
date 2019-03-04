@@ -56,6 +56,19 @@ apiMiddlewares.checkRequestForShop = (req,res, next) => {
         next();
     }
 }
+apiMiddlewares.checkRequestForPricescreate =(req,res,next)=>{
+    console.log('ououououou')
+    if (req.body.price == null )
+     return res.status(400).json({error:"Πρεπει να δώσεις τιμή για το πεδίο price"})
+    if (req.body.date == undefined )
+     return res.status(400).json({error:"Πρεπει να δώσεις τιμή για το πεδίο date"})
+    if (req.body.shopId == null )
+     return res.status(400).json({error:"Πρεπει να δώσεις τιμή για το πεδίο shop"})
+    if (req.body.productId == null )
+     return res.status(400).json({error:"Πρεπει να δώσεις τιμή για το πεδίο product"})
+    if (req.body.userId == null )
+     return res.status(400).json({error:"Πρεπει να δώσεις τιμή για το πεδίο user"})
+    next()}
 
 apiMiddlewares.checkRequestForShopGetAll = (req, res, next) => {
     if (((req.query.geoDist == null) &&

@@ -49,14 +49,14 @@ const Prices = dbo.define('prices', {
     deletedAt: false
 })
 
-Prices.belongsTo(User, { foreignKey: "userId"});
-Prices.belongsTo(Shop, { foreignKey: "shopId"});
+Prices.belongsTo(User, { foreignKey: "userId" });
+Prices.belongsTo(Shop, { foreignKey: "shopId" });
 Prices.belongsTo(Product, { foreignKey: "productId"});
 
-Prices.sync({ force: false }).then(() => {
-    console.log("price model created successfully")})
-    .then(()=>   { 
-        Prices.bulkCreate(myinit.prices)
-    })
-
+// Prices.sync({ force: false }).then(() => {
+//     console.log("price model created successfully")})
+//     .then(()=>   { 
+//         Prices.bulkCreate(myinit.prices)
+//     })
+  
 module.exports = Prices
