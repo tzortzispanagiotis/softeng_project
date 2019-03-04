@@ -4,16 +4,36 @@ $( document ).ready(function() {
 /*Dilwseis synarthsewn
 ===================================*/
 //synarthsh xeirismou tou Slider
-function getCategoryUrl(cat) {
+function getCategoryUrl(cat,use) {
+  u='';
+  var vars=getQueryVars();
+  var prevcat=vars.cat ?  vars.cat.split(','):[];
+  if(cat && use==1) {
+    u+='&cat=' + cat;
+  }
+  for (var i = 0; i < prevcat.length; i++) {
+    if (use==1){
+      u+='&cat='+prevcat[i];
+    }
+    else if (use==0) {
+      if (prevcat[i]!=cat){
+        u+='&cat='+prevcat[i];
+      }
+    }
+  }
+  return u;
+}
+
+function getStdUrl() {
   var vars=getQueryVars();
   var url='/searchResults?'
   var u = [];
-  if(cat) {
-    u.push('cat=' + cat);
-  }
-  else {
-    u.push('cat='+vars.cat);
-  }
+  // if(cat) {
+  //   u.push('cat=' + cat);
+  // }
+  // else {
+  //   u.push('cat='+vars.cat);
+  // }
   if (vars.lat) {
     u.push('lat=' + vars.lat);
   }
@@ -126,21 +146,34 @@ function fuel_range(){
         unique.push(data.products[i].category);
       }
       var vars = getQueryVars();
+      var prevcat=vars.cat? vars.cat.split(','):[];
       unique = unique.filter( onlyUnique );
       for(var i=0;i<unique.length;i++){
-          if(unique[i] === decodeURIComponent(vars.cat)){
-            $("#fuelbuttons").append('<button type="button" class="category-btn btn btn-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
-          } else {
-            $("#fuelbuttons").append('<button type="button" class="category-btn btn btn-outline-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+          var flag=0;
+          for(var j=0;j<prevcat.length;j++) {
+            if (unique[i] === decodeURIComponent(prevcat[j])){
+              flag=1;
+            }
+          }
+          if (flag){
+            $("#fuelbuttons").append('<button type="button" class="category-btn-Selected btn btn-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+          }
+          else {
+            $("#fuelbuttons").append('<button type="button" class="category-btn-notSelected btn btn-outline-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
           }
       }
       if (i%2==1){
         $("#fuelbutton"+(i-1)).addClass("w-100");
       }
-      $(".category-btn").click(function (event){
+      $(".category-btn-notSelected").click(function (event){
           cat = event.currentTarget.innerText;
-          url=getCategoryUrl(cat)+getCorpUrl(null,1)+getGeoDist()+getPriceLimit();
+          url=getStdUrl()+getCategoryUrl(cat,1)+getCorpUrl(null,1)+getGeoDist()+getPriceLimit();
           window.location.assign(url);
+      })
+      $(".category-btn-Selected").click(function (event){
+        cat=event.currentTarget.innerText;
+        url=getStdUrl()+getCategoryUrl(cat,0)+getCorpUrl(null,1)+getGeoDist()+getPriceLimit();
+        window.location.assign(url);
       })
     }
 
@@ -158,7 +191,7 @@ function shops(){
       var corp;
       var vars=getQueryVars();
       var prevcorp= vars.corp ?  vars.corp.split(','):[];
-      console.log(prevcorp);
+      //console.log(prevcorp);
       for (var i = 0; i < data.shops.length; i++) {
         unique.push(data.shops[i].tags[0]);  //edw na ginei typoscategory
       }
@@ -183,12 +216,12 @@ function shops(){
       $(".shops-btn-notSelected").click(function (event){
         corp = event.currentTarget.innerText;
         //console.log(tag);
-        url=getCategoryUrl(null)+getCorpUrl(corp,1)+getGeoDist()+getPriceLimit();
+        url=getStdUrl(null)+getCategoryUrl(null,1)+getCorpUrl(corp,1)+getGeoDist()+getPriceLimit();
         window.location.assign(url);
       })
       $(".shops-btn-Selected").click(function (event) {
         corp = event.currentTarget.innerText;
-        var url=getCategoryUrl()+getCorpUrl(corp,0)+getGeoDist()+getPriceLimit();
+        var url=getStdUrl()+getCategoryUrl(null,1)+getCorpUrl(corp,0)+getGeoDist()+getPriceLimit();
         window.location.assign(url);
       })
     }
@@ -202,9 +235,9 @@ function getQueryVars(){
       hash = hashes[i].split('=');
       vars.push(hash[0]);
       if (vars[hash[0]]!=undefined){
-        vars[hash[0]]=vars[hash[0]]+','+hash[1];
+        vars[hash[0]]=vars[hash[0]]+','+decodeURIComponent(hash[1]);
       }
-      else vars[hash[0]] = hash[1];
+      else vars[hash[0]] = decodeURIComponent(hash[1]);
   }
   var lng = vars["lng"];
   var lat = vars["lat"];
@@ -220,7 +253,7 @@ function searchResults() {
   var vars = getQueryVars();
   var lng = vars.lng;
   var lat = vars.lat;
-  var cat = vars.cat;
+  var cat = vars.cat ? vars.cat.split(','):[];  //pinakas me categories
   var corp= vars.corp ? vars.corp.split(','):[];
   var geoDist=vars.geoDist ? vars.geoDist : 5;
   var priceLimit = vars.priceLimit ? vars.priceLimit : max_price;
@@ -235,7 +268,17 @@ function searchResults() {
       }
     }
     //console.log(shopids);
-    $.get('/observatory/api/products?cat=' + cat, function(response, status) {
+    u='';
+    for (var i = 0; i < cat.length; i++) {
+      if (i==0){
+        u+='cat='+cat[i];
+      }
+      else {
+        u+='&cat='+cat[i]
+      }
+    }
+    var firstquery= '/observatory/api/products?'+u;
+    $.get(firstquery, function(response, status) {
       var productsInCategory = response.products;
       //productsInCategory.filter(value => -1 !== vars.indexOf(value));
       //console.log(productsInCategory);
@@ -251,7 +294,6 @@ function searchResults() {
         //console.log(prices);
         var html = '';
         var outputprices=[];
-        console.log(prices);
         for (var i = 0; i <prices.length; i++) {
           if (prices[i].price<=priceLimit) {
             outputprices.push(prices[i]);
@@ -310,16 +352,16 @@ $(document).ready(function() {
 slider.on('input',function() {
   output.html(this.value);
   slider.on('mouseout',function() {
-    url=getCategoryUrl()+getCorpUrl(null,1)+getGeoDist()+'&priceLimit='+this.value;
+    url=getStdUrl()+getCategoryUrl(null,1)+getCorpUrl(null,1)+getGeoDist()+'&priceLimit='+this.value;
     window.location.assign(url);
   });
 });
 distance_slider.on('input',function() {
   distance_output.html(this.value);
-  // url=getCategoryUrl()+getCorpUrl(null,1)+'&geoDist='+this.value;
+  // url=getStdUrl()+getCorpUrl(null,1)+'&geoDist='+this.value;
   // window.location.assign(url);
   distance_slider.on('mouseout',function() {
-    url=getCategoryUrl()+getCorpUrl(null,1)+'&geoDist='+this.value+getPriceLimit();
+    url=getStdUrl()+getCategoryUrl(null,1)+getCorpUrl(null,1)+'&geoDist='+this.value+getPriceLimit();
     window.location.assign(url);
   });
 });
