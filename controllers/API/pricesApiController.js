@@ -222,20 +222,20 @@ pricesApiController.getAllAction = (req, res) => {
         else {
             var distance = undefined
         }
-            var obj= {
-                date :  found.date ,
-                priceId: found.priceId,
-                price: found.price,
-                productName :   arr2[8] ,
-                productId :  found.productId,
-                productTags :  arr2[11] ,
-                shopId : found.shopId,
-                shopName :  arr2[12] ,
-                shopTags : arr2[16],
-                shopAddress :  arr2[13],
-                shopDist :distance
-            }
-            //console.log(found)
+        var obj= {
+            date :  found.date ,
+            priceId: found.priceId,
+            price: found.price,
+            productName :   arr2[8] ,
+            productId :  found.productId,
+            productTags :  arr2[11] ,
+            shopId : found.shopId,
+            shopName :  arr2[12] ,
+            shopTags : arr2[16],
+            shopAddress :  arr2[13],
+            shopDist :distance
+        }
+        //console.log(found)
         total ++ 
         results.push(obj)
     })
@@ -263,9 +263,6 @@ pricesApiController.getAllAction = (req, res) => {
         //         shopName
         //         shopTags
     })
-    
-
-
 }
 
 pricesApiController.reportAction = (req,res) => {
