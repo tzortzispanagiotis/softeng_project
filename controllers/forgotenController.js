@@ -1,36 +1,38 @@
 const forgotenController = {},
       database            = require('../database/connect') , 
       forget              = require('../database/forget') , 
-      User                = require ('../database/user')
+      User                = require ('../database/user'),
+      bcrypt              = require('bcryptjs');
 
 
-      forgotenController.forgetPassword  = (req,res) => {
-          const token = req.query.token
-          forget.findOne({where: {
-            token: token
+forgotenController.forgetPassword  = (req,res) => {
+    const token = req.query.token
+    forget.findOne({where: {
+      token: token
+    }})
+    .then( founduser => {
+      if (founduser){
+        var myemail = founduser.email
+        var updated = bcrypt.hashSync(req.body.password,10)
+        User.findOne({where: {
+            email: myemail
         }})
-          .then( founduser => {
-              if (founduser){
-            var myemail = founduser.email
-            var updated = req.body.password
-            User.findOne({where: {
-                email: myemail
-            }}).then(found  => {
-                found.update(updated ,{fields: ['name','description','category','productTags']})
-                res.json({
-                    userId: found.userId,
-                    username: found.username,
-                    password: updated.password,
-                    email: found.email,
-                    role: 'USER',
-                    
-                })
-            
-
+        .then(found  => {
+            found.update(updated ,{fields: ['username','password','email','role',]})
+            res.json({
+                userId: found.userId,
+                username: found.username,
+                password: updated.password,
+                email: found.email,
+                role: 'USER',              
+            })
         })
-        res.json({message: 'OK'})}
-      else {res.json({message:'No such user found'})}
-    })
+        res.json({message: 'OK'})
+      }
+      else {
+        res.json({message:'No such user found'})
+      }
+  })
 }
 
 module.exports = forgotenController ;
