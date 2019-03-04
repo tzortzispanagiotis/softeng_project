@@ -1,20 +1,19 @@
 const Sequelize = require("sequelize"),
       dbo       = require("./connect");
 
-    const forget = dbo.define('invalidTokens', {
+    const forget = dbo.define('recoverPassword', {
         email: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+            type: Sequelize.STRING,
+            primaryKey: true
         },
         forgetToken: {
             type: Sequelize.STRING,
             allowNull:false
         } ,
-        createdAt: {
-            type: Sequelize.DATE ,
-            allowNull: false
-        }
+        // createdAt: {
+        //     type: Sequelize.DATE ,
+        //     allowNull: false
+        // }
     },
     {
         tableName: 'forget',

@@ -9,7 +9,9 @@ const express     = require('express'),
       Shops = require("./database/shops"),
       Product = require("./database/products"),
       InvalidTokens = require("./database/invalidTokens"),
+      forget        = require("./database/forget.js"),
       myinit  = require("./database/database_init.js"),
+      creds   = require("./configurations/credentials"),
       fs = require('fs'),
       https = require('https');
 
@@ -71,6 +73,6 @@ app.get("/getall", (req, res) => {
 // Initialize the server
 
 
-var server = https.createServer(options, app).listen(7881, function(){
+var server = https.createServer(options, app).listen(creds.port, function(){
   console.log("Hello World");
 })

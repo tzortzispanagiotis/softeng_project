@@ -1,8 +1,30 @@
-// const recoveryController = {},
-//       database            = require('../database/connect') , 
-//       forget              = require('../database/forget') , 
-//       User                = require ('../database/user')
+const recoveryController = {},
+      database            = require('../database/connect') , 
+      forget              = require('../database/forget') , 
+      User                = require ('../database/user'),
+      emailMiddlewares               = require("../middlewares/email_middlewares");
 
+recoveryController.renderRecoverEmailAction = (req,res) => {
+        res.render('recoverform')
+}
+
+recoveryController.createTokenAction = (req,res) => {
+    const email = req.body.email
+    User.findOne({where: {email: email}})
+    .then(founduser => {
+        if (founduser){
+            var newtoken =  require('crypto').randomBytes(32).toString('hex');
+            var updated  = {
+                forgetToken : newtoken , 
+                email : founduser.email,
+            }
+            forget.create(updated)
+            req.token = newtoken
+            emailMiddlewares.sendMail(req,res)
+            res.json({success:true, msg:"email sent"})
+        }
+    })
+}
 
 //       recoveryController.forgetPassword  = (req,res) => {
 //           const email = req.body.email
@@ -67,4 +89,4 @@
 //     })
 // }
 
-// module.exports = recoveryController ;
+module.exports = recoveryController ;
