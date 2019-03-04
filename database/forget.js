@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize"),
       dbo       = require("./connect");
 
-    const forget = dbo.define('recoverPassword', {
+    const forget = dbo.define('forget', {
         email: {
             type: Sequelize.STRING,
             primaryKey: true

@@ -135,7 +135,7 @@ var productObj = [
         {   
             username : 'Γιώργης',
             password : bcrypt.hashSync('123456',10),
-            email : 'george@example.com',
+            email : 'el14118@central.ntua.gr',
             role: 'USER',
             
         },

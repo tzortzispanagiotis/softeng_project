@@ -44,12 +44,12 @@ const User = dbo.define('user', {
     collate: 'utf8_unicode_ci'
 });
 
-User.sync({force: false}).then(() => {
-    console.log("user model created successfully")
-})
-.then(()=>{ 
-    User.bulkCreate(myinit.users)
-})
+// User.sync({force: false}).then(() => {
+//     console.log("user model created successfully")
+// })
+// .then(()=>{ 
+//     User.bulkCreate(myinit.users)
+// })
 
 
 module.exports = User;

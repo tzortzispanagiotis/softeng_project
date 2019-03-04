@@ -23,6 +23,9 @@ recoveryController.createTokenAction = (req,res) => {
             emailMiddlewares.sendMail(req,res)
             res.json({success:true, msg:"email sent"})
         }
+        else {
+            res.status(406).json({success:false, msg:"email not sent"})
+        }
     })
 }
 

@@ -7,7 +7,9 @@ router.get('/', indexController.renderIndexAction)
 
 router.get('/login', indexController.renderLoginAction)
 
-router.get('/forgottenpassword' , forgotenController.forgetPassword)
+router.get('/forgottenpassword' , forgotenController.renderChangePasswordAction)
+
+router.post('/forgottenpassword' , forgotenController.changePassword)
 
 router.get('/recoverpassword' , recoveryController.renderRecoverEmailAction)
 

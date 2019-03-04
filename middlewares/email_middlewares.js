@@ -17,7 +17,7 @@ email.sendMail = function(req, res, next) {
             rejectUnauthorized: false
         }
     });
-    link = Credentials.host+':'+Credentials.port+"token="+req.token
+    link = 'https://'+Credentials.host+':'+Credentials.port+"/forgottenpassword?token="+req.token
     const mailOptions = {
         from: Credentials.email.username, // sender address
         to: req.body.email, // list of receivers
@@ -31,7 +31,8 @@ email.sendMail = function(req, res, next) {
         if (err) {
             console.log(err)
             res.redirect("/");
-        } else {
+        } 
+        else {
             console.log(info);
             next();
         }
