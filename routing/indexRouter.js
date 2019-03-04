@@ -25,6 +25,7 @@ router.post('/passwordchange', apiMiddlewares.checkToken ,apiMiddlewares.checkCh
 router.get("/filters", (req, res) => {
     res.render('filters')
   })
+router.get("/searchResults", indexController.renderSearchResultsAction);
 
 router.get('/insertshop', indexController.renderInsertShopAction)
 

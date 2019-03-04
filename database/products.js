@@ -40,3 +40,4 @@ const Products = dbo.define('product', {
     //     console.log("product model created successfully")})
     //     .then(()  => { Products.bulkCreate(myinit.products)})
     module.exports = Products;
+ 

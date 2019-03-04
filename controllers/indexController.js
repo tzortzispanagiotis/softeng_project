@@ -7,7 +7,7 @@ const Shop = require('../database/shops'),
       User   =require('../database/user'),
       bcrypt              = require('bcryptjs');
 
-function onlyUnique(value, index, self) { 
+function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
@@ -58,6 +58,10 @@ indexController.renderProfileAction = (req,res) => {
         res.render('profile', {prices: prices, self: self})
         })
     })
+}
+
+indexController.renderSearchResultsAction = (req, res) => {
+  res.render('filters');
 }
 
 indexController.renderInsertShopAction = (req,res) => {
@@ -152,5 +156,6 @@ indexController.changePasswordAction = (req,res) => {
         }
     }
 }
+
 
 module.exports = indexController

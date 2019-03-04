@@ -6,19 +6,21 @@ const productApiController = {},
 productApiController.getAllAction = (req, res) => {
     var whereClause = {}
     var searchParams = {}
-    
+
     var params = {
         start: parseInt(req.query.start) || 0,
         count: parseInt(req.query.count) || 20,
         status: req.query.status || 'ACTIVE',
+        productCategory: req.query.cat ? req.query.cat: null
     }
+
 
     var sort= {}
     sort[0] = 'productId'
     sort[1] = 'DESC'
  
     temp = req.query.sort
-    if (temp){       
+    if (temp){
         sort = temp.split('|')
         // if not ok, restore default
         if (sort[0] == 'id') sort[0] = 'productId'
@@ -41,8 +43,14 @@ productApiController.getAllAction = (req, res) => {
         }
     }
 
+    if(params.productCategory) {
+      whereClause.category = params.productCategory;
+    }
+
+    console.log(whereClause);
+
     searchParams = {
-        offset: params.start, 
+        offset: params.start,
         limit: params.count,
         where: whereClause,
         order: [[sort[0],sort[1]]]
@@ -50,6 +58,7 @@ productApiController.getAllAction = (req, res) => {
 
     Product.findAll(searchParams)
      .then(foundProducts => {
+       // console.log(foundProducts);
         var products = [];
         var total = 0;
         foundProducts.forEach(foundProduct => {
@@ -72,7 +81,7 @@ productApiController.getAllAction = (req, res) => {
 
         })
     })
-    
+
 }
 
 productApiController.getOneAction = (req, res) => {
