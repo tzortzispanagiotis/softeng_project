@@ -94,7 +94,7 @@ productApiController.getOneAction = (req, res) => {
 
 productApiController.createAction = (req, res) => {
     var newProduct = req.params.x
-    console.log(newProduct)
+    
     if (Array.isArray(newProduct.productTags)) {
         var productTags = ""
         for (var i in newProduct.productTags) {
