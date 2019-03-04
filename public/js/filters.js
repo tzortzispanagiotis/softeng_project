@@ -163,10 +163,10 @@ function fuel_range(){
             }
           }
           if (flag){
-            $("#fuelbuttons").append('<button type="button" class="category-btn-Selected btn btn-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+            $("#fuelbuttons").append('<button type="button" class="category-btn-Selected btn btn-light text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
           }
           else {
-            $("#fuelbuttons").append('<button type="button" class="category-btn-notSelected btn btn-outline-primary text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
+            $("#fuelbuttons").append('<button type="button" class="category-btn-notSelected btn btn-outline-light text-wrap btn-md doubles"'+'id="fuelbutton'+i+'">' +unique[i]+"</button>");
           }
       }
       if (i%2==1){
@@ -211,10 +211,10 @@ function shops(){
           }
         }
         if(flag){
-          $("#shopbuttons").append('<button type="button" class="shops-btn-Selected btn btn-primary text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
+          $("#shopbuttons").append('<button type="button" class="shops-btn-Selected btn btn-light text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
         }
         else{
-          $("#shopbuttons").append('<button type="button" class="shops-btn-notSelected btn btn-outline-primary text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
+          $("#shopbuttons").append('<button type="button" class="shops-btn-notSelected btn btn-outline-light text-wrap btn-md doubles"'+'id=shopbutton'+i+'">' +unique[i]+"</button>");
         }
       }
       if (i%2==1){
@@ -307,7 +307,7 @@ function searchResults() {
           }
         }
         if (outputprices.length==0 || (shopids.length==0 && corp.length!=0)) {
-          html+='<div class="offset-md-3 col-md-6 text-center">Δεν βρέθηκαν αποτελέσματα</div>';
+          html+='<div class="offset-md-3 col-md-6 text-center white-text">Δεν βρέθηκαν αποτελέσματα</div>';
           sad_flag=1;
         }
         else {
@@ -316,18 +316,18 @@ function searchResults() {
               searchresults.push(price);
               console.log(price);
               html += `
-              <div class="col-md-6">
+              <div class="col-4">
                 <div class="card mb-3">
-                  <div class="card-header bg-primary card-title">${price.shop.address} | ${price.shop.shopTags.split(',')[0]}</div>
+                  <div class="card-header bg-primary card-title"><b>${price.shop.address} | ${price.shop.shopTags.split(',')[0]}</b></div>
                   <div class="card-body">
                     <div class="float-right">
-                      ${price.price.toFixed(3)} &euro;
+                      <b>${price.price.toFixed(3)} &euro;</b>
                     </div>
                     <div>
                       ${price.date}
                     </div>
                   </div>
-                  <div class="card-footer">${price.product.name} | ${price.product.category}
+                  <div class="card-footer">${price.product.name} | <b>${price.product.category}</b>
                   </div>
                   <button type="button" value="${price.priceId}" class="btn btn-danger report-button">Αναφορά Τιμής</button>
                 </div>
@@ -410,7 +410,7 @@ function setMarkers (){
   var pos_marker = new google.maps.Marker({
           position: mylatlng,
           map: map,
-          title: 'Eiste Edw',
+          title: 'Η τοποθεσία μου',
           animation: google.maps.Animation.DROP,
           icon: image
   });
@@ -423,6 +423,7 @@ function setMarkers (){
       }
   }
   var fuel_icon='static/img/fuelicon_red.png'
+  //var search_final=searchresults.shop.filter(onlyUnique);
   for (var i = 0; i < searchresults.length; i++) {
     //console.log('mpika');
     var marker = new google.maps.Marker ({
