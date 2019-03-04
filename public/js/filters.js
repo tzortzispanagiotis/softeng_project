@@ -409,11 +409,44 @@ function setMarkers (){
   var image=(sad_flag==1) ? 'static/img/sad_icon.png':'static/img/humanicon.png';
   var pos_marker = new google.maps.Marker({
           position: mylatlng,
+          draggable:true,
           map: map,
           title: 'Η τοποθεσία μου',
           animation: google.maps.Animation.DROP,
           icon: image
   });
+  google.maps.event.addListener(pos_marker, 'dragend', function()
+  {
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+      latLng: pos_marker.getPosition()
+    },
+    function (result,status) {
+      if (status==google.maps.GeocoderStatus.OK) {
+        var address=result[0].formatted_address;
+        var temp=address.split(",");
+        var list = ""
+        for (var i in temp) {
+            list = list + temp[i]
+            list = list + "+"
+        }
+        list = list.substring(0, list.length - 1)
+        var lat,lng;
+        $.ajax({
+            url: "https://maps.googleapis.com/maps/api/geocode/json?address="+list+"&key=AIzaSyCL-EHbgBsjgKSaP4hZ38JFx2GtLv9R5wM",
+            method: "GET",
+            success: function(data,status) {
+                lat = data.results[0].geometry.location.lat
+                lng = data.results[0].geometry.location.lng
+                url='/searchResults?lat='+lat+'&lng='+lng+getCategoryUrl(null,1)+getCorpUrl(null,1)+getGeoDist()+getPriceLimit();
+                window.location.assign(url);
+        }
+      })
+      }
+    }
+      )
+  });
+
   pos_marker.addListener('click', toggleBounce);
   function toggleBounce() {
       if (pos_marker.getAnimation() !== null) {
