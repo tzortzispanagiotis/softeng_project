@@ -3,7 +3,8 @@ $( document ).ready(function() {
 });
 /*Dilwseis synarthsewn
 ===================================*/
-//synarthsh xeirismou tou Slider
+//vazei to url pou afora to category
+//use=1 pataei koumpi,use 0 3epataei
 function getCategoryUrl(cat,use) {
   u='';
   var vars=getQueryVars();
@@ -23,7 +24,7 @@ function getCategoryUrl(cat,use) {
   }
   return u;
 }
-
+//vazei to meros tou url pou afora to lng lat
 function getStdUrl() {
   var vars=getQueryVars();
   var url='/searchResults?'
@@ -73,6 +74,7 @@ function getCorpUrl(corp,use) {
   })
   return url;
 }
+//vazei sto url to kommati tou geoDist
 function getGeoDist() {
   u='';
   if (getQueryVars().geoDist) {
@@ -80,6 +82,7 @@ function getGeoDist() {
   }
   return u;
 }
+//vazei sto url to priceLimit
 function getPriceLimit(){
   u='';
   if (getQueryVars().priceLimit) {
@@ -91,6 +94,7 @@ var min_price;
 var max_price;
 var slider=$("#myRange");
 var output=$("#showval");
+//xeirizetai to slider twn timwn
 function price_range() {
   $.ajax({
        url: "observatory/api/prices",
@@ -122,6 +126,7 @@ function price_range() {
 
 var distance_slider = $("#myDistance");
 var distance_output= $("#showdistval");
+//xeirizetai to slider twn apostasewn
 function distance_range(){
   var geoDist=getQueryVars().geoDist ? getQueryVars().geoDist: 5;
   distance_slider.attr("min",1);
@@ -180,7 +185,7 @@ function fuel_range(){
   })
 }
 
-
+//emfanizei apo ti vasi tis etairies poy anhkoun ta katasthmata
 function shops(){
   $.ajax({
     url: "observatory/api/shops ",
@@ -227,6 +232,7 @@ function shops(){
     }
   })
 }
+//pairnei apo to url tis times lng lat cat corp geoDist priceLimit
 function getQueryVars(){
   var vars = [], hash;
   var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -247,8 +253,7 @@ function getQueryVars(){
   var priceLimit=vars["priceLimit"];
   return { lng, lat, cat,corp,geoDist,priceLimit}
 }
-
-
+//kanei to query gia tis times kai emfanizei ta apotelesmata
 function searchResults() {
   var vars = getQueryVars();
   var lng = vars.lng;
