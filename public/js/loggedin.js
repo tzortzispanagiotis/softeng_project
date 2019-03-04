@@ -4,7 +4,8 @@ $( document ).ready(function() {
 
 function show_loggedin(){
 if (localStorage.token!=null){
-  $("#list").prepend('<li class="nav-item" id="loggedin" title="Δες το προφιλ σου"><a class="nav-link" href="/profile?token='+localStorage.token+"\">"+localStorage.username+'</a></li>');
+  $("#list").prepend('<li class="nav-item" id="loggedin" title="Εισαγωγη τιμής"><a class="nav-link" href="/insertprice">Εισαγωγη τιμής</a></li>');
+  $("#list").prepend('<li class="nav-item" id="loggedin" title="Δες το προφιλ σου"><a class="nav-link" href="/profile?token='+localStorage.token+"\">"+"Προβολή προφίλ("+localStorage.username+')</a></li>');
   $("#login").html('<a class="nav-link" href="">Αποσύνδεση</a>').attr("name","logout");
 }
 else {
