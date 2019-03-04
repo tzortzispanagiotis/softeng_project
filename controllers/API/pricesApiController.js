@@ -318,14 +318,12 @@ pricesApiController.reportAction = (req,res) => {
 
     pricesApiController.createAction = (req, res) => {
         var newitems ={
-
             price: req.body.price,
-            date: req.body.date,
-            reportCount: req.body.reportCount,
-               shopId:req.body.shopId ,
-               productId:req.body.productId ,
-               userid:req.body.userId
-
+            date: sequelize.literal('CURRENT_TIMESTAMP'),
+            reportCount: 0,
+            shopId:req.body.shopId ,
+            productId:req.body.productId ,
+            userid: req.decoded
         }       
         console.log(newitems)
 
@@ -339,10 +337,9 @@ pricesApiController.reportAction = (req,res) => {
                reportCount: newitem.reportCount,
                shopId:newitem.shopId ,
                productId:newitem.productId ,
-               userid:newitem.userId
-                
-               
+               userid:newitem.userId  
             })
         })
-    }  
+    }
+
 module.exports = pricesApiController;

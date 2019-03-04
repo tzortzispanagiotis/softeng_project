@@ -79,5 +79,18 @@ $("#submit-btn").click(function(event) {
         price: $("#price").val()
     }
 
-    console.log(inputData)
+    $.ajax({
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        url: "/observatory/api/prices",
+        method: "POST",
+        data: inputData,
+        success: function(data,status) {
+            alert("price added")
+        },
+        error: function(data,status) {
+            alert("error")
+        }
+    })
 })
