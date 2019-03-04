@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="author" content="colorlib.com">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+      <link href="/static/css/profile.css" rel= "stylesheet" />
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+      <% include partials/navbar %>
+      <div style="padding-top:7%">
+       <div class="container">
+        <div class=row>
+         <div class="col-md-6 offset-md-3" id="main" style="display:block">
+          <div class="card">
+            <div class="card-header text-center">
+                    Προφίλ του χρήστη <%= self.name%>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="row">        
+                        <label class="col-md-12">Πληροφορίες Προφίλ:</label>
+                        <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Πεδίο</th>
+                                        <th>Τιμή</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Όνομα Χρήστη:</td>
+                                        <td><%= self.name%></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td><%= self.email%></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ρόλος:</td>
+                                        <td><%= self.role%></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Αριθμός Αναφορών:</td>
+                                        <td><%= self.reportCount%></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+                <label class="col-md-12">Ενέργειες:</label>
+                <button type="button" id="btn-change-pass" class="form-group col-md-4 offset-md-4 btn btn-outline-primary text-wrap reducebtn">Αλλαγή κωδικού</button>
+                <button type="button" id="btn-change-email" class="form-group col-md-4 offset-md-4 btn btn-outline-primary reducebtn">Αλλαγή email</button>
+                <button type="button" id="btn-show-prices" class="form-group col-md-4 offset-md-4 btn btn-outline-primary reducebtn">Προβολη καταχωρήσεων</button>
+                </div>
+            </div>
+              
+          </div>
+          </div>
+          <div class="col-md-8 offset-md-2" id="list-prices" style="display:none">
+                <div class="card">
+                  <div class="card-header text-center">
+                          Καταχωρήσεις του χρήστη <%= self.name%>
+                  </div>
+                  <div class="card-body">
+                      <div class="row">
+                        <label class="col-md-8 offset-md-4">Σύνολο καταχωρήσεων: <%=prices.length%></label>
+                        <label class="col-md-8 offset-md-4">Καταχωρήσεις:</label>
+                        <div class="table-wrapper-scroll-y">
+                            <table class="form-group table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Τιμή</th>
+                                    <th scope="col">Ημερομηνία</th>
+                                    <th scope="col">Αριθμός αναφορών</th>
+                                    <th scope="col">ID καταστήματος</th>
+                                    <th scope="col">ID προιόντος</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% prices.forEach(price => { %>
+                                        <%    var date = price.date.toString()%>
+                                        <% date = date.substring(0,15)%>
+                                        <tr>
+                                            <td><%= price.priceId%></td>
+                                            <td><%= price.price.toFixed(3)%></td>
+                                            <td><%= date%></td>
+                                            <td><%= price.reportCount%></td>
+                                            <td><%= price.shopId%></td>
+                                            <td><%= price.productId%></td>
+                                        </tr>
+                                    <% }) %>     
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" id="return-main" class="form-group col-md-4 offset-md-4 btn btn-outline-primary text-wrap reducebtn">Επιστροφή</button>
+                    </div>           
+                </div>
+                </div>
+          </div>
+          <div class="col-md-6 offset-md-3" id="email-change" style="display:none">
+                <div class="card">
+                  <div class="card-header text-center">
+                          Αλλαγή Email
+                  </div>
+                  <div class="card-body">
+                        <div class="form-group">
+                                <input type="text" id="old-mail" tabindex="1" class="form-control" placeholder="Προηγούμενο email" value="">
+                        </div>
+                        <div class="form-group">
+                                <input type="text" id="new-mail" tabindex="1" class="form-control" placeholder="Νέο email" value="">
+                        </div>
+                        <div class="form-group">
+                                <input type="text" id="new-mail-2" tabindex="1" class="form-control" placeholder="Επαναλάβετε το νέο email" value="">
+                        </div>
+                        <div class="form-group">
+                                <div class="col-sm-6 offset-sm-3">
+                                    <input type="submit" id="submit-cng-mail" tabindex="4" class="form-control btn btn-login" value="Υποβολή">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 offset-md-3" id="password-change" style="display:none">
+                    <div class="card">
+                      <div class="card-header text-center">
+                              Αλλαγή Password
+                      </div>
+                      <div class="card-body">
+                            <div class="form-group">
+                                    <input type="text" id="old-password" tabindex="1" class="form-control" placeholder="Προηγούμενος κωδικός" value="">
+                            </div>
+                            <div class="form-group">
+                                    <input type="text" id="new-password" tabindex="1" class="form-control" placeholder="Νέος κωδικός" value="">
+                            </div>
+                            <div class="form-group">
+                                    <input type="text" id="new-password-2" tabindex="1" class="form-control" placeholder="Επαναλάβετε τον νέο κωδικό" value="">
+                            </div>
+                            <div class="form-group">
+                                    <div class="col-sm-6 offset-sm-3">
+                                        <input type="submit" id="submit-cng-pass" tabindex="4" class="form-control btn btn-login" value="Υποβολή">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+    </div>
+    </div>  
+    <script src="/static/js/profile.js"></script>
+    </body>

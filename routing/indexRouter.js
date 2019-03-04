@@ -1,7 +1,8 @@
 const router               = require('express').Router(),
       indexController      = require('../controllers/indexController'),
        forgotenController = require('../controllers/forgotenController'),
-       recoveryController = require('../controllers/recoveryController');
+       recoveryController = require('../controllers/recoveryController'),
+      apiMiddlewares       = require('../middlewares/apiMiddlewares');
 
 router.get('/', indexController.renderIndexAction)
 
@@ -17,6 +18,10 @@ router.post('/recoverpassword', recoveryController.createTokenAction)
 
 router.get('/contact', indexController.renderContactAction)
 
+router.post('/mailchange', apiMiddlewares.checkToken, apiMiddlewares.checkChangeMailRequest, indexController.changeMailAction)
+
+router.post('/passwordchange', apiMiddlewares.checkToken ,apiMiddlewares.checkChangePasswordRequest,indexController.changePasswordAction)
+
 router.get("/filters", (req, res) => {
     res.render('filters')
   })
@@ -27,4 +32,5 @@ router.get('/insertproduct', indexController.renderInsertProductAction)
 
 router.get('/insertprice', indexController.renderInsertPriceAction)
 
+router.get('/profile', indexController.renderProfileAction)
 module.exports = router;
