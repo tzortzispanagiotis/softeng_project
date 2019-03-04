@@ -17,7 +17,9 @@ var options = {
     key:    fs.readFileSync("./certificates_for_https/server.key"), //mono gia ton maki oi alloi ta dika sas
     cert:   fs.readFileSync("./certificates_for_https/server.cert"),
 };
-
+String.prototype.startsWith = function(suffix) {
+  return this.indexOf(suffix, 0) !== -1;
+};
 
 // set view engine as ejs to omit .ejs when rendering a view
 app.set("view engine", "ejs");
@@ -44,6 +46,6 @@ const indexRouter = require("./routing/indexRouter.js")
 app.use('/', indexRouter)
 
 // Initialize the server
-var server = https.createServer(options, app).listen(7880, function(){
+var server = https.createServer(options, app).listen(7882, function(){
   console.log("Hello World");
 })
