@@ -316,7 +316,7 @@ function searchResults() {
               searchresults.push(price);
               console.log(price);
               html += `
-              <div class="col-4">
+              <div class="col-10 offset-1 offset-xl-0 col-xl-4">
                 <div class="card mb-3">
                   <div class="card-header bg-primary card-title"><b>${price.shop.address} | ${price.shop.shopTags.split(',')[0]}</b></div>
                   <div class="card-body">
@@ -388,7 +388,18 @@ distance_slider.on('input',function() {
   });
 });
 
-
+$("#show_filters").on('click',function (event) {
+  if ($(this).hasClass("filtra-not-Selected")) {
+    $("#mapfasi").addClass("d-none");
+    $("#filterbar").removeClass("d-none")
+    $(this).addClass("filtra-Selected").removeClass("filtra-not-Selected");
+  }
+  else {
+    $("#mapfasi").removeClass("d-none");
+    $("#filterbar").addClass("d-none")
+    $(this).removeClass("filtra-Selected").addClass("filtra-not-Selected");
+  }
+})
 
 /*TO KOMMATI POU AFORA TA maps
 =====================================================*/

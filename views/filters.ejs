@@ -17,8 +17,13 @@
 <body>
     <% include partials/navbar %>
     <div class="container-fluid pad-up">
-      <div class="row">
-        <div class="offset-1 col-2 white-bg">
+      <div class="row d-xl-none pad-up-2">
+        <button class="btn btn-primary offset-2 col-8 filtra-not-Selected" id="show_filters" type="button">
+          Φίλτρα
+        </button>
+      </div>
+      <div class="row pad-up">
+        <div id="filterbar" class="offset-1 col-xl-2 white-bg d-none d-xl-block">
           <h1 class="my-4 text-center white-text">Φίλτρα Αναζήτησης</h1>
             <h3 class="my-2 text-center white-text">Μέγιστη Τιμή: <span id="showval"></span>&euro;</h3>
           <div class="row">
@@ -40,7 +45,7 @@
         </div>
         </div>
         <!-- /.col-lg-3 -->
-        <div class="offset-1 col-lg-8 white-bg-noround">
+        <div id="mapfasi" class="offset-xl-1 offset-1 col-10 col-xl-8 white-bg-noround">
             <div id="map"class="map-container"></div>
             <div class="results">
               <div class="search-container">
