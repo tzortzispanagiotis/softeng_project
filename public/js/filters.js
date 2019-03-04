@@ -309,10 +309,11 @@ function searchResults() {
         }
         else {
           outputprices.forEach(price => {
+              //console.log(price);
               html += `
               <div class="col-md-6">
                 <div class="card mb-3">
-                  <div class="card-header">${price.shop.address}</div>
+                  <div class="card-header bg-primary card-title">${price.shop.address} | ${price.shop.shopTags.split(',')[0]}</div>
                   <div class="card-body">
                     <div class="float-right">
                       ${price.price.toFixed(3)} &euro;
@@ -321,16 +322,27 @@ function searchResults() {
                       ${price.date}
                     </div>
                   </div>
-                  <div class="card-footer">${price.product.name} | ${price.product.category}</div>
+                  <div class="card-footer">${price.product.name} | ${price.product.category}
+                  </div>
+                  <button type="button" value="${price.priceId}" class="btn btn-danger report-button">Αναφορά Τιμής</button>
                 </div>
               </div>
               `
           })
         }
+
         $('#results').html(html);
+        $(".report-button").click(function (event) {
+          var autoseimai=$(this);
+          var querystring='/observatory/api/prices/report/'+event.currentTarget.value;
+          $.get(querystring,function (data,status) {
+            alert('Επιτυχής Αναφορά Τιμής');
+            //autoseimai.removeClass('btn btn-danger').removeClass('report-button').addClass('bg-success reported-btn').html('Επιτύχης Αναφορά');
+            autoseimai.hide();
+          });
+        })
       })
     })
-
 
   })
   //console.log(shopids);
