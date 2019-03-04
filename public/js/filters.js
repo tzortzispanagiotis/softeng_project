@@ -1,6 +1,7 @@
 $( document ).ready(function() {
     console.log( "ready!" );
 });
+var searchresults=[];
 /*Dilwseis synarthsewn
 ===================================*/
 //vazei to url pou afora to category
@@ -247,7 +248,7 @@ function getQueryVars(){
   }
   var lng = vars["lng"];
   var lat = vars["lat"];
-  var cat = vars["cat"];
+  var cat = vars["cat"];searchResults
   var corp= vars["corp"];
   var geoDist=vars["geoDist"];
   var priceLimit=vars["priceLimit"];
@@ -310,6 +311,8 @@ function searchResults() {
         else {
           outputprices.forEach(price => {
               //console.log(price);
+              searchresults.push(price);
+              console.log(price);
               html += `
               <div class="col-md-6">
                 <div class="card mb-3">
@@ -330,7 +333,8 @@ function searchResults() {
               `
           })
         }
-
+        //localStorage.setItem("lat",searchresult_lat);
+        setMarkers();
         $('#results').html(html);
         $(".report-button").click(function (event) {
           var autoseimai=$(this);
@@ -352,8 +356,6 @@ function searchResults() {
   // var pricesQuery = '/observatory/api/prices?' + productsInCategory.map(p => p.id)
   // $.get('/observatory/api/prices?productId=' )
 
-
-
 }
 
 /*Telos dilwsewn
@@ -364,6 +366,7 @@ $(document).ready(function() {
   shops();
   searchResults();
   distance_range();
+  //setMarkers();
 })
 //real time ektypwsh ths epilegmenis timis
 slider.on('input',function() {
@@ -382,3 +385,58 @@ distance_slider.on('input',function() {
     window.location.assign(url);
   });
 });
+
+
+
+/*TO KOMMATI POU AFORA TA maps
+=====================================================*/
+
+var map;
+var lat=parseFloat(getQueryVars().lat);
+var lng=parseFloat(getQueryVars().lng);
+var mylatlng={lat: lat, lng: lng}
+//console.log(mylatlng);
+function createmap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: mylatlng,
+    zoom: 13
+  });
+  var image='static/img/humanicon.png'
+  var pos_marker = new google.maps.Marker({
+          position: mylatlng,
+          map: map,
+          title: 'Eiste Edw',
+          animation: google.maps.Animation.DROP,
+          icon: image
+  });
+  pos_marker.addListener('click', toggleBounce);
+  function toggleBounce() {
+      if (pos_marker.getAnimation() !== null) {
+        pos_marker.setAnimation(null);
+      } else {
+        pos_marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+  }
+  // for (var i = 0; i < searchresults.length; i++) {
+  //   console.log('mpika');
+  //   var marker = new google.maps.Marker ({
+  //       position: {lat:parseFloat(searchresults[i].shop.latitude),lng:parseFloat(searchresults[i].shop.longtitude)},
+  //       map: map,
+  //       title: searchresults[i].shop.address,
+  //       icon: fuel_icon
+  //   })
+  // }
+}
+function setMarkers (){
+  console.log(searchresults.length);
+  var fuel_icon='static/img/fuelicon_red.png'
+  for (var i = 0; i < searchresults.length; i++) {
+    //console.log('mpika');
+    var marker = new google.maps.Marker ({
+        position: {lat:parseFloat(searchresults[i].shop.latitude),lng:parseFloat(searchresults[i].shop.longtitude)},
+        map: map,
+        title: searchresults[i].shop.address,
+        icon: fuel_icon
+    })
+  }
+}
