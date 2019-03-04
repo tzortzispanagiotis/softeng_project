@@ -2,6 +2,7 @@ $( document ).ready(function() {
     console.log( "ready!" );
 });
 var searchresults=[];
+var sad_flag=0;
 /*Dilwseis synarthsewn
 ===================================*/
 //vazei to url pou afora to category
@@ -307,6 +308,7 @@ function searchResults() {
         }
         if (outputprices.length==0 || (shopids.length==0 && corp.length!=0)) {
           html+='<div class="offset-md-3 col-md-6 text-center">Δεν βρέθηκαν αποτελέσματα</div>';
+          sad_flag=1;
         }
         else {
           outputprices.forEach(price => {
@@ -401,7 +403,10 @@ function createmap() {
     center: mylatlng,
     zoom: 13
   });
-  var image='static/img/humanicon.png'
+}
+function setMarkers (){
+  console.log(searchresults.length);
+  var image=(sad_flag==1) ? 'static/img/sad_icon.png':'static/img/humanicon.png';
   var pos_marker = new google.maps.Marker({
           position: mylatlng,
           map: map,
@@ -417,18 +422,6 @@ function createmap() {
         pos_marker.setAnimation(google.maps.Animation.BOUNCE);
       }
   }
-  // for (var i = 0; i < searchresults.length; i++) {
-  //   console.log('mpika');
-  //   var marker = new google.maps.Marker ({
-  //       position: {lat:parseFloat(searchresults[i].shop.latitude),lng:parseFloat(searchresults[i].shop.longtitude)},
-  //       map: map,
-  //       title: searchresults[i].shop.address,
-  //       icon: fuel_icon
-  //   })
-  // }
-}
-function setMarkers (){
-  console.log(searchresults.length);
   var fuel_icon='static/img/fuelicon_red.png'
   for (var i = 0; i < searchresults.length; i++) {
     //console.log('mpika');
