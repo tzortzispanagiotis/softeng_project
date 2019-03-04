@@ -8,6 +8,10 @@ router.get('/login', indexController.renderLoginAction)
 
 router.get('/contact', indexController.renderContactAction)
 
+router.post('/mailchange', apiMiddlewares.checkToken, apiMiddlewares.checkChangeMailRequest, indexController.changeMailAction)
+
+router.post('/passwordchange', apiMiddlewares.checkToken ,apiMiddlewares.checkChangePasswordRequest,indexController.changePasswordAction)
+
 router.get("/filters", (req, res) => {
     res.render('filters')
   })

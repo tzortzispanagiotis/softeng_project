@@ -4,7 +4,8 @@ const Shop = require('../database/shops'),
       jwt     = require('jsonwebtoken'),
       config  = require('../configurations/credentials'),
       sequelize = require('../database/connect'),
-      User   =require('../database/user');
+      User   =require('../database/user'),
+      bcrypt              = require('bcryptjs');
 
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
@@ -79,4 +80,74 @@ indexController.renderInsertProductAction = (req,res) => {
     })
     
 }
+
+indexController.changeMailAction = (req,res) => {
+    var oldMail = req.body.oldMail
+
+    if (oldMail) {//if we need to change mail
+        var newMail = req.body.newMail
+        if (!newMail) res.status(400).json({success:false, message:"no new mail provided"})
+        else {
+            
+            var myUserId = req.decoded.id
+            User.findOne({where:{userId:myUserId}})
+            .then(foundUser => {
+                
+                //later: check if found user?
+                if (oldMail == foundUser.email) {
+                    var updated = {
+                        username: foundUser.username,
+                        password: foundUser.password,
+                        email:  newMail,
+                        role: foundUser.role,
+                        reportCount: foundUser.reportCount,
+                        invalidUser: foundUser.invalidUser
+                      }
+                    foundUser.update(updated ,{fields: ['username','password','email','role', 'reportCount','invalidUser']})
+                    res.json({success:true})
+                }
+                else {
+                    res.status(400).json({success:false, message:"wrong email, try again"})
+                }
+            })
+        }        
+    }
+}
+
+indexController.changePasswordAction = (req,res) => {
+    var oldPassword = req.body.oldPassword
+    console.log(oldPassword)
+    if (oldPassword) {
+        console.log("hi")
+        var newPassword = req.body.newPassword
+        if (!newPassword) res.status(400).json({success:false, message:"no new password provided"})
+        else {
+            var myUserId = req.decoded.id
+            User.findOne({where:{userId:myUserId}})
+            .then(foundUser => {
+                //later: check if found user?
+                //console.log(foundUser)
+                var temp = bcrypt.hashSync(oldPassword,10)
+                console.log(temp)
+                console.log(foundUser.password)
+                if (bcrypt.compareSync(oldPassword, foundUser.password)) {
+                    var updated = {
+                        username: foundUser.username,
+                        password: bcrypt.hashSync(newPassword,10),
+                        email: foundUser.email,
+                        role: foundUser.role,
+                        reportCount: foundUser.reportCount,
+                        invalidUser: foundUser.invalidUser
+                      }
+                    foundUser.update(updated ,{fields: ['username','password','email','role', 'reportCount','invalidUser']})
+                    res.json({success:true})
+                }
+                else {
+                    res.status(400).json({success:false, message:"wrong password, try again"})
+                }
+            })
+        }
+    }
+}
+
 module.exports = indexController

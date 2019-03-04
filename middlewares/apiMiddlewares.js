@@ -35,6 +35,23 @@ apiMiddlewares.checkRequestForProduct = (req,res, next) => {
     }
 }
 
+apiMiddlewares.checkChangeMailRequest = (req,res,next) => {
+    if ((req.body.oldMail != null) && (req.body.newMail != null)) {
+        next()
+    }
+    else {
+        res.status(400).json({error: 'Bad Request!!'})
+    }
+}
+
+apiMiddlewares.checkChangePasswordRequest = (req,res,next) => {
+    if ((req.body.oldPassword != null) && (req.body.newPassword != null)) {
+        next()
+    }
+    else {
+        res.status(400).json({error: 'Bad Request!!'})
+    }
+}
 apiMiddlewares.checkRequestForShop = (req,res, next) => {
     if ((req.body.name == null ) || 
         (req.body.address == null ) || 
