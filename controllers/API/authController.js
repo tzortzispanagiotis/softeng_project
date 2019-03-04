@@ -60,7 +60,7 @@ authController.signup = (req,res) => {
 }
 
 authController.logout = (req, res) => {
-    let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+    let token = req.headers['x-observatory-auth'] || req.headers['authorization']; // Express headers are auto converted to lowercase
         if (!token) {
           return res.json({
           success: false,
@@ -74,7 +74,7 @@ authController.logout = (req, res) => {
       
         if (token) {
             invalidToken.create({token:token})
-            res.status(200).send({ auth: false, token: null });
+            res.status(200).json({message:"OK"});
         }
 }
 
