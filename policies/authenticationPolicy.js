@@ -29,7 +29,8 @@ module.exports = {
     }
     },
     checkToken (req, res, next) {
-        let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+        //console.log(req.headers)
+        let token = req.headers['x-observatory-auth'] ||  req.headers['authorization']; // Express headers are auto converted to lowercase
         if (!token) {
           res.status(401).json({
           success: false,
