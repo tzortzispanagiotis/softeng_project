@@ -24,7 +24,7 @@ indexController.renderContactAction = (req,res) => {
 
 indexController.renderProfileAction = (req,res) => {
     var token = req.query.token
-    if (!token) res.status(400).html("UNAUTHENTICATED")
+    if (!token) res.status(400).json({error:"UNAUTHENTICATED"})
     jwt.verify(token, config.jwt_secret, (err, decoded) => {
         if (err) {
           res.status(401).json({
