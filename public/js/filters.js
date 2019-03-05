@@ -314,6 +314,7 @@ function searchResults() {
         if (outputprices.length==0 || (shopids.length==0 && corp.length!=0)) {
           html+='<div class="offset-md-3 col-md-6 text-center white-text">Δεν βρέθηκαν αποτελέσματα</div>';
           sad_flag=1;
+          $('#results').html(html);
         }
         else {
               outputprices.forEach(price => {
