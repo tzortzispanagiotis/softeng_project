@@ -107,7 +107,7 @@ function price_range() {
          console.log(data)
          min_price=data.prices[0].price;
          max_price=data.prices[0].price;
-         for(var i=1;i<data.length;i++){
+         for(var i=1;i<data.prices.length;i++){
            if(data.prices[i].price>max_price){
              max_price=data.prices[i].price;
            }
@@ -115,11 +115,13 @@ function price_range() {
              min_price=data.prices[i].price;
            }
          }
+         console.log("min="+min_price)
+         console.log("max="+max_price)
          var priceLimit=getQueryVars().priceLimit ? getQueryVars().priceLimit : max_price;
-         // slider.attr("min",min_price);
-         // slider.attr("max",max_price);
-         slider.attr("min",0.231);
-         slider.attr("max",4.2);
+         slider.attr("min",min_price);
+         slider.attr("max",max_price);
+        //  slider.attr("min",0.231);
+        //  slider.attr("max",50);
          slider.attr("value",parseFloat(priceLimit).toFixed(3));
          output.html(parseFloat(priceLimit).toFixed(3));
        },
