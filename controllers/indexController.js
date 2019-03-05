@@ -84,6 +84,10 @@ indexController.renderInsertProductAction = (req,res) => {
     })   
 }
 
+indexController.renderAboutUsAction = (req,res) => {
+    res.render('about')
+}
+
 indexController.renderInsertPriceAction = (req,res) => {
     res.render('insertprice')
 }

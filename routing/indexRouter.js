@@ -18,6 +18,8 @@ router.post('/recoverpassword', recoveryController.createTokenAction)
 
 router.get('/contact', indexController.renderContactAction)
 
+router.get('/aboutus', indexController.renderAboutUsAction)
+
 router.post('/mailchange', apiMiddlewares.checkToken, apiMiddlewares.checkChangeMailRequest, indexController.changeMailAction)
 
 router.post('/passwordchange', apiMiddlewares.checkToken ,apiMiddlewares.checkChangePasswordRequest,indexController.changePasswordAction)
