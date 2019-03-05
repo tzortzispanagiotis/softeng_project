@@ -1,0 +1,1 @@
+./gradlew test --tests gr.ntua.ece.softeng18b.client.ObservatoryAPIFunctionalTest -Dusername=goji -Dpassword=goji -Dprotocol=https -DIGNORE_SSL_ERRORS=true -Dhost=localhost -Dport=8765 -Dtest="C:\Users\Tzortzis\git\softeng18b-rest-api-client/test-data.json"
