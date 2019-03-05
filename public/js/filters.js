@@ -93,7 +93,7 @@ function getPriceLimit(){
   }
   return u;
 }
-
+var priceLimit;
 var min_price;
 var max_price;
 var slider=$("#myRange");
@@ -105,21 +105,21 @@ function price_range() {
        method: "GET",
        success: function(data,status) {
          console.log(data)
-         min_price=data.prices[0].price;
-         max_price=data.prices[0].price;
+         min_price=parseFloat(data.prices[0].price);
+         max_price=parseFloat(data.prices[0].price);
          for(var i=1;i<data.prices.length;i++){
-           if(data.prices[i].price>max_price){
-             max_price=data.prices[i].price;
+           if(parseFloat(data.prices[i].price)>max_price){
+             max_price=parseFloat(data.prices[i].price);
            }
-           else if (data.prices[i].price<min_price){
-             min_price=data.prices[i].price;
+           else if (parseFloat(data.prices[i].price)<min_price){
+             min_price=parseFloat(data.prices[i].price);
            }
          }
          console.log("min="+min_price)
          console.log("max="+max_price)
-         var priceLimit=getQueryVars().priceLimit ? getQueryVars().priceLimit : max_price;
+         /*var*/ priceLimit=getQueryVars().priceLimit ? parseFloat(getQueryVars().priceLimit) : max_price;
          slider.attr("min",min_price);
-         slider.attr("max",max_price);
+         slider.attr("max",max_price+0.001);
         //  slider.attr("min",0.231);
         //  slider.attr("max",50);
          slider.attr("value",parseFloat(priceLimit).toFixed(3));
@@ -268,7 +268,7 @@ function searchResults() {
   var cat = vars.cat ? vars.cat.split(','):[];  //pinakas me categories
   var corp= vars.corp ? vars.corp.split(','):[];
   var geoDist=vars.geoDist ? vars.geoDist : 5;
-  var priceLimit = vars.priceLimit ? vars.priceLimit : max_price;
+  /*var*/ //priceLimit = vars.priceLimit ? parseFloat(vars.priceLimit) : parseFloat(max_price);
   console.log(priceLimit)
   //console.log(corp);
   var shopids=[];
@@ -307,6 +307,7 @@ function searchResults() {
   
       $.get(pricesQuery, function(foundPrices) {
         //console.log(foundPrices);
+        console.log(priceLimit)
         var html = '';
         var outputprices=[];
         //console.log(priceLimit)
@@ -317,6 +318,7 @@ function searchResults() {
             outputprices.push(foundPrices.prices[i]);
           }
         }
+        console.log(outputprices)
         if (outputprices.length==0 || (shopids.length==0 && corp.length!=0)) {
           html+='<div class="offset-md-3 col-md-6 text-center white-text">Δεν βρέθηκαν αποτελέσματα</div>';
           sad_flag=1;

@@ -52,9 +52,12 @@ $("#btn-src").click(function(event) {
         success: function(data,status) {
             geocode.lat = data.results[0].geometry.location.lat
             geocode.lng = data.results[0].geometry.location.lng
-
-            $( location ).attr("href", "/searchresults?lat="+geocode.lat+"&lng="+geocode.lng+"&cat="+inputData.productCategory)
-
+            if (inputData.productCategory != 'Καύσιμο') {
+              $( location ).attr("href", "/searchresults?lat="+geocode.lat+"&lng="+geocode.lng+"&cat="+inputData.productCategory)
+            }
+            else {
+              $( location ).attr("href", "/searchresults?lat="+geocode.lat+"&lng="+geocode.lng)
+            }
         },
         error: function(data,status) {
           alert("PULO")

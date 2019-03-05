@@ -20,7 +20,7 @@ $("#submit-btn").click(function(event) {
     }
     list = list.substring(0, list.length - 1)
 
-
+    
     var geocode = {}
     $.ajax({
         url: "https://maps.googleapis.com/maps/api/geocode/json?address="+list+"&key=AIzaSyCL-EHbgBsjgKSaP4hZ38JFx2GtLv9R5wM",
@@ -29,12 +29,11 @@ $("#submit-btn").click(function(event) {
             geocode.lat = data.results[0].geometry.location.lat
             geocode.lng = data.results[0].geometry.location.lng
             
-            
             createData = {
                 name : inputData.name,
                 address : inputData.address,
-                longtitude : geocode.lng,
-                latitude : geocode.lat,
+                lng : geocode.lng,
+                lat : geocode.lat,
                 tags : inputData.tags
             }
 

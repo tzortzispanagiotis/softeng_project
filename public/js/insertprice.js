@@ -38,7 +38,7 @@ $("#shop-submit-btn").click(function(event) {
             geocode.lng = data.results[0].geometry.location.lng
            
             $.ajax({
-                url: "/observatory/api/shops?geoDist=3&geoLng="+geocode.lng+"&geoLat="+geocode.lat,
+                url: "/observatory/api/shops?geoDist=5&geoLng="+geocode.lng+"&geoLat="+geocode.lat,
                 method: "GET",
                 success: function(data,status) {
                     for (var i = 0; i < data.shops.length; i++) {
