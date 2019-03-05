@@ -8,6 +8,7 @@ const pricesApiController   = {},
       Price                 = require('../../database/prices') ;
 var distanceFunction      = require('./diastance'); // function that calculates distance
       
+
 pricesApiController.getAllAction = (req, res) => {
     var whereClause = {}    // here we will build where clause for sequelize
     var includeClause = {}  // include clause for sequelize
@@ -21,8 +22,8 @@ pricesApiController.getAllAction = (req, res) => {
         geoLat : req.query.geoLat || null, 
         dateFrom : req.query.dateFrom || null, 
         dateTo : req.query.dateTo || null, 
-        shops : req.query.shopId || null, 
-        products : req.query.productId || null, 
+        shops : req.query.shops || null, 
+        products : req.query.products || null, 
         tags : req.query.tags || null, 
     }
     
@@ -222,23 +223,47 @@ pricesApiController.getAllAction = (req, res) => {
         else {
             var distance = undefined
         }
-        var obj= {
-            date :  found.date ,
-            priceId: found.priceId,
-            price: found.price,
-            productName :   arr2[8] ,
-            productId :  found.productId,
-            productTags :  arr2[11] ,
-            shopId : found.shopId,
-            shopName :  arr2[12] ,
-            shopTags : arr2[16],
-            shopAddress :  arr2[13],
-            shopDist :distance
+        //console.log(String(found.date))
+        var months = {
+            'Jan' : '01',
+            'Feb' : '02',
+            'Mar' : '03',
+            'Apr' : '04',
+            'May' : '05',
+            'Jun' : '06',
+            'Jul' : '07',
+            'Aug' : '08',
+            'Sep' : '09',
+            'Oct' : '10',
+            'Nov' : '11',
+            'Dec' : '12'
         }
-        //console.log(found)
+        
+        var finalDate = ""
+        var dt = new Date(found.date)
+        month = dt.getYear()
+        console.log(month)
+        var dateItems= String(found.date).split(" ")
+        finalDate = finalDate+dateItems[3]+"-"+months[(dateItems[1])]+"-"+dateItems[2]
+        console.log(dateItems)
+            var obj= {
+                date : finalDate,
+                priceId: found.priceId,
+                price: found.price,
+                productName :   arr2[8] ,
+                productId :  found.productId,
+                productTags :  arr2[11] ,
+                shopId : found.shopId,
+                shopName :  arr2[12] ,
+                shopTags : arr2[16],
+                shopAddress :  arr2[13],
+                shopDist :distance
+            }
+            //console.log(found)
         total ++ 
         results.push(obj)
     })
+    console.log(results)
     res.json({
         start: searchParams.offset,
         count: searchParams.limit,
@@ -313,27 +338,52 @@ pricesApiController.reportAction = (req,res) => {
 
 
     pricesApiController.createAction = (req, res) => {
-        var newitems ={
-            price: req.body.price,
-            date: sequelize.literal('CURRENT_TIMESTAMP'),
-            reportCount: 0,
-            shopId:req.body.shopId ,
-            productId:req.body.productId ,
-            userid: req.decoded
-        }       
+        if (req.body.dateFrom) {
+            var newitems ={
+                price: req.body.price,
+                date: req.body.dateFrom,
+                reportCount: 0,
+                shopId:req.body.shopId ,
+                productId:req.body.productId ,
+                userId: req.decoded.id
+            }  
+        }
+        else {
+            var newitems ={
+                price: req.body.price,
+                date: sequelize.fn('NOW'),
+                reportCount: 0,
+                shopId:req.body.shopId ,
+                productId:req.body.productId ,
+                userId: req.decoded.id
+            }     
+         }  
+        if (typeof(shopId) === "string") {
+            newitems.shopId = parseInt(newitems.shopId)
+        }
+
+        if (typeof(productId) === "string") {
+            newitems.productId = parseInt(newitems.productId)
+        }
+
         console.log(newitems)
 
         Price.create(newitems).then(newitem => {
-        console.log(newitem.price)
+            console.log(newitem.date)
+            date = new Date(newitem.date)
+            date.setHours(2,0,0,0)
+            var prices = []
+            prices.push({
+                price:String(newitem.price),
+                shopId:String(newitem.shopId),
+                productId: String(newitem.productId)
+            })
             res.json({
                // id: newitem.shopId,
-               price: newitem.price,
-               date: newitem.date,
-    
-               reportCount: newitem.reportCount,
-               shopId:newitem.shopId ,
-               productId:newitem.productId ,
-               userid:newitem.userId  
+               start:0,          
+               count:1,
+               total:1,
+               prices: prices 
             })
         })
     }

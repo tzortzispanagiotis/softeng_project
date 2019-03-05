@@ -103,7 +103,23 @@ productApiController.getOneAction = (req, res) => {
 
 productApiController.createAction = (req, res) => {
     var newProduct = req.params.x
-    Product.create(newProduct).then(newProd => {
+    
+    if (Array.isArray(newProduct.productTags)) {
+        var productTags = ""
+        for (var i in newProduct.productTags) {
+            productTags += newProduct.productTags[i]+","
+        }
+        newProduct.productTags = productTags.substring(0, productTags.length - 1)
+    }
+    var newPr = {
+        name: newProduct.name,
+        description: newProduct.description,
+        category: newProduct.category,
+        productTags: newProduct.productTags,
+        withdrawn: newProduct.withdrawn
+    }
+
+    Product.create(newPr).then(newProd => {
     var tags = newProd.productTags.split(",")
         res.json({
             id: newProd.productId,

@@ -55,8 +55,8 @@ apiMiddlewares.checkChangePasswordRequest = (req,res,next) => {
 apiMiddlewares.checkRequestForShop = (req,res, next) => {
     if ((req.body.name == null ) || 
         (req.body.address == null ) || 
-        (req.body.longtitude == null ) || 
-        (req.body.latitude  ==null) || 
+        (req.body.lng == null ) || 
+        (req.body.lat  ==null) || 
         (req.body.tags ==null)) {
         res.status(400).json({error: 'Bad Request!!'})
     }
@@ -64,8 +64,8 @@ apiMiddlewares.checkRequestForShop = (req,res, next) => {
         var x = {
             name: req.body.name,
             address: req.body.address,
-            longtitude: req.body.longtitude,
-            latitude: req.body.latitude,
+            longtitude: req.body.lng,
+            latitude: req.body.lat,
             shopTags: req.body.tags,
             withdrawn: false
         }

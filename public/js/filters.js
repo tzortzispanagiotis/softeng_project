@@ -1,6 +1,7 @@
 $( document ).ready(function() {
     console.log( "ready!" );
 });
+
 var searchresults=[];
 var sad_flag=0;
 /*Dilwseis synarthsewn
@@ -92,6 +93,7 @@ function getPriceLimit(){
   }
   return u;
 }
+
 var min_price;
 var max_price;
 var slider=$("#myRange");
@@ -99,17 +101,18 @@ var output=$("#showval");
 //xeirizetai to slider twn timwn
 function price_range() {
   $.ajax({
-       url: "observatory/api/prices",
+       url: "/observatory/api/prices",
        method: "GET",
        success: function(data,status) {
-         min_price=data[0].price;
-         max_price=data[0].price;
+         console.log(data)
+         min_price=data.prices[0].price;
+         max_price=data.prices[0].price;
          for(var i=1;i<data.length;i++){
-           if(data[i].price>max_price){
-             max_price=data[i].price;
+           if(data.prices[i].price>max_price){
+             max_price=data.prices[i].price;
            }
-           else if (data[i].price<min_price){
-             min_price=data[i].price;
+           else if (data.prices[i].price<min_price){
+             min_price=data.prices[i].price;
            }
          }
          var priceLimit=getQueryVars().priceLimit ? getQueryVars().priceLimit : max_price;
@@ -190,7 +193,7 @@ function fuel_range(){
 //emfanizei apo ti vasi tis etairies poy anhkoun ta katasthmata
 function shops(){
   $.ajax({
-    url: "observatory/api/shops ",
+    url: "/observatory/api/shops ",
     method: "GET",
     success: function(data,status) {
       //console.log(data);
@@ -290,20 +293,22 @@ function searchResults() {
       //productsInCategory.filter(value => -1 !== vars.indexOf(value));
       //console.log(productsInCategory);
       var corpQuery = shopids.map(elem => {
-        return '&shopId='+elem;
+        return '&shops='+elem;
       }).join('');
       //console.log(corpQuery);
       var pricesQuery = '/observatory/api/prices?' + productsInCategory.map((p, index) => {
-        return index !== 0 ? '&productId=' + p.id : 'productId=' + p.id
+        
+        return index !== 0 ? '&products=' + p.id : 'products=' + p.id
       }).join('') + corpQuery + '&geoDist='+geoDist+'&geoLat=' + lat + '&geoLng=' + lng + '&sort=price|ASC'
-      //console.log(pricesQuery);
-      $.get(pricesQuery, function(prices) {
-        //console.log(prices);
+      console.log(pricesQuery);
+  
+      $.get(pricesQuery, function(foundPrices) {
+        console.log(foundPrices);
         var html = '';
         var outputprices=[];
-        for (var i = 0; i <prices.length; i++) {
-          if (prices[i].price<=priceLimit) {
-            outputprices.push(prices[i]);
+        for (var i = 0; i <foundPrices.prices.length; i++) {
+          if (foundPrices.prices[i].price<=priceLimit) {
+            outputprices.push(foundPrices.prices[i]);
           }
         }
         if (outputprices.length==0 || (shopids.length==0 && corp.length!=0)) {
@@ -311,53 +316,50 @@ function searchResults() {
           sad_flag=1;
         }
         else {
-          outputprices.forEach(price => {
+              outputprices.forEach(price => {
               //console.log(price);
-              searchresults.push(price);
-              console.log(price);
-              html += `
-              <div class="col-10 offset-1 offset-xl-0 col-xl-4">
-                <div class="card mb-3">
-                  <div class="card-header bg-primary card-title"><b>${price.shop.address} | ${price.shop.shopTags.split(',')[0]}</b></div>
-                  <div class="card-body">
-                    <div class="float-right">
-                      <b>${price.price.toFixed(3)} &euro;</b>
-                    </div>
-                    <div>
-                      ${price.date}
+                $.get('/observatory/api/products/'+price.productId, function (foundProduct) {
+                  searchresults.push(outputprices[i]);
+                  console.log(foundProduct);
+                  html = `
+                  <div class="col-10 offset-1 offset-xl-0 col-xl-4">
+                    <div class="card mb-3">
+                      <div class="card-header bg-primary card-title"><b>${price.shopAddress} | ${price.shopTags.split(',')[0]}</b></div>
+                      <div class="card-body">
+                        <div class="float-right">
+                          <b>${price.price.toFixed(3)} &euro;</b>
+                        </div>
+                        <div>
+                          ${price.date}
+                        </div>
+                      </div>
+                      <div class="card-footer">${price.productName} | <b>${foundProduct.category}</b>
+                      </div>
+                      <button type="button" value="${price.priceId}" class="btn btn-danger" id="report-button${price.priceId}">Αναφορά Τιμής</button>
                     </div>
                   </div>
-                  <div class="card-footer">${price.product.name} | <b>${price.product.category}</b>
-                  </div>
-                  <button type="button" value="${price.priceId}" class="btn btn-danger report-button">Αναφορά Τιμής</button>
-                </div>
-              </div>
-              `
-          })
-        }
+                  `
+                  $('#results').append(html);
+                  setMarker(price.shopId);
+                  $("#report-button"+price.priceId).click(function (event) {
+                    var autoseimai=$(this);
+                    var querystring='/observatory/api/prices/report/'+event.currentTarget.value;
+                    $.get(querystring,function (data,status) {
+                      alert('Επιτυχής Αναφορά Τιμής');
+                      $(this).removeClass("report-button");
+                      //autoseimai.removeClass('btn btn-danger').removeClass('report-button').addClass('bg-success reported-btn').html('Επιτύχης Αναφορά');
+                      autoseimai.hide();
+                    });
+                  })
+                })   
+            })
+         }
         //localStorage.setItem("lat",searchresult_lat);
-        setMarkers();
-        $('#results').html(html);
-        $(".report-button").click(function (event) {
-          var autoseimai=$(this);
-          var querystring='/observatory/api/prices/report/'+event.currentTarget.value;
-          $.get(querystring,function (data,status) {
-            alert('Επιτυχής Αναφορά Τιμής');
-            //autoseimai.removeClass('btn btn-danger').removeClass('report-button').addClass('bg-success reported-btn').html('Επιτύχης Αναφορά');
-            autoseimai.hide();
-          });
-        })
+          setMarkers();
+          //$('#results').html(html);
       })
     })
-
   })
-  //console.log(shopids);
-
-
-
-  // var pricesQuery = '/observatory/api/prices?' + productsInCategory.map(p => p.id)
-  // $.get('/observatory/api/prices?productId=' )
-
 }
 
 /*Telos dilwsewn
@@ -415,7 +417,7 @@ function createmap() {
     zoom: 13
   });
 }
-function setMarkers (){
+function setMarkers () {
   console.log(searchresults.length);
   var image=(sad_flag==1) ? 'static/img/sad_icon.png':'static/img/humanicon.png';
   var pos_marker = new google.maps.Marker({
@@ -466,15 +468,18 @@ function setMarkers (){
         pos_marker.setAnimation(google.maps.Animation.BOUNCE);
       }
   }
-  var fuel_icon='static/img/fuelicon_red.png'
   //var search_final=searchresults.shop.filter(onlyUnique);
-  for (var i = 0; i < searchresults.length; i++) {
+}
+
+function setMarker(id){
     //console.log('mpika');
-    var marker = new google.maps.Marker ({
-        position: {lat:parseFloat(searchresults[i].shop.latitude),lng:parseFloat(searchresults[i].shop.longtitude)},
+    var fuel_icon='static/img/fuelicon_red.png'
+    $.get('/observatory/api/shops/'+id, function (foundShop) {
+      var marker = new google.maps.Marker ({
+        position: {lat:parseFloat(foundShop.lat),lng:parseFloat(foundShop.lng)},
         map: map,
-        title: searchresults[i].shop.address,
+        title: foundShop.address,
         icon: fuel_icon
     })
-  }
+    })
 }

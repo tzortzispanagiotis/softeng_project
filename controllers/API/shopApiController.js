@@ -26,7 +26,7 @@ shopApiController.getAllAction = (req, res) => {
         sort = temp.split('|')
         // if not ok, restore default
         if (sort[0] == 'id') sort[0] = 'shopId'
-        if ((sort[0] != 'id') || (sort[0] != 'name')) {
+        if ((sort[0] != 'id') && (sort[0] != 'name')) {
             sort[0] = 'shopId'
         }
         if (sort[1] != 'ASC') {
@@ -115,15 +115,31 @@ shopApiController.getOneAction = (req, res) => {
 }
 
 shopApiController.createAction = (req, res) => {
-    var newShops = req.params.x
-    Shop.create(newShops).then(newShop => {
+    var newShop = req.params.x
+
+    if (Array.isArray(newShop.shopTags)) {
+        var shopTags = ""
+        for (var i in newShop.shopTags) {
+            shopTags += newShop.shopTags[i]+","
+        }
+        newShop.shopTags = shopTags.substring(0, shopTags.length - 1)
+    }
+    var newSh = {
+        name: newShop.name,
+        address: newShop.address,
+        longtitude: newShop.longtitude,
+        latitude: newShop.latitude,
+        shopTags: newShop.shopTags,
+        withdrawn: newShop.withdrawn
+    }
+    Shop.create(newSh).then(newShop => {
     var tags = newShop.shopTags.split(",")
         res.json({
             id: newShop.shopId,
             name: newShop.name,
             address: newShop.address,
-            longtitude: newShop.longtitude,
-            latitude:newShop.latitude, 
+            lng: newShop.longtitude,
+            lat:newShop.latitude, 
             tags: tags,
             withdrawn: newShop.withdrawn
         })
