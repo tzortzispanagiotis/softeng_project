@@ -1,5 +1,6 @@
 var request = require('request-promise');
 var producttest = {};
+var creds= require('./configurations/credentials')
 async function test()
 {   var flag=0 ; 
     var token;
@@ -11,23 +12,28 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 //------------------------------------------------------------------------------------------------
 
     var login_options = {
-        url: 'https://localhost:7882/observatory/api/login',
+        url: 'https://localhost:'+creds.port+'/observatory/api/login',
         //host: "localhost",
-        // port: 7882,
+        // port: '+creds.port+',
         //  path: "/observatory/api/login",
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         json: {
-            "username": "Γιώργης",
+            "username": "Mary",
             "password": "123456"
         }
     };
     await request(login_options, function (error, response, body) {
         //var responseString = "";
         //console.log(body.token);
-        token = body.token;
+        
+        if (typeof(body)==='undefined') {
+            flag=flag+1 ;
+            console.log('login failed')
+             process.exit(1)}
+        else {token = body.token;}
     });
 
 
@@ -40,9 +46,9 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 //------------------------------------------------------------------------------------------------
     var insert_options = {
-        url: 'https://localhost:7882/observatory/api/products',
+        url: 'https://localhost:'+creds.port+'/observatory/api/products',
         //host: "localhost",
-        // port: 7882,
+        // port: '+creds.port'+,
         //  path: "/observatory/api/login",
         method: "POST",
         headers: {
@@ -69,9 +75,9 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 //------------------------------------------------------------------------------------------------
       var put_options = {
-        url: 'https://localhost:7882/observatory/api/products/' + String(prod_id),
+        url: 'https://localhost:'+creds.port+'/observatory/api/products/' + String(prod_id),
         //host: "localhost",
-        // port: 7882,
+        // port: '+creds.port+',
         //  path: "/observatory/api/login",
         method: "PUT",
         headers: {
@@ -97,9 +103,9 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
     });
 //------------------------------------------------------------------------------------------------
       var patch_options = {
-        url: 'https://localhost:7882/observatory/api/products/' + String(prod_id),
+        url: 'https://localhost:'+creds.port+'/observatory/api/products/' + String(prod_id),
         //host: "localhost",
-        // port: 7882,
+        // port: '+creds.port+',
         //  path: "/observatory/api/login",
         method: "PATCH",
         headers: {
@@ -122,9 +128,9 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 //------------------------------------------------------------------------------------------------
       var get_options = {
-        url: 'https://localhost:7882/observatory/api/products/',
+        url: 'https://localhost:'+creds.port+'/observatory/api/products/',
         //host: "localhost",
-        // port: 7882,
+        // port: '+creds.port+',
         //  path: "/observatory/api/login",
         method: "GET",
         headers: {
@@ -148,9 +154,9 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 //------------------------------------------------------------------------------------------------
       var delete_options = {
-        url: 'https://localhost:7882/observatory/api/products/' + String(prod_id),
+        url: 'https://localhost:'+creds.port+'/observatory/api/products/' + String(prod_id),
         //host: "localhost",
-        // port: 7882,
+        // port: '+creds.port+',
         //  path: "/observatory/api/login",
         method: "DELETE",
         headers: {
