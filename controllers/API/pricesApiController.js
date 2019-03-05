@@ -249,7 +249,7 @@ pricesApiController.getAllAction = (req, res) => {
             var obj= {
                 date : finalDate,
                 priceId: found.priceId,
-                price: found.price,
+                price: found.price.toFixed(3),
                 productName :   arr2[8] ,
                 productId :  found.productId,
                 productTags :  arr2[11] ,

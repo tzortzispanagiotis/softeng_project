@@ -269,6 +269,7 @@ function searchResults() {
   var corp= vars.corp ? vars.corp.split(','):[];
   var geoDist=vars.geoDist ? vars.geoDist : 5;
   var priceLimit = vars.priceLimit ? vars.priceLimit : max_price;
+  console.log(priceLimit)
   //console.log(corp);
   var shopids=[];
   $.get('/observatory/api/shops',function(data,status){
@@ -302,14 +303,17 @@ function searchResults() {
         
         return index !== 0 ? '&products=' + p.id : 'products=' + p.id
       }).join('') + corpQuery + '&geoDist='+geoDist+'&geoLat=' + lat + '&geoLng=' + lng + '&sort=price|ASC'
-      console.log(pricesQuery);
+      //console.log(pricesQuery);
   
       $.get(pricesQuery, function(foundPrices) {
-        console.log(foundPrices);
+        //console.log(foundPrices);
         var html = '';
         var outputprices=[];
+        //console.log(priceLimit)
         for (var i = 0; i <foundPrices.prices.length; i++) {
-          if (foundPrices.prices[i].price<=priceLimit) {
+          //console.log(foundPrices.prices[i].price)
+          
+          if (parseFloat(foundPrices.prices[i].price) <= priceLimit) {
             outputprices.push(foundPrices.prices[i]);
           }
         }
@@ -319,18 +323,19 @@ function searchResults() {
           $('#results').html(html);
         }
         else {
+              
               outputprices.forEach(price => {
               //console.log(price);
                 $.get('/observatory/api/products/'+price.productId, function (foundProduct) {
                   searchresults.push(outputprices[i]);
-                  console.log(foundProduct);
+                  //console.log(foundProduct);
                   html = `
                   <div class="col-10 offset-1 offset-xl-0 col-xl-4">
                     <div class="card mb-3">
                       <div class="card-header bg-primary card-title"><b>${price.shopAddress} | ${price.shopTags.split(',')[0]}</b></div>
                       <div class="card-body">
                         <div class="float-right">
-                          <b>${price.price.toFixed(3)} &euro;</b>
+                          <b>${price.price} &euro;</b>
                         </div>
                         <div>
                           ${price.date}
