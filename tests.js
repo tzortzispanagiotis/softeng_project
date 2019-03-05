@@ -1,7 +1,7 @@
 var request = require('request-promise');
-
+var producttest = {};
 async function test()
-{
+{   var flag=0 ; 
     var token;
     var prod_id;
     var original_name = "TEST_PROION";
@@ -82,7 +82,7 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
             "name": "TEST_PROION_CHANGED",
             "description": "Hope it works. CHANGED",
             "category": "Tromou CHANGED",
-            "tags": ["tag1 CHANGED","tag2 CHANGED"],
+            "tags": "tag1 CHANGED, tag2" ,
             "extras":["extra1 CHANGED","extra2 CHANGED"]
         }
     };
@@ -93,6 +93,7 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
             console.log("OLD NAME WAS " + original_name);
             console.log("PUT OK, NEW NAME IS " + body.name);
         }
+        else { flag = flag+1}
     });
 //------------------------------------------------------------------------------------------------
       var patch_options = {
@@ -115,6 +116,8 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
         if ("THIS_WAS_PATCHED" === body.description){
             console.log("PATCH OK, NEW DESCRIPTION IS " + body.description);
         }
+
+        else {flag = flag+1}
     });
 
 //------------------------------------------------------------------------------------------------
@@ -161,12 +164,16 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
         //var responseString = "";
         //console.log(body.token);
         console.log("DELETE OK");
+        console.log("PRODUCTS ENDPOINT SUCCESFULLY CHECKED\n");
+        
        
     });
 
-    console.log("PRODUCTS ENDPOINT SUCCESFULLY CHECKED\n");
+    if (flag!=0) {
+        console.log('tests failed') ; 
+        process.exit(1)}}
 
-}
-
-test();
+;
+producttest.func = test ; 
+module.exports = producttest ;
 //console.log(token);

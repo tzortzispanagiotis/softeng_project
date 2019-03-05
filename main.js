@@ -12,7 +12,7 @@ const express     = require('express'),
       myinit  = require("./database/database_init.js"),
       fs = require('fs'),
       https = require('https');
-
+const test = require("./tests")
 var options = {
     key:    fs.readFileSync("./certificates_for_https/server.key"), //mono gia ton maki oi alloi ta dika sas
     cert:   fs.readFileSync("./certificates_for_https/server.cert"),
@@ -49,3 +49,10 @@ app.use('/', indexRouter)
 var server = https.createServer(options, app).listen(7882, function(){
   console.log("Hello World");
 })
+var flag=0 ; 
+
+setTimeout(test.func, 3000)
+
+
+
+
