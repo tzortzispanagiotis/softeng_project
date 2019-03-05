@@ -44,8 +44,8 @@ const Shops = dbo.define('shop', {
 })
 
 
-// Shops.sync({force : false}).then(() => {
-//     console.log("shop model created successfully")})
-//     .then(() => {  Shops.bulkCreate(myinit.shops)})
+Shops.sync({force : false}).then(() => {
+    console.log("shop model created successfully")})
+    .then(() => {  Shops.bulkCreate(myinit.shops)})
 
 module.exports = Shops;
