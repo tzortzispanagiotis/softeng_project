@@ -21,7 +21,7 @@ Also, a RESTful API is available to integrate with the database.
 | ----- | ----------- |
 | backend | NodeJS |
 | frontend | html, css, javascript, bootstrap5 |
-| database | MariaDB (phpmyadmin for management) |
+| database | MariaDB (phpmyadmin for management) + Sequelize |
 | API | RESTful convention was followed |
 | authentication | jsonwebtoken |
 
